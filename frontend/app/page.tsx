@@ -1,17 +1,23 @@
 //Home or About page? - click on "Logo"
 'use client'
-import { Grid, Box, Typography, SvgIconProps } from '@mui/material';
+import React from 'react';
+import { Grid, Box, Typography, SvgIconProps, Button } from '@mui/material';
 import PageContainer from '@/app/components/container/PageContainer';
 // components
 import HeaderWithIcon from '@/app/layout/text-formats/TextHeadings';
 
-const Dashboard = () => {
+const Start = () => {
   return (
-    <PageContainer title="Courses" description="this is the Courses Page">
+    <PageContainer title="Greetings 101" description="An introduction to other cultures">
     <Box mt={3}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <HeaderWithIcon icon={null} variant="h1" title="Welcome!" />
+        </Grid>
+        <Grid item xs={3}>
+        <Button fullWidth variant="contained" color="primary" href='pages/Signup'>
+            Sign up!
+          </Button>        
         </Grid>
       </Grid>
     </Box>
@@ -19,4 +25,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard;
+export default Start;

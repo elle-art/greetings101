@@ -7,19 +7,19 @@ const Menuitems = [
     id: "a",
     title: "Courses",
     icon: IconHome,
-    href: "/layout/pages/Dashboard",
+    href: "/pages/Dashboard",
   },
   {
     id: "b",
     title: "Practice",
     icon: IconBarbell,
-    href: "/layout/pages/Practice",
+    href: "/pages/Practice",
   },
   {
     id: "c",
     title: "Resources",
     icon: IconNotebook,
-    href: "/layout/pages/Resources",
+    href: "/pages/Resources",
   },
 ];
 

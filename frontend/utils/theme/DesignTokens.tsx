@@ -1,7 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 import { DM_Sans } from "next/font/google";
-import theme from "../theme";
-
+import { PaletteMode, useMediaQuery } from "@mui/material";
 
 export const dm = DM_Sans({
   weight: ["400", "500", "700"],
@@ -10,51 +9,75 @@ export const dm = DM_Sans({
   fallback: ["Helvetica", "Arial", "sans-serif"],
 });
 
-const baselightTheme = createTheme({
-  direction: "ltr",
+// Define your design tokens for both light and dark modes
+export const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
-    primary: {
-      main: "#03c9d7",
-      light: "#e5fafb",
-      dark: "#05b2bd",
-      contrastText: "#ffffff",
-    },
-    secondary: {
-      main: "#fb9678",
-      light: "#fcf1ed",
-      dark: "#e67e5f",
-      contrastText: "#ffffff",
-    },
+    mode,
+    ...(mode === 'light'
+      ? {
+          primary: {
+            main: "#03c9d7",
+            contrastText: "#ffffff"
+          },
+          secondary: {
+            main: "#fb9678",
+            contrastText: "#ffffff"
+          },            
+          background: {
+            default: "#fafbfb",
+            paper: "#fafbfb",
+          },
+          text: {
+            primary: "#000",
+            secondary: "rgba(0,0,0,0.87)",
+          },
+          action: {
+            disabledBackground: "rgba(73,82,88,0.12)",
+            hoverOpacity: 0.02,
+            hover: "#f6f9fc",
+          },
+          divider: "#e5eaef",
+        }
+      : {
+          primary: {
+            main: "#03a9f4",
+            contrastText: "#ffffff"
+          },
+          secondary: {
+            main: "#ff5722",
+            contrastText: "#ffffff"
+          },
+          background: {
+            default: "#121212",
+            paper: "#1e1e1e",
+          },
+          text: {
+            primary: "#ffffff",
+            secondary: "rgba(255,255,255,0.87)",
+          },
+          action: {
+            disabledBackground: "rgba(255,255,255,0.12)",
+            hoverOpacity: 0.2,
+            hover: "#333333",
+          },
+          divider: "#333333",
+        }),
     success: {
       main: "#00c292",
-      light: "#ebfaf2",
-      dark: "#00964b",
       contrastText: "#ffffff",
     },
     info: {
       main: "#0bb2fb",
-      light: "#a7e3f4",
-      dark: "#0bb2fb",
       contrastText: "#ffffff",
     },
     error: {
       main: "#e46a76",
-      light: "#fdf3f5",
-      dark: "#e45a68",
       contrastText: "#ffffff",
     },
     warning: {
       main: "#fec90f",
-      light: '#fff4e5',
-      dark: "#dcb014",
       contrastText: "#ffffff",
     },
-    // purple: {
-    //   A50: "#EBF3FE",
-    //   A100: "#6610f2",
-    //   A200: "#557fb9",
-    //   contrastText: "#ffffff",
-    // },
     grey: {
       100: "#F2F6FA",
       200: "#EAEFF4",
@@ -63,24 +86,9 @@ const baselightTheme = createTheme({
       500: "#5A6A85",
       600: "#2A3547",
     },
-    text: {
-      primary: "#000",
-      secondary: "rgba(0,0,0,0.87)",
-    },
-    action: {
-      disabledBackground: "rgba(73,82,88,0.12)",
-      hoverOpacity: 0.02,
-      hover: "#f6f9fc",
-    },
-    divider: "#e5eaef",
-    background: {
-      default: "#fafbfb",
-      paper: "#fafbfb",
-    },
   },
-
   typography: {
-    fontFamily: dm.style.fontFamily,
+    fontFamily: "DM Sans, Helvetica, Arial, sans-serif",
     h1: {
       fontWeight: 500,
       fontSize: "1.875rem",
@@ -112,7 +120,7 @@ const baselightTheme = createTheme({
       lineHeight: "1.5",
     },
     button: {
-      textTransform: "none",
+      textTransform: "none" as "none",  // Ensure this is a valid TextTransform value
       fontWeight: "400",
     },
     subtitle1: {
@@ -125,8 +133,6 @@ const baselightTheme = createTheme({
     },
   },
   components: {
-
-  
     MuiCssBaseline: {
       styleOverrides: {
         ".MuiPaper-elevation9, .MuiPopover-root .MuiPaper-elevation": {
@@ -201,8 +207,6 @@ const baselightTheme = createTheme({
         },
       },
     },
-
-
     MuiAlert: {
       styleOverrides: {
         filledSuccess: {
@@ -218,42 +222,39 @@ const baselightTheme = createTheme({
           color: "white",
         },
         standardSuccess: {
-          backgroundColor: theme.palette.success.light,
-          color: theme.palette.success.main,
+          backgroundColor: "#00c292",
+          color: "#ffffff",
         },
         standardError: {
-          backgroundColor: theme.palette.error.light,
-          color: theme.palette.error.main,
+          backgroundColor: "#e46a76",
+          color: "#ffffff",
         },
         standardWarning: {
-          backgroundColor: theme.palette.warning.light,
-          color: theme.palette.warning.main,
+          backgroundColor: "#fec90f",
+          color: "#ffffff",
         },
         standardInfo: {
-          backgroundColor: theme.palette.info.light,
-          color: theme.palette.info.main,
+          backgroundColor: "#0bb2fb",
+          color: "#ffffff",
         },
         outlinedSuccess: {
-          borderColor: theme.palette.success.main,
-          color: theme.palette.success.main,
+          borderColor: "#00c292",
+          color: "#00c292",
         },
         outlinedWarning: {
-          borderColor: theme.palette.warning.main,
-          color: theme.palette.warning.main,
+          borderColor: "#fec90f",
+          color: "#fec90f",
         },
         outlinedError: {
-          borderColor: theme.palette.error.main,
-          color: theme.palette.error.main,
+          borderColor: "#e46a76",
+          color: "#e46a76",
         },
         outlinedInfo: {
-          borderColor: theme.palette.info.main,
-          color: theme.palette.info.main,
+          borderColor: "#0bb2fb",
+          color: "#0bb2fb",
         }
       },
     },
-
   },
-  
 });
 
-export { baselightTheme };

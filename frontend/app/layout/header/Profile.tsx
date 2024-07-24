@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
+import getUserFromLocalStorage from "@/utils/user/getUser";
 import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
 import {
@@ -22,14 +24,25 @@ import {
   IconMail,
   IconShield,
 } from "@tabler/icons-react";
+import { userAgent } from "next/server";
 
 const Profile = () => {
+  const router = useRouter();
+  const user = getUserFromLocalStorage();
   const [anchorEl2, setAnchorEl2] = useState(null);
+  let logoutStatus = -1;
+
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
   };
+
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.setItem('logoutStatus', 'true');
+    window.location.replace("/");
   };
 
   const theme = useTheme();
@@ -115,7 +128,7 @@ const Profile = () => {
               ml: 1,
             }}
           >
-            Julia
+            {user ? user.name : 'user7438'}
           </Typography>
           <IconChevronDown width="20" height="20" />
         </Box>
@@ -144,10 +157,10 @@ const Profile = () => {
         <Box pt={0}>
 
           <List>
-            <ListItemButton component="a" href="/layout/pages/ViewProfile">
+            <ListItemButton component="a" href="/pages/ViewProfile">
               <ListItemText primary="View Profile" />
             </ListItemButton>
-            <ListItemButton component="a" href="/layout/pages/Settings">
+            <ListItemButton component="a" href="/pages/Settings">
               <ListItemText primary="Settings" />
             </ListItemButton>
           </List>
@@ -155,7 +168,7 @@ const Profile = () => {
         </Box>
         <Divider />
         <Box mt={2}>
-          <Button fullWidth variant="contained" color="primary">
+          <Button fullWidth variant="contained" color="primary" onClick={handleLogout}>
             Logout
           </Button>
         </Box>

@@ -1,6 +1,7 @@
 import { useMediaQuery, Box, Drawer } from "@mui/material";
 import Logo from "../shared/logo/Logo";
 import SidebarItems from "./SidebarItems";
+import React from 'react';
 
 interface ItemType {
   isSidebarOpen: boolean;

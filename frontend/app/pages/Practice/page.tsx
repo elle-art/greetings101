@@ -1,22 +1,23 @@
 //Practice page - "Practice"
 'use client'
+import React from 'react';
 import { Grid, Box, Typography, SvgIconProps } from '@mui/material';
 import PageContainer from '@/app/components/container/PageContainer';
 // components
-import CourseCard from '@/app/components/dashboard/CourseCard';
-import { IconSettings } from "@tabler/icons-react";
-import HeaderWithIcon from '../../text-formats/TextHeadings';
+import PracticeCard from '@/app/components/practice/PracticeCard';
+import { IconBarbell } from "@tabler/icons-react";
+import HeaderWithIcon from '../../layout/text-formats/TextHeadings';
 
-const Resources = () => {
+const Practice = () => {
   return (
     <PageContainer title="Courses" description="this is the Courses Page">
     <Box mt={3}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <HeaderWithIcon icon={IconSettings  as React.ComponentType<SvgIconProps>} variant="h2" title="Settings" />
+          <HeaderWithIcon icon={IconBarbell  as React.ComponentType<SvgIconProps>} variant="h1" title="Practice" />
         </Grid>
         <Grid item xs={12}>
-          <CourseCard />
+          <PracticeCard />
         </Grid>
       </Grid>
     </Box>
@@ -24,4 +25,4 @@ const Resources = () => {
   )
 }
 
-export default Resources;
+export default Practice;
