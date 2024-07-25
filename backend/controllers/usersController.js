@@ -42,7 +42,7 @@ const login = (req, res) => {
     const user = users.find(user => user.email === email);
 
     if (user && bcrypt.compareSync(password, user.password)) {
-        res.json({ message: 'Login successful', user: { id: user.id, name: user.name, email: user.email, yearJoined: user.yearJoined, colorMode: user.darkModePref, pfpId: user.pfpId, pfColor: user.pfColor, courses: user.courses, }});
+        res.json({ message: 'Login successful', user: { id: user.id, name: user.name, email: user.email, yearJoined: user.yearJoined, preferences: user.preferences, courses: user.courses, }});
     } else {
         res.status(401).json({ message: 'Invalid credentials '});
     }
@@ -66,7 +66,7 @@ const signup = (req, res) => {
         password: bcrypt.hashSync(password, 10), 
         yearJoined: currentYear, 
         preferences: {
-            darkModePref: null,
+            darkModePref: "'light'",
             pfpId: "default",
             pfColor: "default"
           },
@@ -104,9 +104,8 @@ const updateUserInfo = (req, res) => {
         user.name = newUserInfo.name || user.name;
         user.email = newUserInfo.email ||  user.email;
         user.password = newUserInfo.password || user.password;
-        user.darkModePref = newUserInfo.darkModePref || user.darkModePref;
-        user.pfpId = newUserInfo.pfpId || user.pfpId;
-        user.pfColor = newUserInfo.pfColor || user.pfColor;
+        user.preferences = {...user.preferences, ...newUserInfo.preferences};
+
         res.json({ message: 'User updated', user});
     } else {
         res.status(404).json({ message: 'User not found'})
