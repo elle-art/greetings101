@@ -1,16 +1,14 @@
-// app/layout.tsx
 "use client";
-import useAuth from "@/utils/user/useAuth";
 import { usePathname } from "next/navigation";
-import { getDesignTokens } from "@/utils/theme/DesignTokens";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { styled, Container, Box, Button, createTheme, useTheme } from "@mui/material";
-import React, { ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { ThemeProvider, CssBaseline, Button, useTheme } from "@mui/material";
+import React, { useState, useContext } from "react";
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
 import Footer from './layout/footer/page';
+import useAuth from "@/utils/user/useAuth";
 import getUserFromLocalStorage from "@/utils/user/getUser";
+import { ToggleColorModeProvider, ColorModeContext } from "./components/settings/ToggleColorMode";
+import { styled, Container, Box } from "@mui/material";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -31,7 +29,7 @@ const userData = getUserFromLocalStorage();
 interface ProfileBkgrdProps {
   isProfilePage: boolean;
 }
-const color = "#32a852"
+const color = "#32a852";
 
 const ProfileBkgrd = styled("div")<ProfileBkgrdProps>(({ isProfilePage }) => ({
   width: "100%",
@@ -41,53 +39,50 @@ const ProfileBkgrd = styled("div")<ProfileBkgrdProps>(({ isProfilePage }) => ({
   boxShadow: isProfilePage ? '0 4px 6px rgba(0, 0, 0, 0.1)' : '0',
 }));
 
-interface RootLayoutProps {
-  children: ReactNode;
+interface Props {
+  children: React.ReactNode;
 }
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
-
-const RootLayout = ({ children }: RootLayoutProps) => {
+const RootLayout = ({ children }: Props) => {
   const pathname = usePathname();
   const isProfilePage = pathname === '/pages/ViewProfile';
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const user = useAuth();
-  const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
   if (!user) {
     return (
       <html lang="en">
         <body>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <MainWrapper className="mainwrapper">
-                <PageWrapper className="page-wrapper">
-                    <Button 
-                      variant="contained" 
-                      color="primary" 
-                      href='pages/Login' 
-                      sx={{
-                        width: '100px',
-                        marginLeft: '90%',
-                        marginTop: '10px'
-                      }}
-                    >
-                      Sign In!
-                    </Button>        
-                  <Container
-                    sx={{
-                      paddingTop: "20px",
-                      maxWidth: "1200px",
-                      margin: '0 auto',
-                    }}
-                  >
-                    <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-                    <Footer />
-                  </Container>
-                </PageWrapper>
-              </MainWrapper>
-            </ThemeProvider>
+          <ToggleColorModeProvider>
+            <CssBaseline />
+            <MainWrapper className="mainwrapper">
+              <PageWrapper className="page-wrapper">
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  href='pages/Login' 
+                  sx={{
+                    width: '100px',
+                    marginLeft: '90%',
+                    marginTop: '10px'
+                  }}
+                >
+                  Sign In!
+                </Button>
+                <Container
+                  sx={{
+                    paddingTop: "20px",
+                    maxWidth: "1200px",
+                    margin: '0 auto',
+                  }}
+                >
+                  <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
+                  <Footer />
+                </Container>
+              </PageWrapper>
+            </MainWrapper>
+          </ToggleColorModeProvider>
         </body>
       </html>
     );
@@ -96,15 +91,15 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={theme}>
+        <ToggleColorModeProvider>
           <CssBaseline />
-            <MainWrapper className="mainwrapper">
-              <Sidebar
-                isSidebarOpen={isSidebarOpen}
-                onSidebarClose={() => setSidebarOpen(false)}
-              />
-              <PageWrapper className="page-wrapper">
-                <ProfileBkgrd isProfilePage={isProfilePage}>
+          <MainWrapper className="mainwrapper">
+            <Sidebar
+              isSidebarOpen={isSidebarOpen}
+              onSidebarClose={() => setSidebarOpen(false)}
+            />
+            <PageWrapper className="page-wrapper">
+              <ProfileBkgrd isProfilePage={isProfilePage}>
                 <Header toggleSidebar={() => setSidebarOpen(true)} />
                 <Container
                   sx={{
@@ -116,10 +111,10 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                   <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
                   <Footer />
                 </Container>
-                </ProfileBkgrd>
-              </PageWrapper>
-            </MainWrapper>
-          </ThemeProvider>
+              </ProfileBkgrd>
+            </PageWrapper>
+          </MainWrapper>
+        </ToggleColorModeProvider>
       </body>
     </html>
   );
