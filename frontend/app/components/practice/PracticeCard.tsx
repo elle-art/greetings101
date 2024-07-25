@@ -1,6 +1,5 @@
 // Cards for practice games under "Practice"
 // update once account info is sorted!!
-import React from "react";
 import { Card, CardContent, Typography, Button, Grid, SvgIconProps, useMediaQuery } from "@mui/material";
 import HeaderWithIcon from "@/app/layout/text-formats/TextHeadings";
 import Image from 'next/image';

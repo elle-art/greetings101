@@ -1,22 +1,20 @@
 // app/pages/Login/page.tsx
 'use client'
 import React, { useState, FormEvent } from 'react';
-import useAuth from '@/utils/user/useAuth';
+import { API_BASE_URL, LOGIN_ENDPOINT } from '@/utils/constants';
 import { useRouter } from 'next/navigation';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 
 const Login = (props: { email: string; password: string }) => {
     const [email, setEmail] = useState<string>(props.email);
     const [password, setPassword] = useState<string>(props.password);
-    const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    let logoutStatus = -1;
 
     const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
         setErrorMessage(null);
     
-        const response = await fetch('http://localhost:4000/users/login', {
+        const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

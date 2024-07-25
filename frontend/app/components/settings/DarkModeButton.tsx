@@ -4,12 +4,12 @@ import Box from '@mui/material/Box';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { ColorModeContext } from '@/app/_app';
 
-const DarkModeButton = () => {
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+
+export default function DarkModeButton() {
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
-
   return (
     <Box
       sx={{
@@ -29,6 +29,4 @@ const DarkModeButton = () => {
       </IconButton>
     </Box>
   );
-}
-
-export default DarkModeButton;
+};

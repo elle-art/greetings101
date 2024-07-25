@@ -3,6 +3,7 @@
 import React, { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
+import { API_BASE_URL, SIGNUP_ENDPOINT } from '@/utils/constants';
 
 const Signup = (props: { name: string, email: string; password: string }) => {
     const [name, setName] = useState<string>(props.name);
@@ -15,7 +16,7 @@ const Signup = (props: { name: string, email: string; password: string }) => {
         e.preventDefault();
         setErrorMessage(null);
     
-        const response = await fetch('http://localhost:4000/users/signup', {
+        const response = await fetch(`${API_BASE_URL}${SIGNUP_ENDPOINT}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

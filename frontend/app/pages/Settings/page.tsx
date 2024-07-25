@@ -7,13 +7,13 @@ import PageContainer from '@/app/components/container/PageContainer';
 import CourseCard from '@/app/components/dashboard/CourseCard';
 import { IconSettings } from "@tabler/icons-react";
 import HeaderWithIcon from '../../layout/text-formats/TextHeadings';
-import DarkModeButton from '../../components/settings/DarkModeButton';
+import ToggleColorMode from '@/app/components/settings/ToggleColorMode';
 
 const Settings = () => {
   return (
     <PageContainer title="Settings" description=" ">
     <Box mt={3}>
-      <DarkModeButton />
+      <ToggleColorMode />
     </Box>
   </PageContainer>
   )

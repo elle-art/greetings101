@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { useRouter } from 'next/navigation';
 import getUserFromLocalStorage from "@/utils/user/getUser";
-import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
 import {
   Box,
@@ -15,22 +13,15 @@ import {
   List,
   ListItemText,
 } from "@mui/material";
-
-import { Stack } from "@mui/system";
 import {
   IconChevronDown,
-  IconCreditCard,
-  IconCurrencyDollar,
-  IconMail,
-  IconShield,
 } from "@tabler/icons-react";
-import { userAgent } from "next/server";
+import getPfp from "@/utils/user/getPfp";
 
 const Profile = () => {
-  const router = useRouter();
   const user = getUserFromLocalStorage();
-  const [anchorEl2, setAnchorEl2] = useState(null);
-  let logoutStatus = -1;
+  const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
+  const { imageLink, alt } = getPfp(user?.pfpId || "default");
 
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -44,42 +35,6 @@ const Profile = () => {
     localStorage.setItem('logoutStatus', 'true');
     window.location.replace("/");
   };
-
-  const theme = useTheme();
-  const primary = theme.palette.primary.main;
-  const primarylight = theme.palette.primary.light;
-  const error = theme.palette.error.main;
-  const errorlight = theme.palette.error.light;
-  const success = theme.palette.success.main;
-  const successlight = theme.palette.success.light;
-
-  /*profile data*/
-  const profiledata = [
-    {
-      href: "/",
-      title: "My Profile",
-      subtitle: "Account Settings",
-      icon: <IconCurrencyDollar width="20" height="20" />,
-      color: primary,
-      lightcolor: primarylight,
-    },
-    {
-      href: "/",
-      title: "My Inbox",
-      subtitle: "Messages & Emails",
-      icon: <IconShield width="20" height="20" />,
-      color: success,
-      lightcolor: successlight,
-    },
-    {
-      href: "/",
-      title: "My Tasks",
-      subtitle: "To-do and Daily Tasks",
-      icon: <IconCreditCard width="20" height="20" />,
-      color: error,
-      lightcolor: errorlight,
-    },
-  ];
 
   return (
     <Box>
@@ -97,8 +52,8 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={"/images/users/user2.jpg"}
-          alt={"ProfileImg"}
+          src={imageLink}
+          alt={alt}
           sx={{
             width: 30,
             height: 30,
@@ -157,10 +112,10 @@ const Profile = () => {
         <Box pt={0}>
 
           <List>
-            <ListItemButton component="a" href="/pages/ViewProfile">
+            <ListItemButton component={Link} href="/pages/ViewProfile">
               <ListItemText primary="View Profile" />
             </ListItemButton>
-            <ListItemButton component="a" href="/pages/Settings">
+            <ListItemButton component={Link} href="/pages/Settings">
               <ListItemText primary="Settings" />
             </ListItemButton>
           </List>

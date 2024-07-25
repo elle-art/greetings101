@@ -42,7 +42,7 @@ const login = (req, res) => {
     const user = users.find(user => user.email === email);
 
     if (user && bcrypt.compareSync(password, user.password)) {
-        res.json({ message: 'Login successful', user: { name: user.name, email: user.email }});
+        res.json({ message: 'Login successful', user: { id: user.id, name: user.name, email: user.email, yearJoined: user.yearJoined, colorMode: user.darkModePref, pfpId: user.pfpId, pfColor: user.pfColor, courses: user.courses, }});
     } else {
         res.status(401).json({ message: 'Invalid credentials '});
     }
@@ -52,22 +52,50 @@ const login = (req, res) => {
 const signup = (req, res) => {
     const { name, email, password } = req.body;
     const id = users.length > 0 ? users[users.length - 1].id + 1 : 1;
+    const currentYear = new Date().getFullYear();
     
     const exists = users.find(user => user.email === email);
     if (exists) {
         return res.status(400).json({ message: 'User already exists' });
     }
 
-    const newUser = { id, name, email, password: bcrypt.hashSync(password, 10) };
+    const newUser = { 
+        id, 
+        name, 
+        email, 
+        password: bcrypt.hashSync(password, 10), 
+        yearJoined: currentYear, 
+        preferences: {
+            darkModePref: null,
+            pfpId: "default",
+            pfColor: "default"
+          },
+        courses: {
+            activeCourses: [
+                {
+                    id: "span101",
+                    lessonsCompleted: 0
+                },
+                {
+                    id: "asl101",
+                    lessonsCompleted: 0
+                },
+            ],
+            coursesCompleted: []
+        },
+
+    } 
+
     users.push(newUser);
 
     writeUsersDataFile(users);
+
 
     res.status(201).json({ message: 'Signup successful' });
 };
 
 // Update user
-const updateUser = (req, res) => {
+const updateUserInfo = (req, res) => {
     const { id } = req.params;
     const user =  users.find(user => user.id === parseInt(id));
 
@@ -76,6 +104,9 @@ const updateUser = (req, res) => {
         user.name = newUserInfo.name || user.name;
         user.email = newUserInfo.email ||  user.email;
         user.password = newUserInfo.password || user.password;
+        user.darkModePref = newUserInfo.darkModePref || user.darkModePref;
+        user.pfpId = newUserInfo.pfpId || user.pfpId;
+        user.pfColor = newUserInfo.pfColor || user.pfColor;
         res.json({ message: 'User updated', user});
     } else {
         res.status(404).json({ message: 'User not found'})
@@ -99,6 +130,6 @@ module.exports = {
     getUserById,
     login,
     signup,
-    updateUser,
+    updateUserInfo,
     deleteUser
   };
