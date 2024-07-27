@@ -3,6 +3,7 @@
 
 import { createContext, ReactNode, SetStateAction , Dispatch, useState, useEffect, useContext } from "react";
 import { User } from "@/types/User";
+
 import getUserFromLocalStorage from "./getUser";
 interface UserContextProps {
     user: User | null;
@@ -27,7 +28,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         setUser(storedUser);
       }
     }, []);
-    
+
     return (
         <UserContext.Provider value={{ user, setUser }}>
           {children}

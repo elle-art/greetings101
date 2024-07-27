@@ -3,8 +3,10 @@ export interface User {
     name: string;
     email: string;
     yearJoined: number;
-    colorMode: string;
-    pfpId: string; 
-    pfColor: string;
+    preferences: {
+        darkModePref: 'light' | 'dark';
+        pfpId: string;
+        pfColor: string;
+    };
     courses: Array<Array<string>>;
 }

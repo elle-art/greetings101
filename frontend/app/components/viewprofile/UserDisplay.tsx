@@ -1,6 +1,7 @@
 import { API_BASE_URL, UPDATE_USER_ENDPOINT } from "@/utils/constants";
 import getPfp from "@/utils/user/getPfp";
 import getUserFromLocalStorage from "@/utils/user/getUser";
+import { useUser } from "@/utils/user/UserContext";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';
 import { useState } from "react";
@@ -8,14 +9,16 @@ import { useState } from "react";
 const UserDisplay = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
-  const user = getUserFromLocalStorage();
+  const {user} = useUser();
 
   if (!user) {
     return <Typography variant="h6">User not found</Typography>;
   }
 
-  const { name, email, pfpId, pfColor, yearJoined } = user;
-  const { imageLink, alt } =  getPfp(user.pfpId);
+  const { name, email } = user;
+  const pfpId = user.preferences.pfpId;
+  const pfColor = user.preferences.pfColor;
+  const { imageLink, alt } =  getPfp(user.preferences.pfpId);
 
   if (editMode) {
     const editUser = async () => {

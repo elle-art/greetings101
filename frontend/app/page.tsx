@@ -1,28 +1,48 @@
 //Home or About page? - click on "Logo"
-'use client'
-import React from 'react';
-import { Grid, Box, Typography, SvgIconProps, Button } from '@mui/material';
-import PageContainer from '@/app/components/container/PageContainer';
+"use client";
+import React from "react";
+import { Grid, Box, Typography, SvgIconProps, Button } from "@mui/material";
+import PageContainer from "@/app/components/container/PageContainer";
 // components
-import HeaderWithIcon from '@/app/layout/text-formats/TextHeadings';
+import HeaderWithIcon from "@/app/layout/text-formats/TextHeadings";
 
 const Start = () => {
   return (
-    <PageContainer title="Greetings 101" description="An introduction to other cultures">
-    <Box mt={3}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <HeaderWithIcon icon={null} variant="h1" title="Welcome!" />
+    <PageContainer
+      title="Greetings 101"
+      description="An introduction to other cultures"
+    >
+      <Button
+        variant="contained"
+        color="primary"
+        href="pages/Login"
+        sx={{
+          width: "100px",
+          marginLeft: "90%",
+          marginTop: "10px",
+        }}
+      >
+        Sign In!
+      </Button>
+      <Box mt={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <HeaderWithIcon icon={null} variant="h1" title="Welcome!" />
+          </Grid>
+          <Grid item xs={3}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              href="pages/Signup"
+            >
+              Sign up!
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-        <Button fullWidth variant="contained" color="primary" href='pages/Signup'>
-            Sign up!
-          </Button>        
-        </Grid>
-      </Grid>
-    </Box>
-  </PageContainer>
-  )
-}
+      </Box>
+    </PageContainer>
+  );
+};
 
 export default Start;

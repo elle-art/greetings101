@@ -32,7 +32,7 @@ const Profile = () => {
   };
   const handleLogout = () => {
     localStorage.removeItem('user');
-    localStorage.setItem('logoutStatus', 'true');
+    localStorage.setItem('colorMode', user.preferences.darkModePref);
     window.location.replace("/");
   };
 

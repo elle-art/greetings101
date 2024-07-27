@@ -7,6 +7,9 @@ import CourseCard from '@/app/components/dashboard/CourseCard';
 import InactiveCourseCard from '@/app/components/dashboard/InactiveCourseCard';
 import { IconHome } from "@tabler/icons-react";
 import HeaderWithIcon from '@/app/layout/text-formats/TextHeadings';
+import { useUser } from '@/utils/user/UserContext';
+import getUserFromLocalStorage from '@/utils/user/getUser';
+import { useState } from 'react';
 
 const Dashboard = () => {
   return (

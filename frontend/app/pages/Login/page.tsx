@@ -5,11 +5,15 @@ import { API_BASE_URL, LOGIN_ENDPOINT } from '@/utils/constants';
 import { useRouter } from 'next/navigation';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 import { ToggleColorModeProvider } from '@/app/components/settings/ToggleColorMode';
+import { useUser } from '@/utils/user/UserContext';
+import getUserFromLocalStorage from '@/utils/user/getUser';
+import { User } from '@/types/User';
 
 const Login = (props: { email: string; password: string }) => {
     const [email, setEmail] = useState<string>(props.email);
     const [password, setPassword] = useState<string>(props.password);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const { user, setUser } = useUser();
 
     const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
@@ -26,6 +30,7 @@ const Login = (props: { email: string; password: string }) => {
         if (response.ok) {
             const result = await response.json();
             localStorage.setItem('user', JSON.stringify(result.user));
+            setUser(result.user);
             window.location.replace('/pages/Dashboard');
         } else {
             const errorData = await response.json();
@@ -34,7 +39,6 @@ const Login = (props: { email: string; password: string }) => {
     };
     
     return (
-        <ToggleColorModeProvider>
             <Container maxWidth="sm">
                 <Box sx={{ mt: 8, paddingBottom: "20px" }}>
                     <Typography variant="h4" component="h1" gutterBottom>
@@ -75,7 +79,6 @@ const Login = (props: { email: string; password: string }) => {
                     </Link>
                 </Typography>
             </Container>
-        </ToggleColorModeProvider>
     );
 };    
 
