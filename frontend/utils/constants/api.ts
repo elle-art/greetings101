@@ -4,3 +4,5 @@ export const LOGIN_ENDPOINT = '/users/login';
 export const SIGNUP_ENDPOINT = '/users/signup';
 
 export const UPDATE_USER_ENDPOINT = '/users/'; //${user.id}
+
+export const COURSES_ENDPOINT = '/users/courses';

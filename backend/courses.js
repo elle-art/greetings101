@@ -1,6 +1,3 @@
-import path from 'path';
-import fs from 'fs';
-
 const courses = [
   {
     id: "span101",
@@ -44,5 +41,4 @@ const courses = [
   },
 ];
 
-const dataPath = path.resolve(__dirname, 'users.json');
-let data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+module.exports = courses;

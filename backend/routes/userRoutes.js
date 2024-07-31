@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const usersController =  require('../controllers/usersController');
 
+// Get courses array
+router.get('/courses', usersController.getCourses);
+
 // Display all users
 router.get('/', usersController.getAllUsers);
 

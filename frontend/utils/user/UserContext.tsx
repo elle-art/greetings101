@@ -26,8 +26,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     if (storedUser) {
       setUser(storedUser);
     }
-    console.log('useEffect invoked in provider.');
-    console.log('user: ', user);
   }, []);
 
   return (

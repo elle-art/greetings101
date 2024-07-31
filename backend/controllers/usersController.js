@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
+const courses = require('../courses');
 
 const usersFilePath = path.join(__dirname, '../users.json');
 
@@ -124,11 +125,17 @@ const deleteUser = (req, res) => {
     }
 };
 
+// Get courses array
+const getCourses = (req, res) => {
+    res.json(courses);
+  };
+
 module.exports = {
     getAllUsers,
     getUserById,
     login,
     signup,
     updateUserInfo,
-    deleteUser
+    deleteUser,
+    getCourses,
   };

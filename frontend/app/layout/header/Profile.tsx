@@ -33,6 +33,7 @@ const Profile = () => {
   };
   const handleLogout = () => {
     const localUser = getUserFromLocalStorage();
+    //need to update backend before removing
     localStorage.setItem('colorMode', user?.preferences.darkModePref || localUser.darkModePref);
     localStorage.removeItem('user');
     window.location.replace("/");

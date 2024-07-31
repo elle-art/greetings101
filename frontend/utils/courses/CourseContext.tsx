@@ -1,11 +1,13 @@
 'use client'
-import { Course, courses } from "@/types/Courses";
+import { Course } from "@/types/Courses";
 import { User } from "@/types/User";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useUser } from "../user/UserContext";
+import { API_BASE_URL, COURSES_ENDPOINT } from "../constants";
 
 interface CourseContextProps {
     user: User | null;
+    courses: Course[];
     myCourses: Course[];
     inactiveCourses: Course[];
     completedCourses: Course[];
@@ -13,6 +15,7 @@ interface CourseContextProps {
 
 const CourseContext = createContext<CourseContextProps> ({
     user: null,
+    courses: [],
     myCourses: [],
     inactiveCourses: [],
     completedCourses: [],
@@ -27,12 +30,30 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
     const [myCourses, setMyCourses] = useState<Course[] | []>([]);
     const [inactiveCourses, setInactiveCourses] = useState<Course[] | []>([]);
     const [completedCourses, setCompletedCourses] = useState<Course[] | []>([]);
+    const [courses, setCourses] = useState<Course[] | []>([]);
+    
+    const fetchCourses = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}${COURSES_ENDPOINT}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch courses');
+            }
+            const data = await response.json();
+            setCourses(data);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCourses();
+    }, []);
 
     useEffect(() => {
         if (!user) {
             return;
         }
-        
+      
         let index = 0;
         const active: Course[] = [];
         const inactive: Course[] = [];
@@ -50,13 +71,11 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
         }
         setMyCourses(active);
         setInactiveCourses(inactive);
-        console.log('active courses set.', myCourses);
-        console.log('inactive courses set.', inactiveCourses);
-    }, [user]);
+    }, [user, courses]);
 
 
     return (
-        <CourseContext.Provider value={{ user, myCourses, inactiveCourses, completedCourses }}>
+        <CourseContext.Provider value={{ user, myCourses, inactiveCourses, completedCourses, courses }}>
           {children}
         </CourseContext.Provider>
       );
