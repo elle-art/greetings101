@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import getUserFromLocalStorage from "@/utils/user/getUser";
 import Link from "next/link";
 import {
   Box,
@@ -17,11 +16,13 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 import getPfp from "@/utils/user/getPfp";
+import { useUser } from "@/utils/user/UserContext";
+import { getUserFromLocalStorage } from "@/utils/user/getUser";
 
 const Profile = () => {
-  const user = getUserFromLocalStorage();
+  const { user } = useUser();
   const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
-  const { imageLink, alt } = getPfp(user?.pfpId || "default");
+  const { imageLink, alt } = getPfp(user?.preferences.pfpId || "default");
 
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -31,8 +32,9 @@ const Profile = () => {
     setAnchorEl2(null);
   };
   const handleLogout = () => {
+    const localUser = getUserFromLocalStorage();
+    localStorage.setItem('colorMode', user?.preferences.darkModePref || localUser.darkModePref);
     localStorage.removeItem('user');
-    localStorage.setItem('colorMode', user.preferences.darkModePref);
     window.location.replace("/");
   };
 

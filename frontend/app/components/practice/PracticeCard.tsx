@@ -60,7 +60,8 @@ const PracticeCard = () => {
                 <Grid container spacing={4}>
                   {/* image */}
                   <Grid item sm={12} md={6}>
-                    <Image
+                    <Image 
+                      priority
                       src={game.imageLink}
                       layout="responsive"
                       width={500}

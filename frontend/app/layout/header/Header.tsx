@@ -16,7 +16,6 @@ const Header = ({toggleSidebar: toggleSidebar}: ItemType) => {
 
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   // const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
-
   
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',

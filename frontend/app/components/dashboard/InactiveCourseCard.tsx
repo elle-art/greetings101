@@ -2,35 +2,31 @@
 // update once account info is sorted!!
 import React from "react";
 import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
+import { Course, courses } from "@/types/Courses";
+import { useCourses } from "@/utils/courses/CourseContext";
+import { User } from "@/types/User";
+import { useUser } from "@/utils/user/UserContext";
 
-const courses = [
-  {
-    id: "asl102",
-    name: "ASL 101: The Alphabet",
-    shortname: "ASL 102",
-    length: "30 min",
-    description: "A-B-C! Easy as 1-2-3!",
-  }, 
-  {
-      id: "asl103",
-      name: "ASL 101: Numbers",
-      shortname: "ASL 103",
-      length: "10 min",
-      description: "A-B-C! Easy as 1-2-3!",
-  },
-  {
-    id: "span102",
-    name: "Spanish 101: Numbers",
-    shortname: "ASL 101",
-    length: "20 min",
-    description: "A-B-C! Easy as 1-2-3!",
-  }, 
-];
+function addCoursetoUser(courseId: string, user: User | null) {
+  if (!user) {
+    return;
+  }
+  console.log('adding ', courseId, 'to user');
+  const newCourse = {id: courseId, lessonsCompleted: 0}
+  user?.courses.activeCourses.push(newCourse);
+  console.log(user?.courses.activeCourses);
+  localStorage.setItem('user', JSON.stringify(user));
+
+}
 
 const InactiveCourseCard = () => {
+  const { inactiveCourses, myCourses } = useCourses();
+  const { user } = useUser();
+  console.log('inactive: ', inactiveCourses);
+
   return (
     <Grid container spacing={3}>
-      {courses.map((course) => (
+      {inactiveCourses.map((course) => (
         <Grid item xs={6} sm={6} md={6} key={course.id}>
           <Card sx={{
             p:0,
@@ -78,6 +74,9 @@ const InactiveCourseCard = () => {
                 <Grid item xs={12} container justifyContent="flex-end">
                   <Button
                     variant="outlined"
+                    onClick={() => {
+                      addCoursetoUser(course.id, user);
+                    }}
                     sx={{
                       mt: "15px",
                       width: "150px",

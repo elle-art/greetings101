@@ -3,12 +3,13 @@
 import React from 'react';
 import { Grid, Box, Typography, SvgIconProps, Button } from '@mui/material';
 import PageContainer from '@/app/components/container/PageContainer';
-import getUserFromLocalStorage from "@/utils/user/getUser";
 // components
 import UserDisplay from '@/app/components/viewprofile/UserDisplay';
+import { useUser } from '@/utils/user/UserContext';
 
 const UserProfile = () => {
-  const user = getUserFromLocalStorage();
+  const {user} = useUser();
+  console.log( 'user: , ', user);
 
   return (
       <PageContainer title="Profile" description=" ">

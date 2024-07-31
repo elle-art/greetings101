@@ -22,7 +22,7 @@
     "password": "$2a$10$ncmn3maA2KINJBjMxEwNleaBc5xKTc9CnZA.dsPYb.nE1n629pwD6",
     "yearJoined": "2024",
     "preferences": {
-      "darkModePref": null,
+      "darkModePref": "light",
       "pfpId": "default",
       "pfColor": "default"
     },
@@ -30,7 +30,7 @@
       "activeCourses": [
         {
           "id": "span101",
-          "lessonsCompleted": 0
+          "lessonsCompleted": 5
         },
         {
           "id": "asl101",

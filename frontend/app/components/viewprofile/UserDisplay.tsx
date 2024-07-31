@@ -1,6 +1,5 @@
 import { API_BASE_URL, UPDATE_USER_ENDPOINT } from "@/utils/constants";
 import getPfp from "@/utils/user/getPfp";
-import getUserFromLocalStorage from "@/utils/user/getUser";
 import { useUser } from "@/utils/user/UserContext";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';

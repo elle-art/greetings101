@@ -1,21 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import getUserFromLocalStorage from './getUser';
+import { useUser } from './UserContext';
 
 const useAuth = () => {
-    const [user, setUser] = useState(null); 
+    const { user } = useUser();
     const router = useRouter(); 
 
     useEffect(() => {
-        const storedUser = getUserFromLocalStorage();
-        if (storedUser) {
-            setUser(storedUser); 
-        } else {
-            if (!localStorage.getItem('logoutStatus')) {
+        if (!user && !((location.pathname === '/pages/Login') || !(location.pathname === '/pages/Signup'))) {
             router.push('/');  // If no user is found, redirect to login page
-            }
         }
-    }, [router]);
+    }, [user, router]);
 
     return user;
 };

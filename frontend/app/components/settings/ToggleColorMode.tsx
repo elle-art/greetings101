@@ -1,11 +1,9 @@
 'use client'
-import { Button, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
-import DarkModeButton from "./DarkModeButton";
-import getUserFromLocalStorage, { getMode } from "@/utils/user/getUser";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { API_BASE_URL, UPDATE_USER_ENDPOINT } from "@/utils/constants";
 import { getDesignTokens } from "@/utils/theme/DesignTokens";
-import Layout from "@/app/layout";
+import { useUser } from "@/utils/user/UserContext";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -14,7 +12,7 @@ interface ToggleColorModeProviderProps {
 }
 
 export const ToggleColorModeProvider = ({ children }: ToggleColorModeProviderProps) => {
-  const [user, setUser] = useState(getUserFromLocalStorage());
+  const {user, setUser} = useUser();
   const [mode, setMode] = useState<'light' | 'dark' | null>(null);
 
   useEffect(() => {
@@ -68,7 +66,7 @@ export const ToggleColorModeProvider = ({ children }: ToggleColorModeProviderPro
   );
 
   if (mode === null) {
-    return null; // Or a loading indicator while determining the mode
+    return null;
   }
 
   return (

@@ -1,6 +1,6 @@
 //Class Dashboard page - "Courses"
 'use client'
-import { Grid, Box, Typography, SvgIconProps } from '@mui/material';
+import { Grid, Box, SvgIconProps } from '@mui/material';
 import PageContainer from '@/app/components/container/PageContainer';
 // components
 import CourseCard from '@/app/components/dashboard/CourseCard';
@@ -8,10 +8,11 @@ import InactiveCourseCard from '@/app/components/dashboard/InactiveCourseCard';
 import { IconHome } from "@tabler/icons-react";
 import HeaderWithIcon from '@/app/layout/text-formats/TextHeadings';
 import { useUser } from '@/utils/user/UserContext';
-import getUserFromLocalStorage from '@/utils/user/getUser';
-import { useState } from 'react';
 
 const Dashboard = () => {
+  const {user} = useUser();
+  console.log('Current user:', user);
+  
   return (
     <PageContainer title="Courses" description="this is the Courses Page">
     <Box mt={3}>
@@ -33,5 +34,6 @@ const Dashboard = () => {
   </PageContainer>
   )
 }
+
 
 export default Dashboard;

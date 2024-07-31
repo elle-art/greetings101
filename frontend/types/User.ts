@@ -1,3 +1,4 @@
+'use client'
 export interface User {
     id: number;
     name: string;
@@ -8,5 +9,15 @@ export interface User {
         pfpId: string;
         pfColor: string;
     };
-    courses: Array<Array<string>>;
+    courses: {
+        "activeCourses": [
+          {
+            id: string;
+            lessonsCompleted: number;
+          }
+        ],
+        "coursesCompleted": [
+            id: string,
+        ]
+      };
 }

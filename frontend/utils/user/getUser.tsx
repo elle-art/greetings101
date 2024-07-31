@@ -1,4 +1,4 @@
-const getUserFromLocalStorage = () => {
+export const getUserFromLocalStorage = () => {
   if (typeof window !== 'undefined') {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
@@ -13,5 +13,3 @@ export const getMode = () =>{
 }
 return null;
 };
-
-export default getUserFromLocalStorage;

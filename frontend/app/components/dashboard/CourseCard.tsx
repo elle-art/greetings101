@@ -1,26 +1,44 @@
 // Cards for courses under "My Courses"  <Courses
-// update once account info is sorted!!
 import React from "react";
 import { Card, CardContent, Typography, Button, Grid, Box } from "@mui/material";
 import { PieChart } from '@mui/x-charts/PieChart';
+import { Course } from "@/types/Courses";
+import { useCourses } from "@/utils/courses/CourseContext";
+import { useUser } from "@/utils/user/UserContext";
 
-const courses = [
-  {
-    id: "span101",
-    name: "Spanish 101: The Basics",
-    shortname: "SPAN 101",
-  },
-  {
-      id: "asl101",
-      name: "ASL 101: The Basics",
-      shortname: "ASL 101",
-    },
-];
+function setUserProgress(arr: Course[]) { //need to set back to null on log out
+  const { user } = useUser();
+  let idx = 0;
+
+  arr.forEach(course => {
+      if (course.id === user?.courses.activeCourses[idx].id) {
+        course.lessonsCompleted = user?.courses.activeCourses[idx].lessonsCompleted;
+      }
+      idx++;
+  });
+}
+
+function getPercentValue(totalLessons: number, lessonsCompleted?: number) {
+  if (lessonsCompleted == null) {
+    return 0;
+  }
+  const percent = (lessonsCompleted / totalLessons) * 100;
+  
+  return (lessonsCompleted / totalLessons) * 100;
+}
 
 const CourseCard = () => {
+  const { user } = useUser();
+  const { myCourses } = useCourses();
+  setUserProgress(myCourses);
+
+  console.log('active: ', myCourses);
+
   return (
     <Grid container spacing={3}>
-      {courses.map((course) => (
+    {myCourses.map((course: Course) => {
+      const percent = getPercentValue(course.totalLessons, course.lessonsCompleted);
+      return (
         <Grid item xs={6} sm={6} md={6} key={course.id}>
           <Card sx={{
             p:0,
@@ -59,7 +77,7 @@ const CourseCard = () => {
                     fontSize="18px"
                     fontWeight={400}
                   >
-                    7/10 lessons
+                    {course.lessonsCompleted}/{course.totalLessons} lessons
                   </Typography>
                   {/* Accuracy */}
                   <Typography
@@ -67,7 +85,7 @@ const CourseCard = () => {
                     fontSize="18px"
                     fontWeight={400}
                   >
-                    94% Accuracy
+                    94% Accuracy 
                   </Typography>
                 </Grid>
                 {/* piechart */}
@@ -76,10 +94,10 @@ const CourseCard = () => {
                     series={[
                       {
                         data: [
-                          { id: 0, value: 70},
-                          { id: 1, value: 30, color: 'white'}
+                          { id: 0, value: percent},
+                          { id: 1, value: (100 - percent), color: 'white'}
                         ],
-                        innerRadius: 70,
+                        innerRadius: percent,
                         startAngle: 0,
                         endAngle: -360,
                         cx: 90,
@@ -93,7 +111,7 @@ const CourseCard = () => {
                     fontSize="14px"
                     fontWeight={400}
                   >
-                    70% Complete
+                    {percent}% Complete
                   </Typography>
                   {/* Disables PieChart hover effect */}
                   <Box
@@ -125,7 +143,7 @@ const CourseCard = () => {
             </CardContent>
           </Card>
         </Grid>
-      ))}
+      )})}
     </Grid>
   );
 };

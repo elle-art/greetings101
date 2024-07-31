@@ -2,12 +2,8 @@
 'use client'
 import React, { useState, FormEvent } from 'react';
 import { API_BASE_URL, LOGIN_ENDPOINT } from '@/utils/constants';
-import { useRouter } from 'next/navigation';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
-import { ToggleColorModeProvider } from '@/app/components/settings/ToggleColorMode';
 import { useUser } from '@/utils/user/UserContext';
-import getUserFromLocalStorage from '@/utils/user/getUser';
-import { User } from '@/types/User';
 
 const Login = (props: { email: string; password: string }) => {
     const [email, setEmail] = useState<string>(props.email);
@@ -31,6 +27,7 @@ const Login = (props: { email: string; password: string }) => {
             const result = await response.json();
             localStorage.setItem('user', JSON.stringify(result.user));
             setUser(result.user);
+            console.log('user: ', user);
             window.location.replace('/pages/Dashboard');
         } else {
             const errorData = await response.json();

@@ -1,4 +1,4 @@
-import getUserFromLocalStorage from "./getUser";
+import { useUser } from "./UserContext";
 
 const pfps = [
     {
@@ -12,8 +12,6 @@ const pfps = [
       alt: "Bear"
     },
   ];
-
-const user = getUserFromLocalStorage();
 
 const getPfp = (pfpId : string) => {
     const pfp = pfps.find(picture => pfpId === picture.id);
