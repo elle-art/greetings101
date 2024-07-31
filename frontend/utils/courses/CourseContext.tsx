@@ -60,9 +60,10 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
         
         for (const course of courses) {
             //add push loop for completed courses - add condition for inactive courses below [ if not in completed[] ]
-            const activeCourseId = user.courses.activeCourses?.length > index ? user.courses.activeCourses[index].id : null;
+            const activeCourseId = user.courses.activeCourses.find(c => c.id === course.id);
+
             
-            if (activeCourseId && activeCourseId === course.id) {
+            if (activeCourseId) {
                 active.push(course);
                 index++;
             } else if (!active.find(activeCourse => activeCourse.id === course.id)) {

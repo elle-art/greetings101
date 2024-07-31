@@ -2,7 +2,6 @@
 // update once account info is sorted!!
 import React from "react";
 import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
-import { Course, courses } from "@/types/Courses";
 import { useCourses } from "@/utils/courses/CourseContext";
 import { User } from "@/types/User";
 import { useUser } from "@/utils/user/UserContext";
@@ -12,15 +11,18 @@ function addCoursetoUser(courseId: string, user: User | null) {
     return;
   }
   console.log('adding ', courseId, 'to user');
-  const newCourse = {id: courseId, lessonsCompleted: 0}
-  user?.courses.activeCourses.push(newCourse);
-  console.log(user?.courses.activeCourses);
-  localStorage.setItem('user', JSON.stringify(user));
+  const found = user?.courses.activeCourses.find(course => course.id === courseId);
 
+  if (!found) {
+    const newCourse = {id: courseId, lessonsCompleted: 0}
+    user?.courses.activeCourses.push(newCourse);
+    console.log(user?.courses.activeCourses);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
 }
 
 const InactiveCourseCard = () => {
-  const { inactiveCourses, myCourses } = useCourses();
+  const { inactiveCourses } = useCourses();
   const { user } = useUser();
   console.log('inactive: ', inactiveCourses);
 
@@ -74,8 +76,9 @@ const InactiveCourseCard = () => {
                 <Grid item xs={12} container justifyContent="flex-end">
                   <Button
                     variant="outlined"
-                    onClick={() => {
-                      addCoursetoUser(course.id, user);
+                    onClick={async () => {
+                      await addCoursetoUser(course.id, user);
+                      window.location.reload();
                     }}
                     sx={{
                       mt: "15px",
