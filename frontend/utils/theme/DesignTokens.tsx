@@ -37,6 +37,10 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             hover: "#f6f9fc",
           },
           divider: "#e5eaef",
+          success: {
+            main: "#4f8947",
+            contrastText: "#ffffff",
+          },
         }
       : {
           primary: {
@@ -61,11 +65,11 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             hover: "#333333",
           },
           divider: "#333333",
+          success: {
+            main: "#729e6b",
+            contrastText: "#ffffff",
+          },
         }),
-    success: {
-      main: "#00c292",
-      contrastText: "#ffffff",
-    },
     info: {
       main: "#0bb2fb",
       contrastText: "#ffffff",
@@ -222,7 +226,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
           color: "white",
         },
         standardSuccess: {
-          backgroundColor: "#00c292",
+          backgroundColor: mode === 'light' ? "#B7CFB4" : "#2e7d32",
           color: "#ffffff",
         },
         standardError: {

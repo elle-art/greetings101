@@ -5,6 +5,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { Course } from "@/types/Courses";
 import { useCourses } from "@/utils/courses/CourseContext";
 import { useUser } from "@/utils/user/UserContext";
+import { useRouter } from "next/navigation";
 
 function setUserProgress(arr: Course[]) { //need to set back to null on log out
   const { user } = useUser();
@@ -22,7 +23,6 @@ function getPercentValue(totalLessons: number, lessonsCompleted?: number) {
   if (lessonsCompleted == null) {
     return 0;
   }
-  const percent = (lessonsCompleted / totalLessons) * 100;
   
   return (lessonsCompleted / totalLessons) * 100;
 }
@@ -30,9 +30,13 @@ function getPercentValue(totalLessons: number, lessonsCompleted?: number) {
 const CourseCard = () => {
   const { user } = useUser();
   const { myCourses } = useCourses();
-  setUserProgress(myCourses);
+  const router = useRouter();
 
-  console.log('active: ', myCourses);
+  const navigateToLesson = (courseId: string, lessonsCompleted: number = 0) => {
+    router.push(`/pages/Lesson?courseId=${courseId}&lessonsCompleted=${lessonsCompleted}`);
+};
+
+  setUserProgress(myCourses);
 
   return (
     <Grid container spacing={3}>
@@ -129,6 +133,7 @@ const CourseCard = () => {
                 {/* button */}
                 <Grid item xs={12} container justifyContent="flex-end">
                   <Button
+                  onClick={() => navigateToLesson(course.id, course.lessonsCompleted || 0)}
                     variant="contained"
                     sx={{
                       mt: "15px",
