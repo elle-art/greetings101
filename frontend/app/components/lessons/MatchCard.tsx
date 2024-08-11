@@ -4,33 +4,9 @@ import { useCourses } from "@/utils/courses/CourseContext";
 import { Button, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import CorrectDiv from "./CorrectDiv";
+import { separateWordArray, shuffleArray } from "@/utils/arrayFunctions";
 
-function separateWordArray(arr: vocabWord[]) { //create file in utils for array functions
-    const engArray: string[] = []; // will not be whole vocabWord Arr when done, need to add arrays to the lessons objects specifically for these cards
-    const langArray: string[] = [];
-
-    for (const word of arr) {
-        engArray.push(word.eng);
-
-        if (word.span) {
-            langArray.push(word.span);
-        }
-    }
-
-    return { engArray, langArray };
-};
-
-function shuffleArray(arr: any[]) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-
-    return arr;
-};
-
-
-const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => void}) => {
+const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => void, currState: number}) => {
     const { courses } = useCourses();
     const course = courses.find(c => c.id === props.courseId);
     const [leftArray, setLeftArray] = useState<string[]>([]);
@@ -41,9 +17,8 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
 
     useEffect(() => {
         if (course) {
-            console.log(course);
             const cardWordsArray: vocabWord[] = [];
-            const wordsIndices = course?.lessons[props.lessonNo]?.cards[0].wordsIndices ?? [];
+            const wordsIndices = course?.lessons[props.lessonNo]?.cards[props.currState].wordsIndices ?? [];
 
             for (const index of wordsIndices) {
                 const word = course?.lessons[props.lessonNo]?.words[index];
@@ -89,16 +64,18 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
 
     const isWordSelected = (word: string) => selectedWords.includes(word);
     const isWordMatched = (word: string) => matchedWords.includes(word);
-    const prompt: Prompts | undefined = course?.lessons[props.lessonNo]?.cards[0]?.correctPrompts;
+    const prompt: Prompts | undefined = course?.lessons[props.lessonNo]?.cards[props.currState]?.correctPrompts;
 
     if (!isAllMatched) {
         return (
             <div>
                 <Grid container spacing={1} sx={{
-                    width: "30%"
+                    width: "50%",
+                    marginLeft: "15%",
+                    marginRight: "15%",
                 }}>
                     <Grid item xs={12}>
-                        <Typography variant="h4" component="div" mt={2}>
+                        <Typography variant="h4" component="div" mt={3}>
                             Match correct pairs:
                         </Typography>
                     </Grid>
@@ -150,10 +127,12 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
     return (
         <div>
             <Grid container spacing={1} sx={{
-                width: "30%"
+                width: "50%",
+                marginLeft: "15%",
+                marginRight: "15%",
             }}> 
                 <Grid item xs={12}>
-                    <Typography variant="h5" component="div">
+                    <Typography variant="h4" component="div" mt={3}>
                         Match correct pairs:
                     </Typography>
                 </Grid>

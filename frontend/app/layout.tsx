@@ -44,7 +44,6 @@ const RootLayout = ({ children }: Props) => {
   const user = getUserFromLocalStorage();
 
   if (!user) {
-    console.log('no user layout implemented.')
     return (
       <html lang="en">
         <body>

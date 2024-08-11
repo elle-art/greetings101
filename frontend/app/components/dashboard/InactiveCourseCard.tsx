@@ -1,30 +1,13 @@
-// Cards for inactive courses under "Additional Learning"  <Courses
-// update once account info is sorted!!
+// Cards for inactive courses under "Additional Learning" 
 import React from "react";
 import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
 import { useCourses } from "@/utils/courses/CourseContext";
-import { User } from "@/types/User";
 import { useUser } from "@/utils/user/UserContext";
-
-function addCoursetoUser(courseId: string, user: User | null) {
-  if (!user) {
-    return;
-  }
-  console.log('adding ', courseId, 'to user');
-  const found = user?.courses.activeCourses.find(course => course.id === courseId);
-
-  if (!found) {
-    const newCourse = {id: courseId, lessonsCompleted: 0}
-    user?.courses.activeCourses.push(newCourse);
-    console.log(user?.courses.activeCourses);
-    localStorage.setItem('user', JSON.stringify(user));
-  }
-}
+import { addCoursetoUser } from "@/types/Courses";
 
 const InactiveCourseCard = () => {
   const { inactiveCourses } = useCourses();
   const { user } = useUser();
-  console.log('inactive: ', inactiveCourses);
 
   return (
     <Grid container spacing={3}>
@@ -42,7 +25,7 @@ const InactiveCourseCard = () => {
               }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} md={7}>
+                <Grid item xs={12}>
                   <Typography
                     color="textSecondary"
                     mt={1}

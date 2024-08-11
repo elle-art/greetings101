@@ -1,6 +1,5 @@
-import { createTheme } from "@mui/material/styles";
 import { DM_Sans } from "next/font/google";
-import { PaletteMode, useMediaQuery } from "@mui/material";
+import { PaletteMode } from "@mui/material";
 
 export const dm = DM_Sans({
   weight: ["400", "500", "700"],
@@ -41,6 +40,10 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             main: "#4f8947",
             contrastText: "#ffffff",
           },
+          error: {
+            main: "#ce424d",
+            contrastText: "#ffffff",
+          },
         }
       : {
           primary: {
@@ -69,13 +72,13 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             main: "#729e6b",
             contrastText: "#ffffff",
           },
+          error: {
+            main: "#d67179",
+            contrastText: "#ffffff",
+          },
         }),
     info: {
       main: "#0bb2fb",
-      contrastText: "#ffffff",
-    },
-    error: {
-      main: "#e46a76",
       contrastText: "#ffffff",
     },
     warning: {
@@ -230,7 +233,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
           color: "#ffffff",
         },
         standardError: {
-          backgroundColor: "#e46a76",
+          backgroundColor: mode=== 'light' ? "#e46a76" : "#ce424d",
           color: "#ffffff",
         },
         standardWarning: {
