@@ -49,11 +49,11 @@ const UserDisplay = () => {
       }
     };
 
-    //   {errorMessage && (
-    //     <Typography color="error" variant="body2">
-    //         {errorMessage}
-    //     </Typography>
-    // )}
+      {errorMessage && (
+        <Typography color="error" variant="body2">
+            {errorMessage}
+        </Typography>
+    )}
   }
 
     return (

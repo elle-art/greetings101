@@ -1,5 +1,3 @@
-import { useUser } from "./UserContext";
-
 const pfps = [
     {
         id: "default",
