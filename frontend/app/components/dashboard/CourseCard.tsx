@@ -19,7 +19,7 @@ const CourseCard = () => {
   const { myCourses } = useCourses();
   const router = useRouter();
 
-  const navigateToLesson = (courseId: string, lessonsCompleted: number = 0) => {
+  const navigateToLesson = (courseId: string, lessonsCompleted: number) => {
     router.push(
       `/pages/Lesson?courseId=${courseId}&lessonsCompleted=${lessonsCompleted}`
     );

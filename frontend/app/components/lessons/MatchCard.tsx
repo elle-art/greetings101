@@ -15,6 +15,7 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
     const [isAllMatched, setIsAllMatched] = useState(false);
 
+    // set left and right arrays
     useEffect(() => {
         if (course) {
             const cardWordsArray: vocabWord[] = [];
@@ -59,6 +60,7 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
     const handleClick = (word: string) => {
         if (selectedWords.length < 2) {
             setSelectedWords(prev => [...prev, word]);
+            console.log(selectedWords);
         }
     };
 
@@ -140,7 +142,6 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
                     {leftArray.map((word: string) => (
                         <Button
                             key={word}
-                            onClick={() => handleClick(word)}
                             variant='contained'
                             disabled={true}
                             sx={{
@@ -158,7 +159,6 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
                     {rightArray.map((word: string) => (
                         <Button
                             key={word}
-                            onClick={() => handleClick(word)}
                             variant='contained'
                             disabled={true}
                             sx={{
