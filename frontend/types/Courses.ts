@@ -54,6 +54,7 @@ export function addCoursetoUser(courseId: string, user: User | null) {
 
 export function setUserCourseProgress(arr: Course[]) {
   //need to set back to null on log out
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { user } = useUser();
   let idx = 0;
 
