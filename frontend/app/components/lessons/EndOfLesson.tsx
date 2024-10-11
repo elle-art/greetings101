@@ -1,4 +1,4 @@
-// "Match correct pairs" card of lessons
+// "End" card of lessons
 import { Box, Button, Grid, Typography } from "@mui/material";
 import CurvedTextWithImage from "./CurvedTextWithImage";
 import { useCourses } from "@/utils/courses/CourseContext";
