@@ -47,7 +47,6 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
     useEffect(() => {
         if(selectedWords.length === 2) {
             doWordsMatch(selectedWords);
-            setSelectedWords([]);
         }
     }, [selectedWords]);
 
@@ -174,7 +173,7 @@ const MatchCard = (props: {courseId: string, lessonNo: number, onAdvance: () => 
                 </Grid>
             </Grid>
             <CorrectDiv prompt={prompt || { title: "Correct!", translation: "" }} onAdvance={props.onAdvance} />
-        </div>
+        </div>   
     );
 };
 
