@@ -1,53 +1,80 @@
-import { shuffleArray } from "@/utils/arrayFunctions";
+import { shuffleArray } from "@/utils/courses/lessons/arrayFunctions";
 import { useCourses } from "@/utils/courses/CourseContext";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CorrectDiv from "./CorrectDiv";
 import { Prompts } from "@/types/Courses";
 import IncorrectDiv from "./IncorrectDiv";
+import { calculateAccuracy, countWordsInStr } from "@/utils/courses/lessons/endOfLessonFunctions";
 
-
-const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvance: () => void, currState: number}) => {
+const TranslatePhraseCard = (props: {
+    courseId: string;
+    lessonNo: number;
+    onAdvance: () => void;
+    currState: number;
+    setAccuracy: Dispatch<SetStateAction<number[]>>;
+}) => {
     const { courses } = useCourses();
-    const course = courses.find(c => c.id === props.courseId);
-    const phrase = course?.lessons[props.lessonNo].cards[props.currState].phrase;
-    const buttonOptions = shuffleArray(course?.lessons[props.lessonNo].cards[props.currState].options || []);
-    const correctAnswer = course?.lessons[props.lessonNo].cards[props.currState].correctTranslation;
-    const prompt: Prompts | undefined = course?.lessons[props.lessonNo]?.cards[props.currState]?.correctPrompts;
+    const course = courses.find((c) => c.id === props.courseId);
+    const phrase =
+        course?.lessons[props.lessonNo].cards[props.currState]?.phrase || "";
+    const correctAnswer =
+        course?.lessons[props.lessonNo].cards[props.currState]
+            ?.correctTranslation || "";
+    const prompt: Prompts | undefined =
+        course?.lessons[props.lessonNo]?.cards[props.currState]?.correctPrompts;
 
-    const [options, setOptions] = useState<string[]>(buttonOptions);
+    const [options, setOptions] = useState<string[]>([]);
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
     const [showMessage, setShowMessage] = useState(false);
-    const [answerStatus, setAnswerStatus] = useState<'correct' | 'incorrect' | 'try again'>('try again');
+    const [answerStatus, setAnswerStatus] = useState<"correct" | "incorrect" | "try again">("try again");
     const [attempts, setAttempts] = useState(0);
+    const answerLength = countWordsInStr(correctAnswer);
+    const [correctPredictions, setCorrectPredictions] = useState<number>(answerLength);
+    const [totalPredictions, setTotalPredictions] = useState<number>(answerLength);
+
+    useEffect(() => {
+        // resets card if state changes
+        setAnswerStatus("try again");
+        setAttempts(0);
+        setSelectedWords([]);
+        // sets the user options
+        const buttonOptions = shuffleArray(course?.lessons[props.lessonNo].cards[props.currState]?.options || []);
+        setOptions(buttonOptions);
+    }, [props.currState, course, props.lessonNo]);
 
     //handleOptionClick
     const handleOptionClick = (word: string) => {
-        setSelectedWords(prev => [...prev, word]);
-        setOptions(prev => prev.filter(selected => selected !== word));
+        setSelectedWords((prev) => [...prev, word]);
+        setOptions((prev) => prev.filter((selected) => selected !== word));
     };
+
     //handleSelectedClick
     const handleSelectedClick = (word: string) => {
-        setOptions(prev => [...prev, word]);
-        setSelectedWords(prev => prev.filter(selected => selected !== word));
+        setOptions((prev) => [...prev, word]);
+        setSelectedWords((prev) => prev.filter((selected) => selected !== word));
     };
     //checkAnswer
     const checkAnswer = () => {
-        const concatenatedString = selectedWords.join(' ');
+        const concatenatedString = selectedWords.join(" ");
 
         if (concatenatedString === correctAnswer) {
-            setAnswerStatus('correct');
-          } else if (attempts < 2) {
-            setAttempts(prev => prev + 1);
-            setAnswerStatus('try again');
-          } else {
-            setAnswerStatus('incorrect')
-          }
-    }
+            setAnswerStatus("correct");
+            props.setAccuracy(prevAccuracy => [...prevAccuracy, calculateAccuracy(correctPredictions, totalPredictions)]);
+        } else if (attempts < 2) {
+            setAttempts((prev) => prev + 1);
+            setTotalPredictions(totalPredictions + 1);
+            setAnswerStatus("try again");
+        } else {
+            setAnswerStatus("incorrect");
+            props.setAccuracy(prevAccuracy => [...prevAccuracy, calculateAccuracy(correctPredictions, totalPredictions)]);
+        }
+    };
 
     //try again message
     useEffect(() => {
-        if (answerStatus === 'try again' && attempts > 0) {
+        
+        if (answerStatus === "try again" && attempts > 0) {
             setShowMessage(true);
             const timer = setTimeout(() => {
                 setShowMessage(false);
@@ -57,15 +84,19 @@ const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvan
         }
     }, [answerStatus, attempts]);
 
-    if (answerStatus == 'try again') {
+    if (answerStatus == "try again") {
         return (
             <div>
                 {/* Header and phrase */}
-                <Grid container spacing={1} sx={{
-                    width: "70%",
-                    marginLeft: "15%",
-                    marginRight: "15%",
-                }}> 
+                <Grid
+                    container
+                    spacing={1}
+                    sx={{
+                        width: "70%",
+                        marginLeft: "15%",
+                        marginRight: "15%",
+                    }}
+                >
                     <Grid item xs={12}>
                         <Typography variant="h4" component="div" mt={3}>
                             Translate the following:
@@ -77,44 +108,44 @@ const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvan
                             textAlign="center"
                         >
                             {phrase}
-                      </Typography>
+                        </Typography>
                     </Grid>
                     {/* Selected Words */}
                     <Grid item xs={12}>
                         <Box
                             height={100}
-                            width="100%"
+
                             display="flex"
                             alignItems="flex-end"
-                            sx={{ borderBottom: '2px solid grey' }}
-                            >
+                            sx={{ borderBottom: "2px solid grey", flexWrap: "wrap", }}
+                        >
                             {selectedWords.map((word: string) => (
-                            <Button
-                                key={word}
-                                variant='contained'
-                                onClick={() => handleSelectedClick(word)}
-                                sx={{
-                                    display: 'inline-block',
-                                    margin: '5px',
-                                    textAlign: 'center',
-                                }}
-                            >
-                                {word}
-                            </Button>
+                                <Button
+                                    key={word}
+                                    variant="contained"
+                                    onClick={() => handleSelectedClick(word)}
+                                    sx={{
+                                        display: "inline-block",
+                                        margin: "5px",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    {word}
+                                </Button>
                             ))}
-                        </Box>   
+                        </Box>
                     </Grid>
                     {/* Options */}
                     <Grid item xs={12} mt={2}>
                         {options.map((word: string) => (
                             <Button
                                 key={word}
-                                variant='contained'
+                                variant="contained"
                                 onClick={() => handleOptionClick(word)}
                                 sx={{
-                                    mt: '15px',
-                                    display: 'inline-block',
-                                    margin: '5px',
+                                    mt: "15px",
+                                    display: "inline-block",
+                                    margin: "5px",
                                 }}
                             >
                                 {word}
@@ -129,14 +160,14 @@ const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvan
                             </Typography>
                         )}
                         <Button
-                            variant='contained'
+                            variant="contained"
                             onClick={() => checkAnswer()}
                             sx={{
-                                    mt: '15px',
-                                    width: "50%",
-                                    backgroundColor: 'grey',
-                                }}
-                            >
+                                mt: "15px",
+                                width: "50%",
+                                backgroundColor: "grey",
+                            }}
+                        >
                             Done
                         </Button>
                     </Grid>
@@ -144,15 +175,19 @@ const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvan
             </div>
         );
     }
-    
+
     return (
         <div>
             {/* Header and phrase */}
-            <Grid container spacing={1} sx={{
-                width: "70%",
-                marginLeft: "15%",
-                marginRight: "15%",
-            }}> 
+            <Grid
+                container
+                spacing={1}
+                sx={{
+                    width: "70%",
+                    marginLeft: "15%",
+                    marginRight: "15%",
+                }}
+            >
                 <Grid item xs={12}>
                     <Typography variant="h4" component="div" mt={3}>
                         Translate the following:
@@ -164,7 +199,7 @@ const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvan
                         textAlign="center"
                     >
                         {phrase}
-                  </Typography>
+                    </Typography>
                 </Grid>
                 {/* Selected Words */}
                 <Grid item xs={12}>
@@ -173,35 +208,40 @@ const TranslatePhraseCard = (props: {courseId: string, lessonNo: number, onAdvan
                         width="100%"
                         display="flex"
                         alignItems="flex-end"
-                        sx={{ borderBottom: '2px solid grey' }}
-                        >
+                        sx={{ borderBottom: "2px solid grey" }}
+                    >
                         {selectedWords.map((word: string) => (
-                        <Button
-                            key={word}
-                            variant='contained'
-                            disabled={true}
-                            onClick={() => handleSelectedClick(word)}
-                            sx={{
-                                display: 'inline-block',
-                                margin: '5px',
-                                textAlign: 'center',
-                            }}
-                        >
-                            {word}
-                        </Button>
+                            <Button
+                                key={word}
+                                variant="contained"
+                                disabled={true}
+                                onClick={() => handleSelectedClick(word)}
+                                sx={{
+                                    display: "inline-block",
+                                    margin: "5px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {word}
+                            </Button>
                         ))}
-                    </Box>   
+                    </Box>
                 </Grid>
-                <Grid item xs={12}>  
-                    <Box sx={{width: "125%"}}>        
-                        {answerStatus === 'correct' ? (
+                <Grid item xs={12}>
+                    <Box sx={{ width: "125%" }}>
+                        {answerStatus === "correct" ? (
                             <CorrectDiv
-                                prompt={prompt || { title: "¡Correcto!", translation: "Correct!" }}
+                                prompt={
+                                    prompt || { title: "¡Correcto!", translation: "Correct!" }
+                                }
                                 onAdvance={props.onAdvance}
                             />
                         ) : (
                             <IncorrectDiv
-                                prompt={{ title: "¡Incorrecto!", translation: correctAnswer || ""}}
+                                prompt={{
+                                    title: "¡Incorrecto!",
+                                    translation: correctAnswer || "",
+                                }}
                                 onAdvance={props.onAdvance}
                             />
                         )}
