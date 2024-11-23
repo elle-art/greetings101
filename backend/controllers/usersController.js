@@ -91,7 +91,6 @@ const signup = (req, res) => {
 
     writeUsersDataFile(users);
 
-
     res.status(201).json({ message: 'Signup successful' });
 };
 

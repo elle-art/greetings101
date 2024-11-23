@@ -9,15 +9,18 @@ import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 import { updateUserLessonProgress } from "@/types/Courses";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/utils/user/UserContext";
+import { calculateAverage } from "@/utils/courses/lessons/endOfLessonFunctions";
 
 const EndOfLesson = (props: {
   courseId: string;
   lessonNo: number;
+  accuracyArray: number[];
 }) => {
   const { user, setUser } = useUser();
   const { courses } = useCourses();
   const course = courses.find((c) => c.id === props.courseId);
   const router = useRouter();
+  const lessonAccuracy = calculateAverage(props.accuracyArray);
 
   function completeLesson() {
     if (user) {
@@ -55,7 +58,7 @@ const EndOfLesson = (props: {
           <Box display="flex" alignItems="center" mt={2}>
             <TrackChangesIcon sx={{ marginRight: 1, mt: "8px" }} />
             <Typography mt={1} fontSize="20px" fontWeight={400}>
-              94% accuracy
+              {lessonAccuracy}% accuracy
             </Typography>
           </Box>
         </Grid>

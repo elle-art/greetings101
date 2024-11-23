@@ -7,7 +7,8 @@ import { useCourses } from "@/utils/courses/CourseContext";
 import TranslatePhraseCard from "@/app/components/lessons/TranslatePhraseCard";
 import EndOfLesson from "@/app/components/lessons/EndOfLesson";
 import { API_BASE_URL, LESSONS_ENDPOINT } from "@/utils/constants";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { run } from "node:test";
 
 interface lessonData {
   component: "MatchCard" | "TranslatePhraseCard" | "EndOfLesson";
@@ -24,6 +25,10 @@ const Lesson = () => {
   const { courses } = useCourses();
   const course = courses.find((c) => c.id === courseId);
   const [lessonData, setLessonData] = useState<lessonData | null>(null);
+  const [accuracy, setAccuracy] = useState<number[]>([]);
+  const runningRef = useRef(false);
+  const timerRef = useRef(0);
+  const intervalRef = useRef<number | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +40,33 @@ const Lesson = () => {
     };
 
     fetchData();
-  }, [courseId, lessonNoAsNumber, state]);
+    // timer
+    if (state === 0) {
+      runningRef.current = true;
+      if (!intervalRef.current) {
+        intervalRef.current = window.setInterval(() => {
+          if (runningRef.current) {
+            timerRef.current += 1000;
+
+          }
+        }, 1000);
+      }
+    }
+
+    if (lessonData?.component === "EndOfLesson") {
+      runningRef.current = false;
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [courseId, lessonNoAsNumber, state, lessonData?.component]);
 
   const renderState = async () => {
     if (!lessonData) return null;
@@ -48,6 +79,7 @@ const Lesson = () => {
             lessonNo={lessonData.lessonNo}
             onAdvance={advanceState}
             currState={state}
+            setAccuracy={setAccuracy}
           />
         );
       case "TranslatePhraseCard":
@@ -57,11 +89,12 @@ const Lesson = () => {
             lessonNo={lessonData.lessonNo}
             onAdvance={advanceState}
             currState={state}
+            setAccuracy={setAccuracy}
           />
         );
       case "EndOfLesson":
         return (
-          <EndOfLesson courseId={lessonData.courseId} lessonNo={lessonData.lessonNo} />
+          <EndOfLesson courseId={lessonData.courseId} lessonNo={lessonData.lessonNo} accuracyArray={accuracy} />
         );
       default:
         return null;

@@ -123,7 +123,7 @@ const courses = [
           { eng: "How are you?", span: "¿Cómo estás?" },
           { eng: "Do you understand?", span: "¿Entiendes?" },
           { eng: "Yes", span: "Sí" },
-          { eng: "No", span: "No" },
+          { eng: "No", span: "No " },
           { eng: "I don’t know", span: "No sé" },
           { eng: "Good", span: "Bien" },
           { eng: "Bad", span: "Mal" },
@@ -143,7 +143,7 @@ const courses = [
           },
           {
             phrase: "Very good! And you?",
-            options: ["Sí", "Muy", "y", "tú", "estás", "bien", "buenos"],
+            options: ["Sí", "Muy", "Y", "tú", "estás", "bien", "buenos"],
             correctTranslation: "Muy bien Y tú",
             correctPrompts: {
               title: "¡Muy bien!",
@@ -190,7 +190,7 @@ const courses = [
             },
           },
           {
-            phrase: "My name is Mark. ¿Entiendes? ¿Sí o no?",
+            phrase: "Me llamo Mark. ¿Entiendes? ¿Sí o no?",
             options: ["My", "name", "is", "Mark", "Do", "you", "understand", "Yes", "or", "no", "please", "thank",],
             correctTranslation: "My name is Mark Do you understand Yes or no",
             correctPrompts: {
@@ -381,7 +381,7 @@ const courses = [
           {
             phrase: "¡Muy bien! ¡Hasta luego!",
             options: ["Very", "good", "See", "you", "later", "yes", "How", "have"],
-            correctTranslation: "Very good See you soon",
+            correctTranslation: "Very good See you later",
             correctPrompts: {
               title: "¡Muy bien!",
               translation: "Very good!",
