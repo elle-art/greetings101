@@ -31,7 +31,7 @@ export const ToggleColorModeProvider = ({ children }: ToggleColorModeProviderPro
 
     const updatedUser = { ...user, preferences: { ...user.preferences, darkModePref: mode }};
 
-    const response = await fetch(`${API_BASE_URL}${UPDATE_USER_ENDPOINT}${user.id}`, {
+    const response = await fetch(`${API_BASE_URL}${UPDATE_USER_ENDPOINT}${user.id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

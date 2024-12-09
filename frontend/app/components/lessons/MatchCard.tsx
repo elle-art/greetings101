@@ -15,6 +15,8 @@ const MatchCard = (props: {
   setAccuracy: Dispatch<SetStateAction<number[]>>;
 }) => {
   const { courses } = useCourses();
+
+  console.log("courses in match card:", courses);
   const course = courses.find((c) => c.id === props.courseId);
   const [leftArray, setLeftArray] = useState<string[]>([]);
   const [rightArray, setRightArray] = useState<string[]>([]);
@@ -29,9 +31,9 @@ const MatchCard = (props: {
     if (course) {
       const cardWordsArray: vocabWord[] = [];
       const wordsIndices =
-        course?.lessons[props.lessonNo]?.cards[props.currState].wordsIndices ??
+        course?.lessons[props.lessonNo]?.cards[props.currState].words_indices ??
         [];
-
+        console.log("courses in match card:", courses);
       for (const index of wordsIndices) {
         const word = course?.lessons[props.lessonNo]?.words[index];
         if (word) {
@@ -95,7 +97,7 @@ const MatchCard = (props: {
   const isWordSelected = (word: string) => selectedWords.includes(word);
   const isWordMatched = (word: string) => matchedWords.includes(word);
   const prompt: Prompts | undefined =
-    course?.lessons[props.lessonNo]?.cards[props.currState]?.correctPrompts;
+    course?.lessons[props.lessonNo]?.cards[props.currState]?.correct_prompts;
 
   if (!isAllMatched) {
     return (

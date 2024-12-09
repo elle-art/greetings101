@@ -8,7 +8,6 @@ import TranslatePhraseCard from "@/app/components/lessons/TranslatePhraseCard";
 import EndOfLesson from "@/app/components/lessons/EndOfLesson";
 import { API_BASE_URL, LESSONS_ENDPOINT } from "@/utils/constants";
 import { useEffect, useRef, useState } from "react";
-import { run } from "node:test";
 
 interface lessonData {
   component: "MatchCard" | "TranslatePhraseCard" | "EndOfLesson";
@@ -32,14 +31,18 @@ const Lesson = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("Fetching data from URL:", `${API_BASE_URL}${LESSONS_ENDPOINT}${courseId}/${lessonNoAsNumber}/${state}`);
+
       const response = await fetch(
-        `${API_BASE_URL}${LESSONS_ENDPOINT}${courseId}&lessonNo=${lessonNoAsNumber}&state=${state}`
+        `${API_BASE_URL}${LESSONS_ENDPOINT}${courseId}/${lessonNoAsNumber}/${state}`,
       );
       const data = await response.json();
       setLessonData(data);
     };
 
     fetchData();
+    console.log("Lesson data:", lessonData);
+
     // timer
     if (state === 0) {
       runningRef.current = true;
