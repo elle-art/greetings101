@@ -24,11 +24,11 @@ export interface vocabWord {
 }
 
 export interface lessonCard {
-  wordsIndices?: number[];
+  words_indices?: number[];
   phrase?: string;
   options?: string[];
-  correctTranslation?: string;
-  correctPrompts: Prompts;
+  correct_translation?: string;
+  correct_prompts: Prompts;
 }
 
 export interface Prompts {

@@ -20,9 +20,9 @@ const TranslatePhraseCard = (props: {
         course?.lessons[props.lessonNo].cards[props.currState]?.phrase || "";
     const correctAnswer =
         course?.lessons[props.lessonNo].cards[props.currState]
-            ?.correctTranslation || "";
+            ?.correct_translation || "";
     const prompt: Prompts | undefined =
-        course?.lessons[props.lessonNo]?.cards[props.currState]?.correctPrompts;
+        course?.lessons[props.lessonNo]?.cards[props.currState]?.correct_prompts;
 
     const [options, setOptions] = useState<string[]>([]);
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
