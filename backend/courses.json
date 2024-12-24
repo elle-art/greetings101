@@ -1,0 +1,992 @@
+[
+  {
+    "model": "backendDB.course",
+    "pk": "span101",
+    "fields": {
+      "name": "Spanish 101: The Basics",
+      "shortname": "SPAN 101",
+      "length": "30 min",
+      "description": "A-B-C! Easy as 1-2-3!"
+    }
+  },
+  {
+    "model": "backendDB.lesson",
+    "pk": 1,
+    "fields": {
+      "course": "span101",
+      "name": "Greetings"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 1,
+    "fields": {
+      "lesson": 1,
+      "eng": "Hello",
+      "span": "Hola"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 2,
+    "fields": {
+      "lesson": 1,
+      "eng": "Goodbye",
+      "span": "Adiós"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 3,
+    "fields": {
+      "lesson": 1,
+      "eng": "What’s your name? (informal)",
+      "span": "¿Cómo te llamas?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 4,
+    "fields": {
+      "lesson": 1,
+      "eng": "What’s your name? (formal)",
+      "span": "¿Cómo se llama?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 5,
+    "fields": {
+      "lesson": 1,
+      "eng": "My name is ___",
+      "span": "Me llamo ___"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 6,
+    "fields": {
+      "lesson": 1,
+      "eng": "Good morning",
+      "span": "Buenos dias"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 7,
+    "fields": {
+      "lesson": 1,
+      "eng": "Good afternoon",
+      "span": "Buenas tardes"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 8,
+    "fields": {
+      "lesson": 1,
+      "eng": "Good evening",
+      "span": "Buenas noches"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 9,
+    "fields": {
+      "lesson": 1,
+      "eng": "Have a good day!",
+      "span": "¡Que tengas un buen día!"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 10,
+    "fields": {
+      "lesson": 1,
+      "eng": "sir",
+      "span": "señor"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 11,
+    "fields": {
+      "lesson": 1,
+      "eng": "ma'am",
+      "span": "señora"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 12,
+    "fields": {
+      "lesson": 1,
+      "eng": "friend",
+      "span": "amigo"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 13,
+    "fields": {
+      "lesson": 1,
+      "eng": "friends",
+      "span": "amigos"
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 1,
+    "fields": {
+      "lesson": 1,
+      "words_indices": [0, 1],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 2,
+    "fields": {
+      "lesson": 1,
+      "phrase": "Hola! ¿Cómo te llamas?",
+      "options": ["Hello", "What's", "your", "name", "how", "me"],
+      "correct_translation": "Hello What's your name",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 3,
+    "fields": {
+      "lesson": 1,
+      "words_indices": [0, 1],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 4,
+    "fields": {
+      "lesson": 1,
+      "phrase": "My name is John.",
+      "options": ["Me", "llamo", "John", "Hola", "siento", "dia"],
+      "correct_translation": "Me llamo John",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 5,
+    "fields": {
+      "lesson": 1,
+      "words_indices": [0, 1, 5, 6, 7],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 6,
+    "fields": {
+      "lesson": 1,
+      "phrase": "Good evening, my name is Juan",
+      "options": ["Buenos", "noches", "me", "llamo", "Juan", "dias", "tardes", "beun"],
+      "correct_translation": "Buenos noches me llamo Juan",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 7,
+    "fields": {
+      "lesson": 1,
+      "words_indices": [0, 1],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 8,
+    "fields": {
+      "lesson": 1,
+      "phrase": "Buenos dias señora. ¿Cómo se llama?",
+      "options": ["Good", "morning", "ma'am", "What's", "your", "name", "afternoon", "day", "sir"],
+      "correct_translation": "Good morning ma'am What's your name",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 9,
+    "fields": {
+      "lesson": 1,
+      "phrase": "Good afternoon friends! Have a good day!",
+      "options": ["Buenas", "tardes", "amigos", "Que", "tengas", "un", "buen", "dia", "beunos", "dias", "señor", "llama", "adiós"],
+      "correct_translation": "Buenas tardes amigos Que tengas un buen dia",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!",
+        "note": [
+          "amigo means friend (masculine)",
+          "amiga means friend (feminine)",
+          "Plural forms: amigos, amigas"
+        ]
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 10,
+    "fields": {
+      "lesson": 1,
+      "words_indices": [9, 10, 11, 12],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.lesson",
+    "pk": 2,
+    "fields": {
+      "course": "span101",
+      "name": "Simple answers"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 14,
+    "fields": {
+      "lesson": 2,
+      "eng": "How are you?",
+      "span": "¿Cómo estás?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 15,
+    "fields": {
+      "lesson": 2,
+      "eng": "Do you understand?",
+      "span": "¿Entiendes?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 16,
+    "fields": {
+      "lesson": 2,
+      "eng": "Yes",
+      "span": "Sí"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 17,
+    "fields": {
+      "lesson": 2,
+      "eng": "No",
+      "span": "No "
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 18,
+    "fields": {
+      "lesson": 2,
+      "eng": "I don't know",
+      "span": "No sé"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 19,
+    "fields": {
+      "lesson": 2,
+      "eng": "Good",
+      "span": "Bien"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 20,
+    "fields": {
+      "lesson": 2,
+      "eng": "Bad",
+      "span": "Mal"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 21,
+    "fields": {
+      "lesson": 2,
+      "eng": "Very good",
+      "span": "Muy bien"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 22,
+    "fields": {
+      "lesson": 2,
+      "eng": "So-so",
+      "span": "Más o menos"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 23,
+    "fields": {
+      "lesson": 2,
+      "eng": "And you?",
+      "span": "¿Y tú?"
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 11,
+    "fields": {
+      "lesson": 2,
+      "phrase": "Hola! ¿Cómo estás?",
+      "options": ["Hello", "have", "you", "are", "How", "day", "my"],
+      "correct_translation": "Hello How are you",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 12,
+    "fields": {
+      "lesson": 2,
+      "phrase": "Very good! And you?",
+      "options": ["Sí", "Muy", "Y", "tú", "estás", "bien", "buenos"],
+      "correct_translation": "Muy bien Y tú",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 13,
+    "fields": {
+      "lesson": 2,
+      "words_indices": [15, 16, 17],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 14,
+    "fields": {
+      "lesson": 2,
+      "phrase": "¿Entiendes?",
+      "options": ["Do", "are", "you", "how", "understand"],
+      "correct_translation": "Do you understand",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 15,
+    "fields": {
+      "lesson": 2,
+      "words_indices": [15, 16, 17],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 16,
+    "fields": {
+      "lesson": 2,
+      "words_indices": [15, 16, 17, 18, 19, 20, 21],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 17,
+    "fields": {
+      "lesson": 2,
+      "phrase": "¡Buenas tardes! ¿Cómo estás?",
+      "options": ["Good", "bad", "How", "are", "Hello", "day", "my", "afternoon", "very", "you"],
+      "correct_translation": "Good afternoon How are you",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 18,
+    "fields": {
+      "lesson": 2,
+      "phrase": "Me llamo Mark. ¿Entiendes? ¿Sí o no?",
+      "options": ["My", "name", "is", "Mark", "Do", "you", "understand", "Yes", "or", "no", "please", "thank"],
+      "correct_translation": "My name is Mark Do you understand Yes or no",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.lesson",
+    "pk": 3,
+    "fields": {
+      "course": "span101",
+      "name": "Mind your Ps and Qs!"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 24,
+    "fields": {
+      "lesson": 3,
+      "eng": "Please",
+      "span": "Por favor"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 25,
+    "fields": {
+      "lesson": 3,
+      "eng": "Thank you",
+      "span": "Gracias"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 26,
+    "fields": {
+      "lesson": 3,
+      "eng": "Of course",
+      "span": "Claro"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 27,
+    "fields": {
+      "lesson": 3,
+      "eng": "You’re welcome",
+      "span": "De nada"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 28,
+    "fields": {
+      "lesson": 3,
+      "eng": "Pardon me",
+      "span": "Perdón"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 29,
+    "fields": {
+      "lesson": 3,
+      "eng": "I’m sorry",
+      "span": "Lo siento"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 30,
+    "fields": {
+      "lesson": 3,
+      "eng": "Nice to meet you!",
+      "span": "¡Mucho gusto!"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 31,
+    "fields": {
+      "lesson": 3,
+      "eng": "Are you ok? (informal)",
+      "span": "¿Estás bien?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 32,
+    "fields": {
+      "lesson": 3,
+      "eng": "Can you help me? (formal)",
+      "span": "¿Me puede ayudar?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 33,
+    "fields": {
+      "lesson": 3,
+      "eng": "Can I help you? (formal)",
+      "span": "¿Le puedo ayudar?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 34,
+    "fields": {
+      "lesson": 3,
+      "eng": "Excuse me",
+      "span": "Disculpe"
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 19,
+    "fields": {
+      "lesson": 3,
+      "words_indices": [23, 24, 25, 26, 27],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 20,
+    "fields": {
+      "lesson": 3,
+      "phrase": "Disculpe. ¿Me puede ayudar?",
+      "options": ["Excuse", "me", "Can", "you", "help", "me", "my", "day", "how"],
+      "correct_translation": "Excuse me Can you help me",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 21,
+    "fields": {
+      "lesson": 3,
+      "phrase": "Hi! Can I help you?",
+      "options": ["Hola", "Le", "puedo", "ayudar", "claro", "gracias", "bien", "muy"],
+      "correct_translation": "Hola Le puedo ayudar",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 22,
+    "fields": {
+      "lesson": 3,
+      "words_indices": [25, 26, 27, 28, 33],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 23,
+    "fields": {
+      "lesson": 3,
+      "phrase": "¡Mucho gusto! ¿Cómo se llama?",
+      "options": ["Nice", "to", "meet", "you", "What's", "your", "name", "thank", "good", "my"],
+      "correct_translation": "Nice to meet you What's your name",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 24,
+    "fields": {
+      "lesson": 3,
+      "phrase": "¿Estás bien?",
+      "options": ["Are", "you", "ok", "course", "Excuse", "me", "of"],
+      "correct_translation": "Are you ok",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 25,
+    "fields": {
+      "lesson": 3,
+      "words_indices": [25, 26, 27, 28, 33],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.lesson",
+    "pk": 4,
+    "fields": {
+      "course": "span101",
+      "name": "Questions"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 35,
+    "fields": {
+      "lesson": 4,
+      "eng": "Who?",
+      "span": "¿Quién?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 36,
+    "fields": {
+      "lesson": 4,
+      "eng": "What?",
+      "span": "¿Qué?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 37,
+    "fields": {
+      "lesson": 4,
+      "eng": "When?",
+      "span": "¿Cuándo?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 38,
+    "fields": {
+      "lesson": 4,
+      "eng": "Where?",
+      "span": "¿Dónde?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 39,
+    "fields": {
+      "lesson": 4,
+      "eng": "Why?",
+      "span": "¿Por qué?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 40,
+    "fields": {
+      "lesson": 4,
+      "eng": "How?",
+      "span": "¿Cómo?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 41,
+    "fields": {
+      "lesson": 4,
+      "eng": "How much?",
+      "span": "¿Cuánto?"
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 26,
+    "fields": {
+      "lesson": 4,
+      "words_indices": [34, 35, 36, 37, 38],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 27,
+    "fields": {
+      "lesson": 4,
+      "words_indices": [34, 35, 36, 37, 38],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 28,
+    "fields": {
+      "lesson": 3,
+      "phrase": "¿Cómo estás?",
+      "options": ["How", "are", "you", "name", "day", "is", "what"],
+      "correct_translation": "How are you",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 29,
+    "fields": {
+      "lesson": 4,
+      "phrase": "¿Cómo se llama?",
+      "options": ["What's", "your", "you", "name", "day", "are", "How"],
+      "correct_translation": "What's your name",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!",
+        "note": [
+            "Notice that in this instance cómo translates to what rather than how"
+          ]
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 30,
+    "fields": {
+      "lesson": 4,
+      "words_indices": [36, 37, 38, 39],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 31,
+    "fields": {
+      "lesson": 4,
+      "phrase": "¿Cuánto?",
+      "options": ["How", "much", "When", "where", "why", "you"],
+      "correct_translation": "How much",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.lesson",
+    "pk": 5,
+    "fields": {
+      "course": "span101",
+      "name": "Last one, best one"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 42,
+    "fields": {
+      "lesson": 5,
+      "eng": "Where is the bathroom?",
+      "span": "¿Dónde está el baño?"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 43,
+    "fields": {
+      "lesson": 5,
+      "eng": "I don’t know much Spanish",
+      "span": "No sé mucho español"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 44,
+    "fields": {
+      "lesson": 5,
+      "eng": "See you soon!",
+      "span": "¡Hasta pronto!"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 45,
+    "fields": {
+      "lesson": 5,
+      "eng": "See you later!",
+      "span": "¡Hasta luego!"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 46,
+    "fields": {
+      "lesson": 5,
+      "eng": "Nice to meet you!",
+      "span": "¡Mucho gusto!"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 47,
+    "fields": {
+      "lesson": 5,
+      "eng": "Good evening",
+      "span": "Buenas noches"
+    }
+  },
+  {
+    "model": "backendDB.word",
+    "pk": 48,
+    "fields": {
+      "lesson": 5,
+      "eng": "Have a good day!",
+      "span": "¡Que tengas un buen día!"
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 32,
+    "fields": {
+      "lesson": 5,
+      "phrase": "¿Dónde está el baño?",
+      "options": ["Where", "is", "the", "bathroom", "When", "how", "you", "are"],
+      "correct_translation": "Where is the bathroom",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 33,
+    "fields": {
+      "lesson": 5,
+      "words_indices": [43, 44, 45, 46, 47],
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 34,
+    "fields": {
+      "lesson": 5,
+      "phrase": "Sorry. I don’t know much Spanish.",
+      "options": ["Lo", "siento", "No", "sé", "mucho", "español", "que", "cuánto", "puedo", "por", "muy"],
+      "correct_translation": "Lo siento No sé mucho español",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.card",
+    "pk": 35,
+    "fields": {
+      "lesson": 5,
+      "phrase": "¡Muy bien! ¡Hasta luego!",
+      "options": ["Very", "good", "See", "you", "later", "yes", "How", "have"],
+      "correct_translation": "Very good See you later",
+      "correct_prompts": {
+        "title": "¡Muy bien!",
+        "translation": "Very good!"
+      }
+    }
+  },
+  {
+    "model": "backendDB.course",
+    "pk": "asl101",
+    "fields": {
+      "name": "American Sign Language 101: The Basics",
+      "shortname": "ASL 101",
+      "length": "30 min",
+      "description": "A-B-C! Easy as 1-2-3!"
+    }
+  },
+  {
+    "model": "backendDB.course",
+    "pk": "asl102",
+    "fields": {
+      "name": "American Sign Language 102: The Alphabet",
+      "shortname": "ASL 102",
+      "length": "30 min",
+      "description": "A-B-C! Easy as 1-2-3!"
+    }
+  },
+  {
+    "model": "backendDB.course",
+    "pk": "asl103",
+    "fields": {
+      "name": "American Sign Language 103: Numbers",
+      "shortname": "ASL 103",
+      "length": "10 min",
+      "description": "A-B-C! Easy as 1-2-3!"
+    }
+  },
+  {
+    "model": "backendDB.course",
+    "pk": "span102",
+    "fields": {
+      "name": "Spanish 102: Numbers",
+      "shortname": "SPAN 102",
+      "length": "20 min",
+      "description": "A-B-C! Easy as 1-2-3!"
+    }
+  }
+]

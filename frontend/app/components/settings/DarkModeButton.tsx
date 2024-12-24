@@ -14,17 +14,22 @@ const DarkModeButton = () => {
     <Box
       sx={{
         display: 'flex',
-        width: '100%',
+        width: '200px',
         alignItems: 'center',
         justifyContent: 'center',
         bgcolor: 'background.default',
         color: 'text.primary',
         borderRadius: 1,
-        p: 3,
+        p: 1,
+        mt: 3,
+        border: '2px solid white',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        cursor: 'pointer',
       }}
+      onClick={colorMode.toggleColorMode}
     >
       {theme.palette.mode} mode
-      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+      <IconButton sx={{ ml: 1 }} color="inherit">
         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Box>

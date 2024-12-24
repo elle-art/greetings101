@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CorrectDiv from "./CorrectDiv";
 import { separateWordArray, shuffleArray } from "@/utils/courses/lessons/arrayFunctions";
 import { calculateAccuracy } from "@/utils/courses/lessons/endOfLessonFunctions";
+import { useUser } from "@/utils/user/UserContext";
 
 const MatchCard = (props: {
   courseId: string;
@@ -13,11 +14,13 @@ const MatchCard = (props: {
   onAdvance: () => void;
   currState: number;
   setAccuracy: Dispatch<SetStateAction<number[]>>;
+  setMistakes: Dispatch<SetStateAction<number>>;
 }) => {
+  const { user } = useUser();
+  const userCourseData = user?.courses.active_courses.find((course) => course.id === props.courseId);
   const { courses } = useCourses();
-
-  console.log("courses in match card:", courses);
   const course = courses.find((c) => c.id === props.courseId);
+  const lesson = course?.lessons.find((lesson) => lesson.lesson_no === props.lessonNo);
   const [leftArray, setLeftArray] = useState<string[]>([]);
   const [rightArray, setRightArray] = useState<string[]>([]);
   const [matchedWords, setMatchedWords] = useState<string[]>([]);
@@ -30,12 +33,9 @@ const MatchCard = (props: {
   useEffect(() => {
     if (course) {
       const cardWordsArray: vocabWord[] = [];
-      const wordsIndices =
-        course?.lessons[props.lessonNo]?.cards[props.currState].words_indices ??
-        [];
-        console.log("courses in match card:", courses);
+      const wordsIndices = lesson?.cards[props.currState]?.words_indices ?? [];
       for (const index of wordsIndices) {
-        const word = course?.lessons[props.lessonNo]?.words[index];
+        const word = lesson?.words[index];
         if (word) {
           cardWordsArray.push(word);
         }
@@ -54,10 +54,10 @@ const MatchCard = (props: {
         cardWordsArray.length = 0;
       }
     }
-  }, [course, props.lessonNo, leftArray.length]);
+  }, [course, leftArray.length, /* eslint-disable-line react-hooks/exhaustive-deps */]);
 
   function doWordsMatch(arr: string[]) {
-    for (const vocabWord of course?.lessons[props.lessonNo]?.words ?? []) {
+    for (const vocabWord of lesson?.words ?? []) {
       if (
         (arr[0] === vocabWord.eng && arr[1] === vocabWord.span) ||
         (arr[0] === vocabWord.span && arr[1] === vocabWord.eng)
@@ -75,7 +75,7 @@ const MatchCard = (props: {
       doWordsMatch(selectedWords);
       setSelectedWords([]);
     }
-  }, [selectedWords]);
+  }, [selectedWords, /* eslint-disable-line react-hooks/exhaustive-deps */]);
 
   useEffect(() => {
     if (
@@ -84,20 +84,21 @@ const MatchCard = (props: {
     ) {
       setIsAllMatched(true);
       props.setAccuracy(prevAccuracy => [...prevAccuracy, calculateAccuracy(correctPredictions, totalPredictions)]);
+      props.setMistakes(prevMistakes => prevMistakes + (totalPredictions - correctPredictions));
+
     }
-  }, [matchedWords, leftArray.length]);
+  }, [matchedWords, leftArray.length, /* eslint-disable-line react-hooks/exhaustive-deps */]);
 
   const handleClick = (word: string) => {
     if (selectedWords.length < 2) {
       setSelectedWords((prev) => [...prev, word]);
-      console.log(selectedWords);
     }
   };
 
   const isWordSelected = (word: string) => selectedWords.includes(word);
   const isWordMatched = (word: string) => matchedWords.includes(word);
   const prompt: Prompts | undefined =
-    course?.lessons[props.lessonNo]?.cards[props.currState]?.correct_prompts;
+    lesson?.cards[props.currState]?.correct_prompts;
 
   if (!isAllMatched) {
     return (

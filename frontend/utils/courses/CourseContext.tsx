@@ -1,5 +1,5 @@
 // Initializes course-related objects for app functions
-// Sets courses [], myCourses [], inactiveCourses [], completedCourses []
+// Sets courses [], myCourses [], inactive_courses [], completed_courses []
 "use client";
 import { Course } from "@/types/Courses";
 import { User } from "@/types/User";
@@ -17,16 +17,16 @@ interface CourseContextProps {
   user: User | null;
   courses: Course[];
   myCourses: Course[];
-  inactiveCourses: Course[];
-  completedCourses: Course[];
+  inactive_courses: Course[];
+  completed_courses: Course[];
 }
 
 const CourseContext = createContext<CourseContextProps>({
   user: null,
   courses: [],
   myCourses: [],
-  inactiveCourses: [],
-  completedCourses: [],
+  inactive_courses: [],
+  completed_courses: [],
 });
 
 interface CourseProviderProps {
@@ -36,8 +36,8 @@ interface CourseProviderProps {
 export const CourseProvider = ({ children }: CourseProviderProps) => {
   const { user } = useUser();
   const [myCourses, setMyCourses] = useState<Course[] | []>([]);
-  const [inactiveCourses, setInactiveCourses] = useState<Course[] | []>([]);
-  const [completedCourses, setCompletedCourses] = useState<Course[] | []>([]);
+  const [inactive_courses, setInactive_courses] = useState<Course[] | []>([]);
+  const [completed_courses, setCompleted_courses] = useState<Course[] | []>([]);
   const [courses, setCourses] = useState<Course[] | []>([]);
 
   const fetchCourses = async () => {
@@ -58,7 +58,7 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
   }, []);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || courses.length === 0) {
       return;
     }
 
@@ -68,26 +68,38 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
 
     for (const course of courses) {
       //add push loop for completed courses - add condition for inactive courses below [ if not in completed[] ]
-      const activeCourseId = user.courses.activeCourses.find(
+      const active_courseId = user.courses.active_courses.find(
         (c) => c.id === course.id
       );
 
-      if (activeCourseId) {
+      if (active_courseId) {
         active.push(course);
         index++;
       } else if (
-        !active.find((activeCourse) => activeCourse.id === course.id)
+        !active.find((active_course) => active_course.id === course.id)
       ) {
         inactive.push(course);
       }
     }
-    setMyCourses(active);
-    setInactiveCourses(inactive);
+
+    setMyCourses((prev) => {
+      if (JSON.stringify(prev) !== JSON.stringify(active)) {
+        return active;
+      }
+      return prev;
+    });
+
+    setInactive_courses((prev) => {
+      if (JSON.stringify(prev) !== JSON.stringify(inactive)) {
+        return inactive;
+      }
+      return prev;
+    });
   }, [user, courses]);
 
   return (
     <CourseContext.Provider
-      value={{ user, myCourses, inactiveCourses, completedCourses, courses }}
+      value={{ user, myCourses, inactive_courses, completed_courses, courses }}
     >
       {children}
     </CourseContext.Provider>

@@ -15,15 +15,22 @@ import {
 import {
   IconChevronDown,
 } from "@tabler/icons-react";
-import getPfp from "@/utils/user/getPfp";
 import { useUser } from "@/utils/user/UserContext";
 import { getUserFromLocalStorage } from "@/utils/user/getUser";
+import { API_BASE_URL } from "@/utils/constants";
+import useFetchPfp from "@/utils/user/getPfp";
 
 const Profile = () => {
   const { user } = useUser();
   const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
-  const { imageLink, alt } = getPfp(user?.preferences.pfpId || "default");
+  const { pfp } = useFetchPfp();
 
+  if (!pfp) {
+    return <p>Loading profile picture...</p>;
+  }
+
+    const pfpUrl = `${API_BASE_URL}${pfp.url}`
+  
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
   };
@@ -55,8 +62,8 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={imageLink}
-          alt={alt}
+          src={pfpUrl}
+          alt={pfp.description}
           sx={{
             width: 30,
             height: 30,

@@ -13,16 +13,17 @@ const TranslatePhraseCard = (props: {
     onAdvance: () => void;
     currState: number;
     setAccuracy: Dispatch<SetStateAction<number[]>>;
+    setMistakes: Dispatch<SetStateAction<number>>;
 }) => {
     const { courses } = useCourses();
     const course = courses.find((c) => c.id === props.courseId);
+    const lesson = course?.lessons.find((lesson) => lesson.lesson_no === props.lessonNo);
     const phrase =
-        course?.lessons[props.lessonNo].cards[props.currState]?.phrase || "";
+        lesson?.cards[props.currState]?.phrase || "";
     const correctAnswer =
-        course?.lessons[props.lessonNo].cards[props.currState]
-            ?.correct_translation || "";
+        lesson?.cards[props.currState]?.correct_translation || "";
     const prompt: Prompts | undefined =
-        course?.lessons[props.lessonNo]?.cards[props.currState]?.correct_prompts;
+        lesson?.cards[props.currState]?.correct_prompts;
 
     const [options, setOptions] = useState<string[]>([]);
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -39,9 +40,9 @@ const TranslatePhraseCard = (props: {
         setAttempts(0);
         setSelectedWords([]);
         // sets the user options
-        const buttonOptions = shuffleArray(course?.lessons[props.lessonNo].cards[props.currState]?.options || []);
+        const buttonOptions = shuffleArray(lesson?.cards[props.currState]?.options || []);
         setOptions(buttonOptions);
-    }, [props.currState, course, props.lessonNo]);
+    }, [props.currState, lesson?.cards]);
 
     //handleOptionClick
     const handleOptionClick = (word: string) => {
@@ -61,6 +62,7 @@ const TranslatePhraseCard = (props: {
         if (concatenatedString === correctAnswer) {
             setAnswerStatus("correct");
             props.setAccuracy(prevAccuracy => [...prevAccuracy, calculateAccuracy(correctPredictions, totalPredictions)]);
+            props.setMistakes(prevMistakes => prevMistakes + (totalPredictions - correctPredictions));
         } else if (attempts < 2) {
             setAttempts((prev) => prev + 1);
             setTotalPredictions(totalPredictions + 1);
@@ -68,6 +70,8 @@ const TranslatePhraseCard = (props: {
         } else {
             setAnswerStatus("incorrect");
             props.setAccuracy(prevAccuracy => [...prevAccuracy, calculateAccuracy(correctPredictions, totalPredictions)]);
+            props.setMistakes(prevMistakes => prevMistakes + (totalPredictions - correctPredictions));
+
         }
     };
 

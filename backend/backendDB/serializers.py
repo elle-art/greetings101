@@ -4,6 +4,7 @@ from rest_framework import serializers
 class WordSerializer(serializers.Serializer):
     eng = serializers.CharField()
     span = serializers.CharField()
+    asl = serializers.FileField()
 
 # Card serializer
 class CardSerializer(serializers.Serializer):
