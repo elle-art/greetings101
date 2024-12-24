@@ -6,12 +6,12 @@ import { useUser } from "@/utils/user/UserContext";
 import { addCoursetoUser } from "@/types/Courses";
 
 const InactiveCourseCard = () => {
-  const { inactiveCourses } = useCourses();
+  const { inactive_courses } = useCourses();
   const { user } = useUser();
 
   return (
     <Grid container spacing={3}>
-      {inactiveCourses.map((course) => (
+      {inactive_courses.map((course) => (
         <Grid item xs={6} sm={6} md={6} key={course.id}>
           <Card sx={{
             p:0,

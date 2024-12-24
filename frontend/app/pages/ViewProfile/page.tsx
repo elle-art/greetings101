@@ -22,14 +22,7 @@ const UserProfile = () => {
                 </Grid>
                 {/* ------- Buttons ------------*/}
                 <Grid item xs={2} mt={16}>
-                  <Button variant="contained" color="primary" href='pages/Login' sx={{
-                        width: '100px',
-                        marginTop: '10px',
-                        marginLeft: '30%',
-                        marginRight: '25px'
-                      }}>
-                    Edit
-                  </Button> 
+
                 </Grid>
                 {/* ---------- Goals and stats ? ---------------*/}
                 <Grid item xs={4}>

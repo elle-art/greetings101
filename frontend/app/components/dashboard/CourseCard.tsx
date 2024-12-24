@@ -11,19 +11,17 @@ import {
 import { PieChart } from "@mui/x-charts/PieChart";
 import { Course, setUserCourseProgress, getPercentValue } from "@/types/Courses";
 import { useCourses } from "@/utils/courses/CourseContext";
-import { useUser } from "@/utils/user/UserContext";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/utils/user/UserContext";
 
 const CourseCard = () => {
-  const { user } = useUser();
   const { myCourses } = useCourses();
+  const { user } = useUser();
   const router = useRouter();
 
-  console.log('Courses:', myCourses);
-
-  const navigateToLesson = (courseId: string, lessonsCompleted: number) => {
+  const navigateToLesson = (courseId: string, lessons_completed: number) => {
     router.push(
-      `/pages/Lesson/?courseId=${courseId}&lessonsCompleted=${lessonsCompleted}`
+      `/pages/Lesson/?courseId=${courseId}&lessons_completed=${lessons_completed}`
     );
   };
 
@@ -34,8 +32,9 @@ const CourseCard = () => {
       {myCourses.map((course: Course) => {
         const percent = getPercentValue(
           course.lessons.length,
-          course.lessonsCompleted
+          course.lessons_completed  
         );
+        console.log("course:", course)
         return (
           <Grid item xs={6} sm={6} md={6} key={course.id}>
             <Card
@@ -73,7 +72,7 @@ const CourseCard = () => {
                       fontSize="18px"
                       fontWeight={400}
                     >
-                      {course.lessonsCompleted}/{course.lessons.length} lessons
+                      {course.lessons_completed}/{course.lessons.length} lessons
                     </Typography>
                   </Grid>
                   {/* piechart */}
@@ -82,8 +81,8 @@ const CourseCard = () => {
                       series={[
                         {
                           data: [
-                            { id: 0, value: percent },
-                            { id: 1, value: 100 - percent, color: "white" },
+                            { id: 0, value: percent, color: user?.preferences.pfColor },
+                            { id: 1, value: 100 - percent, color: "#dbdbdb" },
                           ],
                           innerRadius: percent,
                           startAngle: 0,
@@ -120,7 +119,7 @@ const CourseCard = () => {
                       onClick={() =>
                         navigateToLesson(
                           course.id,
-                          course.lessonsCompleted || 0
+                          course.lessons_completed || 0
                         )
                       }
                       variant="contained"

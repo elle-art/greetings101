@@ -1,24 +1,28 @@
 // app/pages/Login/page.tsx
 'use client'
 import React, { useState, FormEvent } from 'react';
-import { API_BASE_URL, LOGIN_ENDPOINT } from '@/utils/constants';
+import { API_BASE_URL, getCSRFToken, LOGIN_ENDPOINT } from '@/utils/constants';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 import { useUser } from '@/utils/user/UserContext';
 
-const Login = (props: { email: string; password: string }) => {
-    const [email, setEmail] = useState<string>(props.email);
-    const [password, setPassword] = useState<string>(props.password);
+const Login = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { user, setUser } = useUser();
 
     const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
         setErrorMessage(null);
-    
+        
+        const csrfToken = getCSRFToken();
+        
         const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
             },
             body: JSON.stringify({ email, password }),
         });
@@ -70,7 +74,7 @@ const Login = (props: { email: string; password: string }) => {
                     </form>
                 </Box>
                 <Typography variant='body1'>
-                    Don't have an account? 
+                    Don&apos;t have an account?&nbsp;
                     <Link href="/pages/Signup"sx ={{paddingLeft: "5px"}}>
                         Signup
                     </Link>

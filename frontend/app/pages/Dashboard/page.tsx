@@ -8,10 +8,13 @@ import InactiveCourseCard from '@/app/components/dashboard/InactiveCourseCard';
 import { IconHome } from "@tabler/icons-react";
 import HeaderWithIcon from '@/app/layout/text-formats/TextHeadings';
 import { useUser } from '@/utils/user/UserContext';
+import { useEffect } from 'react';
 
 const Dashboard = () => {
   const {user} = useUser();
-  console.log('Current user:', user);
+  useEffect(() => {
+    console.log('Current user:', user);
+  }, [user]);
   
   return (
     <PageContainer title="Courses" description="this is the Courses Page">

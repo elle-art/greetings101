@@ -8,7 +8,7 @@ export interface Course {
   shortname: string;
   length: string;
   description: string;
-  lessonsCompleted?: number;
+  lessons_completed?: number;
   lessons: Lesson[];
 }
 
@@ -16,6 +16,7 @@ export interface Lesson {
   name: string;
   words: vocabWord[];
   cards: lessonCard[];
+  lesson_no: number;
 }
 
 export interface vocabWord {
@@ -42,12 +43,11 @@ export function addCoursetoUser(courseId: string, user: User | null) {
     return;
   }
 
-  const found = user?.courses.activeCourses.find(course => course.id === courseId);
+  const found = user?.courses.active_courses.find(course => course.id === courseId);
 
   if (!found) {
-    const newCourse = {id: courseId, lessonsCompleted: 0}
-    user?.courses.activeCourses.push(newCourse);
-    console.log(user?.courses.activeCourses);
+    const newCourse = {id: courseId, lessons_completed: 0, missed_words: [], missed_cards: []}
+    user?.courses.active_courses.push(newCourse);
     localStorage.setItem('user', JSON.stringify(user));
   }
 }
@@ -56,23 +56,26 @@ export function setUserCourseProgress(arr: Course[]) {
   //need to set back to null on log out
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { user } = useUser();
-  let idx = 0;
 
   arr.forEach((course) => {
-    if (course.id === user?.courses.activeCourses[idx].id) {
-      course.lessonsCompleted =
-        user?.courses.activeCourses[idx].lessonsCompleted;
+    
+    const userCourse = user?.courses.active_courses.find(
+      (active) => active.id === course.id
+    );
+
+    if (userCourse) {
+      course.lessons_completed =
+      userCourse.lessons_completed;
     }
-    idx++;
   });
 }
 
 export function updateUserLessonProgress(user: User, setUser: (user: User | null) => void, id: string) {
   if (!user) return;
 
-  const updatedInfo = user.courses.activeCourses.map((course) =>
+  const updatedInfo = user.courses.active_courses.map((course) =>
     course.id === id
-    ? { ...course, lessonsCompleted: course.lessonsCompleted + 1 }
+    ? { ...course, lessons_completed: course.lessons_completed + 1 }
     : course
   );
 
@@ -80,7 +83,7 @@ export function updateUserLessonProgress(user: User, setUser: (user: User | null
     ...user,
     courses: {
       ...user.courses,
-      activeCourses: updatedInfo,
+      active_courses: updatedInfo,
     },
   });
 }

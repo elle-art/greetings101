@@ -1,9 +1,10 @@
 'use client'
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
-import { API_BASE_URL, UPDATE_USER_ENDPOINT } from "@/utils/constants";
+import { API_BASE_URL, getCSRFToken, UPDATE_USER_ENDPOINT } from "@/utils/constants";
 import { getDesignTokens } from "@/utils/theme/DesignTokens";
 import { useUser } from "@/utils/user/UserContext";
+import Cookies from "js-cookie";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -31,10 +32,14 @@ export const ToggleColorModeProvider = ({ children }: ToggleColorModeProviderPro
 
     const updatedUser = { ...user, preferences: { ...user.preferences, darkModePref: mode }};
 
+    const csrfToken = getCSRFToken();
+    console.log('CSRF Token:', Cookies.get('csrftoken'));
     const response = await fetch(`${API_BASE_URL}${UPDATE_USER_ENDPOINT}${user.id}/`, {
       method: 'PUT',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
       },
       body: JSON.stringify(updatedUser),
     });
@@ -49,16 +54,16 @@ export const ToggleColorModeProvider = ({ children }: ToggleColorModeProviderPro
     }
   };
 
-  const colorMode = useMemo(
-    () => ({
+  const colorMode = {
       toggleColorMode: () => {
         const newMode = mode === 'light' ? 'dark' : 'light';
         setMode(newMode);
-        updateUserPreference(newMode);
+        localStorage.setItem('colorMode', newMode);
+        if (user?.preferences.darkModePref !== newMode) {
+          updateUserPreference(newMode);
+        }
       },
-    }),
-    [mode, user]
-  );
+  };
 
   const theme = useMemo(
     () => createTheme(getDesignTokens(mode || 'light')),

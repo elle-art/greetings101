@@ -23,7 +23,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   useEffect(() => {
     const storedUser = getUserFromLocalStorage();
-    if (storedUser) {
+    if (storedUser  && storedUser !== user) {
       setUser(storedUser);
     }
   }, []);

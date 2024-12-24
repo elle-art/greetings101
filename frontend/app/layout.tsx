@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { CssBaseline } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
 import Footer from './layout/footer/page';
@@ -10,6 +10,7 @@ import { styled, Container, Box } from "@mui/material";
 import { UserProvider, useUser } from "@/utils/user/UserContext";
 import { CourseProvider } from "@/utils/courses/CourseContext";
 import { getUserFromLocalStorage } from "@/utils/user/getUser";
+import { API_BASE_URL, CSRF_ENDPOINT } from "@/utils/constants";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -42,6 +43,27 @@ const RootLayout = ({ children }: Props) => {
   const isProfilePage = pathname === '/pages/ViewProfile';
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const user = getUserFromLocalStorage();
+
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, {
+          method: "GET",
+          credentials: "include", // Ensures cookies are sent with the request
+        });
+
+        if (response.ok) {
+          console.log("CSRF token set");
+        } else {
+          console.error("Failed to fetch CSRF token");
+        }
+      } catch (error) {
+        console.error("Error fetching CSRF token:", error);
+      }
+    };
+
+    fetchCSRFToken();
+  }, []);
 
   if (!user) {
     return (

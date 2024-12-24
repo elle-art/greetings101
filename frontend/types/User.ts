@@ -5,16 +5,29 @@ export interface User {
   name: string;
   email: string;
   yearJoined: number;
+  pfp: number;
   preferences: {
     darkModePref: 'light' | 'dark';
-    pfpId: string;
     pfColor: string;
   };
   courses: {
-    "activeCourses": {
-        id: string;
-        lessonsCompleted: number;
-      }[];
-    "coursesCompleted": string[];
+    "active_courses": {
+      id: string;
+      lessons_completed: number;
+      "missed_words": any[],
+      "missed_cards": any[],
+    }[];
+    "courses_completed": {
+      id: string;
+      lessons_completed: number;
+      "missed_words": any[],
+      "missed_cards": any[],
+    }[];
   };
+}
+
+export interface Picture {
+  id: number;
+  url: string;
+  description: string;
 }
