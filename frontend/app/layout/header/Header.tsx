@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 // components
 import Profile from './Profile';
-import Search from './Search';
 import {IconMenu2 } from '@tabler/icons-react';
 import Logo from '../shared/logo/Logo';
 
@@ -48,9 +47,6 @@ const Header = ({toggleSidebar: toggleSidebar}: ItemType) => {
         >
           <IconMenu2 width="20" height="20" />
         </IconButton>
-
-        <Search/>
-         
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
           <Profile />

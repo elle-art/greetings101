@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "jest.setup.ts"
-  ],
+, "app/favicon.ico"  ],
   "exclude": [
     "node_modules"
   ],

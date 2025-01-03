@@ -160,7 +160,7 @@ def signup(request):
         )
         return JsonResponse({"message": "Signup successful", "id": new_user.id}, status=201)
 
-@require_http_methods(["PUT"])
+@api_view(["PUT"])
 def update_user_info(request, user_id):
     if request.method == "PUT":
         try: 
@@ -261,6 +261,70 @@ def update_user_info(request, user_id):
         }
         
         return JsonResponse(return_data)
+
+@api_view(['POST'])
+def update_user_lesson_stats(request, user_id, course_id, lesson_id, time, accuracy):
+    if request.method == "POST":
+        course = get_object_or_404(Course, id=course_id)
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        user = get_object_or_404(User, id=user_id)
+        user_course = get_object_or_404(UserCourse, user=user, course=course)
+        
+        # increment lessons completed
+        user_course.lessons_completed += 1
+        user_course.save()
+        
+        # convert time in seconds to timedelta
+        time_to_complete = datetime.timedelta(seconds=time)
+        
+        # create UserLessonData object
+        lesson_stats = UserLessonData.objects.create(user=user, course=course, lesson=lesson, time_to_complete=time_to_complete, accuracy=accuracy)
+        
+        return JsonResponse({"message": "User lesson stats updated successfully."})
+
+@api_view(['PUT'])
+def add_active_courses(request, user_id, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    user = get_object_or_404(User, id=user_id)
+    user_course = get_object_or_404(UserCourse, user=user, course=course)
+    
+    user_course.active = True
+    user_course.save() 
+    
+    active_courses = user.usercourse_set.filter(active=True)
+    completed_courses = user.usercourse_set.filter(completed=True)
+    return_data = {
+        "message": "User updated",
+        "user": {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "yearJoined": user.yearJoined,
+            "pfp": user.pfp.id,
+            "preferences": user.preferences,
+            "courses": {
+                "active_courses": [
+                    {
+                        "id": course.course.id,
+                        "lessons_completed": course.lessons_completed,
+                        "missed_words": list(course.missed_words.values()),
+                        "missed_cards": list(course.missed_cards.values()),
+                    }
+                    for course in active_courses
+                ],
+                "completed_courses": [
+                    {
+                        "id": course.course.id,
+                        "lessons_completed": course.lessons_completed,
+                        "missed_words": list(course.missed_words.values()),
+                        "missed_cards": list(course.missed_cards.values()),
+                    }
+                    for course in completed_courses
+                ],
+            },
+        },
+    }
+    return JsonResponse(return_data)
 
 @csrf_exempt
 def delete_user(request, email):
@@ -395,21 +459,6 @@ def add_missed_word(request, course_id, lesson_id, user_id, word_id, card_id):
     user_course.missed_cards.add(card)
     
     return JsonResponse({"message": "Missed word and card updated successfully."})
-
-@api_view(['POST'])
-def update_user_lesson_stats(request, user_id, course_id, lesson_id, time, accuracy):
-    if request.method == "POST":
-        course = get_object_or_404(Course, id=course_id)
-        lesson = get_object_or_404(Lesson, id=lesson_id)
-        user = get_object_or_404(User, id=user_id)
-        
-        # convert time in seconds to timedelta
-        time_to_complete = datetime.timedelta(seconds=time)
-        
-        # create UserLessonData object
-        lesson_stats = UserLessonData.objects.create(user=user, course=course, lesson=lesson, time_to_complete=time_to_complete, accuracy=accuracy)
-        
-        return JsonResponse({"message": "User lesson stats updated successfully."})
 
 @api_view(['GET'])
 def get_profile_picture_options(request):

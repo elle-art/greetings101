@@ -1,13 +1,17 @@
 from rest_framework import serializers
 
+from backendDB.models import Course
+
 # Word serializer
 class WordSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     eng = serializers.CharField()
     span = serializers.CharField()
     asl = serializers.FileField()
 
 # Card serializer
 class CardSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     words_indices = serializers.ListField(child=serializers.IntegerField())
     phrase = serializers.CharField(required=False)
     options = serializers.ListField(child=serializers.CharField(), required=False)
@@ -29,3 +33,8 @@ class CourseSerializer(serializers.Serializer):
     length = serializers.CharField()
     description = serializers.CharField()
     lessons = LessonSerializer(many=True)
+    prerequisites = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Course.objects.all(),
+        required=False
+    )

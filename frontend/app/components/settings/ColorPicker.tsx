@@ -44,14 +44,9 @@ const ColorPicker = ({ updateColor }: { updateColor: Function }) => {
           }}
         ></Box>
       </Grid>
-      <Stack sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <Grid item xs={12} sm={7} md={9} mt={4}>
         <input id="color-picker" type="text" placeholder="Pick a color" value={selectedColor} style={{ width: "200px" }} />
       </Grid>
-      <Grid item xs={12} sm={7}>
-        <DarkModeButton />
-      </Grid>
-      </Stack>
     </Grid>
   );
 }

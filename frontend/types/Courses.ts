@@ -1,6 +1,8 @@
 // Interfaces and functions for course-related objects
 import { useUser } from "@/utils/user/UserContext";
 import { User } from "./User";
+import { ADD_USER_COURSE_ENDPOINT, API_BASE_URL, getCSRFToken, UPDATE_USER_ENDPOINT } from "@/utils/constants";
+import Cookies from "js-cookie";
 
 export interface Course {
   id: string;
@@ -10,6 +12,7 @@ export interface Course {
   description: string;
   lessons_completed?: number;
   lessons: Lesson[];
+  prerequisites: string[];
 }
 
 export interface Lesson {
@@ -20,11 +23,14 @@ export interface Lesson {
 }
 
 export interface vocabWord {
+  id: number;
   eng: string;
   span: string;
+  asl: string | null;
 }
 
 export interface lessonCard {
+  id: number;
   words_indices?: number[];
   phrase?: string;
   options?: string[];
@@ -38,17 +44,50 @@ export interface Prompts {
   note?: string[];
 }
 
-export function addCoursetoUser(courseId: string, user: User | null) {
+export function addCoursetoUser(course_id: string, user: User | null) {
   if (!user) {
     return;
   }
 
-  const found = user?.courses.active_courses.find(course => course.id === courseId);
+  const found = user?.courses.active_courses.find(course => course.id === course_id);
 
   if (!found) {
-    const newCourse = {id: courseId, lessons_completed: 0, missed_words: [], missed_cards: []}
-    user?.courses.active_courses.push(newCourse);
-    localStorage.setItem('user', JSON.stringify(user));
+      const updateUserLessons = async () => {
+        if (!user) {
+          console.error('No user found');
+          return;
+        }
+    
+        const updatedUser = { ...user };
+    
+        updatedUser.courses.active_courses.push({id: course_id, lessons_completed: 0, missed_words: [], missed_cards: []})
+        console.log("update", updatedUser)
+        const csrfToken = getCSRFToken();
+        console.log('CSRF Token:', Cookies.get('csrftoken'));
+        const response = await fetch(`${API_BASE_URL}${ADD_USER_COURSE_ENDPOINT}${updatedUser.id}/${course_id}/`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+          body: JSON.stringify(updatedUser),
+        });
+    
+        if (response.ok) {
+          const result = await response.json();
+          localStorage.setItem('user', JSON.stringify(result.user));
+          console.log('response ok')
+          console.log('response json:', JSON.stringify(result.user))
+
+        } else {
+          console.log('response NOT ok')
+
+          console.error('Failed to update user courses');
+        }
+      };
+
+      updateUserLessons();
   }
 }
 

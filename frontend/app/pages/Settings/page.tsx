@@ -169,6 +169,9 @@ const Settings = () => {
             Change Theme Color
           </Typography>
           <ColorPicker updateColor={updateUserInfo} />
+          <Grid item xs={12}>
+        <DarkModeButton />
+      </Grid>
         </Grid>
       </Grid>
     </PageContainer >

@@ -25,6 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+ .page-wrapper {
+  margin: 0px 100px 0px 100px;
+ }
 
 @layer utilities {
   .text-balance {

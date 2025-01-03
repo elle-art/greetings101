@@ -9,6 +9,7 @@ export const SIGNUP_ENDPOINT = '/users/signup/';
 
 export const UPDATE_USER_ENDPOINT = '/users/update/'; //${user.id}
 export const UPDATE_USER_STATS_ENDPOINT = '/users/update_stats/' //${user_id}/${course_id}/${lesson_id}/${timeinseconds}/${accuracy}/
+export const ADD_USER_COURSE_ENDPOINT = '/users/add/'; //${user.id}/${course_id}
 
 export const COURSES_ENDPOINT = '/courses/';
 

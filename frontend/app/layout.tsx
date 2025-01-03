@@ -7,7 +7,7 @@ import Sidebar from './layout/sidebar/Sidebar';
 import Footer from './layout/footer/page';
 import { ToggleColorModeProvider } from "./components/settings/ToggleColorMode";
 import { styled, Container, Box } from "@mui/material";
-import { UserProvider, useUser } from "@/utils/user/UserContext";
+import { UserProvider } from "@/utils/user/UserContext";
 import { CourseProvider } from "@/utils/courses/CourseContext";
 import { getUserFromLocalStorage } from "@/utils/user/getUser";
 import { API_BASE_URL, CSRF_ENDPOINT } from "@/utils/constants";
@@ -72,8 +72,8 @@ const RootLayout = ({ children }: Props) => {
           <UserProvider>
           <ToggleColorModeProvider>
                 <CssBaseline />
-                <MainWrapper className="mainwrapper">
-                  <PageWrapper className="page-wrapper">
+                <MainWrapper sx={{ backgroundColor: '#bed5ef' }}>
+                  <PageWrapper>
                     <Container
                       sx={{
                         paddingTop: "20px",
@@ -102,12 +102,12 @@ const RootLayout = ({ children }: Props) => {
         <ToggleColorModeProvider>
             <CourseProvider>
             <CssBaseline />
-              <MainWrapper className="mainwrapper">
+              <MainWrapper>
               <Sidebar
                 isSidebarOpen={isSidebarOpen}
                 onSidebarClose={() => setSidebarOpen(false)}
               />
-                <PageWrapper className="page-wrapper">
+                <PageWrapper>
                   <ProfileBkgrd isProfilePage={isProfilePage} sx={{
                       width: "100%",
                       height: "350px",

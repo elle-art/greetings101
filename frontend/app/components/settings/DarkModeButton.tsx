@@ -14,7 +14,7 @@ const DarkModeButton = () => {
     <Box
       sx={{
         display: 'flex',
-        width: '200px',
+        width: '60%',
         alignItems: 'center',
         justifyContent: 'center',
         bgcolor: 'background.default',

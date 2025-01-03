@@ -4,8 +4,8 @@ import Image from "next/image";
 import React from 'react';
 
 const LinkStyled = styled(Link)(() => ({
-  height: "40px",
-  width: "180px",
+  height: "55px",
+  width: "70px",
   overflow: "hidden",
   display: "block",
 }));
@@ -13,7 +13,7 @@ const LinkStyled = styled(Link)(() => ({
 const Logo = () => {
   return (
     <LinkStyled href="/">
-      <Image src="/images/templogo.png" alt="logo" height={40} width={105} priority />
+      <Image src="/images/logo-words.png" alt="logo" height={55} width={70} priority />
     </LinkStyled>
   );
 };

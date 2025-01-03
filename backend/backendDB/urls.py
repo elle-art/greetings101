@@ -28,11 +28,12 @@ urlpatterns = [
     path("users/login/", views.login, name="login"),
     path("users/signup/", views.signup, name="signup"),
     path("users/update/<int:user_id>/", views.update_user_info, name="update_user_info"),
+    path("users/update_stats/<int:user_id>/<str:course_id>/<int:lesson_id>/<int:time>/<int:accuracy>/", views.update_user_lesson_stats, name="update_user_lesson_stats"),
+    path('users/add/<int:user_id>/<str:course_id>/', views.add_active_courses, name='add_active_courses'),
     path("users/delete/<str:email>/", views.delete_user, name="delete_user"),
     path('courses/', views.get_courses, name='get_courses'),
     path('lesson/<str:course_id>/<int:lesson_no>/<int:state>/', views.get_lesson_data, name='get_lesson_data'),
     path("lesson/miss/<str:course_id>/<int:lesson_id>/<int:user_id>/<int:word_id>/<int:card_id>/", views.add_missed_word, name="add_missed_word"),
-    path("users/update_stats/<int:user_id>/<str:course_id>/<int:lesson_id>/<int:time>/<int:accuracy>/", views.update_user_lesson_stats, name="update_user_lesson_stats"),
     path("api/get_profile_imgs/", views.get_profile_picture_options, name="get_profile_picture_options"), 
     path("api/get_user_pfp/<int:picture_id>/", views.get_user_pfp, name="get_user_pfp"), 
 ]

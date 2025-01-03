@@ -45,6 +45,7 @@ class Course(models.Model):
     shortname = models.CharField(max_length=25)
     length = models.CharField(max_length=15)
     description = models.CharField(max_length=200)
+    prerequisites = models.ManyToManyField('self', symmetrical=False, blank=True)
     
     def __str__(self):
         return self.name

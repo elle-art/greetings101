@@ -10,6 +10,7 @@ import { updateUserLessonProgress } from "@/types/Courses";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/utils/user/UserContext";
 import { calculateAverage } from "@/utils/courses/lessons/endOfLessonFunctions";
+import { API_BASE_URL, getCSRFToken, UPDATE_USER_STATS_ENDPOINT } from "@/utils/constants";
 
 const EndOfLesson = (props: {
   courseId: string;
@@ -26,9 +27,32 @@ const EndOfLesson = (props: {
   const lessonAccuracy = calculateAverage(props.accuracyArray);
   const formattedTime = `${Math.floor(props.timeToComplete / 1000 / 60)}:${String(Math.floor((props.timeToComplete / 1000) % 60)).padStart(2, '0')}`;
 
-  function completeLesson() {
+  async function completeLesson() {
     if (user) {
-      updateUserLessonProgress(user, setUser, props.courseId);
+      const updateStats = async () => {
+        const csrfToken = getCSRFToken();
+        const response = await fetch(`${API_BASE_URL}${UPDATE_USER_STATS_ENDPOINT}${user.id}/${props.courseId}/${props.lessonNo}/${(props.timeToComplete / 1000)}/${lessonAccuracy}/`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+        } else {
+          console.error('Failed to update user stats');
+        }
+      };
+      try {
+        await updateStats();
+        // if updateStats is successful, then updateUserLessonProgress
+        updateUserLessonProgress(user, setUser, props.courseId);
+      } catch {
+        console.error("Did not update user progress correctly.");
+      }
     }
 
     router.push(`/pages/Dashboard`);

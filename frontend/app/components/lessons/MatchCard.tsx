@@ -34,8 +34,9 @@ const MatchCard = (props: {
     if (course) {
       const cardWordsArray: vocabWord[] = [];
       const wordsIndices = lesson?.cards[props.currState]?.words_indices ?? [];
+
       for (const index of wordsIndices) {
-        const word = lesson?.words[index];
+        const word = lesson?.words.find((word) => word.id === index);
         if (word) {
           cardWordsArray.push(word);
         }
