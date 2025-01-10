@@ -12,28 +12,29 @@ const exercises = [
     id: "flashcards",
     icon: IconCardsFilled,
     name: "Flashcards",
-    description: "This is the description of this game. Play it. It's cool I swear",
+    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
+    gameLink: ""
   },
   {
     id: "matching",
     icon: IconPuzzle2,
     name: "Matching",
-    description: "This is the description of this game. Play it. It's cool I swear",
+    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
   },
   {
     id: "test",
     icon: IconNotes,
     name: "Test",
-    description: "This is the description of this game. Play it. It's cool I swear",
+    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
   },
   {
     id: "game",
     icon: IconDeviceGamepad2,
     name: "Game",
-    description: "This is the description of this game. Play it. It's cool I swear",
+    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
   },
 ];

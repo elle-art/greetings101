@@ -60,7 +60,7 @@ const PieAnimation = () => {
   
     return (
         <div className="pieContainer">
-        <div className="pieBackground"><img src="/images/globe.png" alt="a globe"></img></div>
+        <div className="pieBackground"><img src="/images/globe_img.png" alt="a globe"></img></div>
         <div className="global_data">
           <div id="global" className="hold"><div className="pie"></div></div>
         </div>

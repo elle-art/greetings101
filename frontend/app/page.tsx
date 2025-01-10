@@ -1,12 +1,12 @@
 //Home or About page? - click on "Logo"
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { Grid, Box, Typography, SvgIconProps, Button, ListItem, List, ListItemText, Link } from "@mui/material";
+import { Grid, Box, Typography, Button, ListItem, List, ListItemText, Link } from "@mui/material";
 import PageContainer from "@/app/components/container/PageContainer";
 import './homepage.css';
 // components
 import Logo from "./layout/shared/logo/Logo";
 import PieAnimation from "./components/homepage/PieAnimation";
+import PeopleAnimation from "./components/homepage/PeopleAnimation";
 
 const Start = () => {
   return (
@@ -47,32 +47,39 @@ const Start = () => {
                 Sign In!
               </Link>
             </Typography>
-            <Grid container spacing={2}>
+            <Grid item container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h2" fontWeight="bold" mt={4} mb={4}>Did you know?</Typography>
               </Grid>
               <Grid item xs={4} sx={{ maxHeight: "400px" }}>
                 <Typography variant="h3" component="p" fontWeight={500} textAlign={'left'}>About <div className="percent-val">60%</div> of people worldwide can speak more than one language.</Typography>
               </Grid>
-              <Grid item xs={4} ml={-6} mr={-6} sx={{ height: "400px" }}>
+              <Grid item xs={4} ml={-10} mr={-2} sx={{ height: "400px" }}>
                 <PieAnimation />
               </Grid>
               <Grid item xs={4} sx={{ maxHeight: "400px" }}>
                 <Typography variant="h3" component="p" fontWeight={500} textAlign={'right'} mt={"75%"} mr={"5%"}>In the US,<div></div> that number drops to <div className="percent-val">22%</div>.</Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} mt={15}>
-              <Typography variant="h1" component="p" textAlign={"center"}><div className="number one">1</div> in <div className="number" id="global-stat">8</div> people in the United States are Spanish speakers</Typography>
-              <Typography variant="h2" component="p" textAlign={"center"}>and <div className="number one">1</div> in <div className="number" id="global-stat">36</div> people use American Sign Language.</Typography>
-              <Typography variant="h3" component="p" mt={5} ml={-4} textAlign={"center"}>With Greetings 101, You could be one of them! Learn the fundamentals of Spanish and ASL with ease today.</Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                href="pages/Signup"
-                sx={{ mt: 3, mb: 3, ml: "42%", mr: "42%" }}
-              >
-                Sign up now!
-              </Button>
+            <Grid item container spacing={2} xs={12} mt={20}>
+              <Grid item xs={9.5} sx={{ height: "875px", overflow: "hidden" }}>
+                <PeopleAnimation />
+              </Grid>
+              <Grid item xs={2.5}>
+                <Typography variant="h3" component="p" textAlign={"center"} mt={4}><div className="number one">1</div> in <div className="number global-stat">8</div> people in the United States are Spanish speakers.</Typography>
+                <Typography variant="h3" component="p" textAlign={"center"} mt={30} id="animation-trigger"><div className="number one">1</div> in <div className="number global-stat">36</div> people use American Sign Language.</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h3" component="p" mt={5} ml={-4} textAlign={"center"}>With Greetings 101, You could be one of them! Learn the fundamentals of Spanish and ASL with ease today.</Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  href="pages/Signup"
+                  sx={{ mt: 3, mb: 3, ml: "42%", mr: "42%" }}
+                >
+                  Sign up now!
+                </Button>
+              </Grid>
             </Grid>
             <Typography variant="h2" fontWeight="bold" mt={6}>Why learn another language?</Typography>
             <List>
