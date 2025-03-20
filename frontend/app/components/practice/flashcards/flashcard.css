@@ -1,0 +1,115 @@
+/* animations */
+.flip_card .flip {
+  transform: rotateY(180deg);
+  transform-origin: center;
+}
+
+.flip {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+}
+
+.slide_over {
+  transform: translate(250px) !important;
+}
+
+/* display */
+.card_container {
+  border: 2px solid green;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+  float: left;
+  cursor: pointer;
+  position: relative;
+  width: 222px;
+  height: 300px;
+  padding: 0;
+}
+
+.card_front,
+.card_back {
+  backface-visibility: hidden;
+  position: absolute;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.5em;
+  width: 200px;
+  height: 250px;
+  border: 1px solid red;
+  margin-left: -20px;
+  margin-top: -20px;
+}
+
+.card_front {
+  transform: rotateY(0deg);
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.card_back {
+  transform: rotateY(180deg);
+  margin-left: -20px;
+  margin-top: 30px;
+}
+
+#category {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  left: 0px;
+  font-size: 0.8em;
+  letter-spacing: 0.5px;
+}
+
+/* deck */
+#deck_div {
+  min-height: 400px;
+  width: 55%;
+  float: right;
+  margin: 0px 1em;
+  position: relative;
+  border: 1px solid red;
+}
+
+.stacked_card {
+  position: absolute;
+}
+
+#seen_deck_div {
+  min-height: 400px;
+  width: 55%;
+  float: right;
+  margin: 0px 1em;
+  position: relative;
+  border: 1px solid blue;
+}
+
+.holder_container {
+  position: absolute;
+  width: 222px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 24px;
+  border-radius: 5%;
+}
+
+.holder_label {
+  padding: 1em;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.holder_target {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 222px;
+  height: 300px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 5%;
+}

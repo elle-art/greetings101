@@ -14,7 +14,7 @@ const exercises = [
     name: "Flashcards",
     description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
-    gameLink: ""
+    gameLink: "router.push(`/pages/Practice/Flashcards`);"
   },
   {
     id: "matching",
@@ -22,6 +22,7 @@ const exercises = [
     name: "Matching",
     description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
+    gameLink: "router.push(`/pages/Practice/Flashcards`);"
   },
   {
     id: "test",
@@ -29,6 +30,7 @@ const exercises = [
     name: "Test",
     description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
+    gameLink: "router.push(`/pages/Practice/Flashcards`);"
   },
   {
     id: "game",
@@ -36,8 +38,10 @@ const exercises = [
     name: "Game",
     description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
     imageLink: "/images/temp-game.jpg",
+    gameLink: "router.push(`/pages/Practice/Flashcards`);"
   },
 ];
+// check practice card if props are added (i.e. for game settings)
 
 const PracticeCard = () => {
   const smUp = useMediaQuery((theme: any) => theme.breakpoints.up("sm"));
@@ -100,6 +104,9 @@ const PracticeCard = () => {
                             mt: "15px",
                             width: "150px",
                             "&:hover": {},
+                          }}
+                          onClick={() => {
+                            {game.gameLink}
                           }}
                         >
                           Start
