@@ -4,5 +4,7 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"jdk.runConfig.vmOptions": "--enable-preview --source 23"
+	}
 }

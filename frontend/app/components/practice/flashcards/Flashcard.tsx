@@ -6,6 +6,13 @@ const Flashcard = (props: { ref?: (el: HTMLElement | null) => void, word: vocabW
   const cardClick = (() => {
     return (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const target = e.currentTarget as HTMLElement;
+      console.log("target in FC:", target);
+
+      const cardContent = target.querySelector('.MuiCardContent-root') as HTMLElement;
+      if (cardContent) {
+        cardContent.classList.add('flip_card'); // Toggle the 'flip' class
+      }
+
       props.orderFunction();
     } 
   })();
