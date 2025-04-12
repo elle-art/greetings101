@@ -1,13 +1,4 @@
 /* animations */
-.flip_card .flip {
-  transform: rotateY(180deg);
-  transform-origin: center;
-}
-
-.flip {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-}
 
 .slide_over {
   transform: translate(250px) !important;
@@ -28,28 +19,22 @@
 
 .card_front,
 .card_back {
-  backface-visibility: hidden;
-  position: absolute;
   cursor: pointer;
   text-align: center;
   line-height: 1.5em;
   width: 200px;
   height: 250px;
-  border: 1px solid red;
   margin-left: -20px;
   margin-top: -20px;
 }
 
 .card_front {
-  transform: rotateY(0deg);
   font-weight: 800;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .card_back {
-  transform: rotateY(180deg);
   margin-left: -20px;
-  margin-top: 30px;
 }
 
 #category {

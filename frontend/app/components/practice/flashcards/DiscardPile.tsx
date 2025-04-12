@@ -1,6 +1,4 @@
-import { Card, CardActionArea, CardContent, SxProps, Theme, Typography } from "@mui/material";
 import "./flashcard.css";
-import { vocabWord } from "@/types/Courses";
 
 const DiscardPile = () => {
   const cardDrop = (e: React.DragEvent<HTMLDivElement>) => {

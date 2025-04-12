@@ -30,30 +30,16 @@ const cards = [
 const Deck = () => {
     const [initialDeck, setInitialDeck] = useState<vocabWord[]>(cards);
     const [seenDeck, setSeenDeck] = useState<vocabWord[]>([]);
-    const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
     const removeCard = (card: vocabWord, deck: string, index: number) => {
 
         if (deck === "initialDeck") {
-            const newInitialDeck = initialDeck.filter((item) => item !== card);
-            setInitialDeck(newInitialDeck);
+            setInitialDeck((prev) =>  prev.filter((item) => item !== card));
             addCard(card, "seenDeck");
         } else {
-            const newSeenDeck = seenDeck.filter((item) => item !== card);
-            setSeenDeck(newSeenDeck);
+            setSeenDeck((prev) =>  prev.filter((item) => item !== card));
             addCard(card, "initialDeck");
         }
-        const target = cardRefs.current[index]; // Get the target card using the index
-        setTimeout(() => {
-            if (target)
-            target.classList.add("flip_card");
-
-        }, 300); 
-
-        console.log("init", initialDeck);
-        console.log("seen", seenDeck);
-        console.log("ref", target);
-
     };
 
     const addCard = (card: vocabWord, deck: string) => {
@@ -68,47 +54,50 @@ const Deck = () => {
         }
     };
 
-    const shuffle = (() => {
+    const shuffle = () => {
 
-    })();
-    
+    };
+
+    const reset = () => {
+
+    };
+
     // deck design
     return (
         <Grid container spacing={2}>
             <Grid item id="deck_div" xs={4}>
-                {initialDeck.map((card, index) => (
-                    <Flashcard
-                        key={card.id}
-                        word={card}
-                        lang={"spanish"}
-                        sx={{
-                            top: `${index * 5}px`,
-                            left: `${index * 5}px`,
-                        }}
-                        className={"stacked_card"}
-                        orderFunction={() => removeCard(card, "initialDeck", index)}
-                    />
-                ))}
+                {initialDeck.map((card, index) => {
+                    return (
+                        <Flashcard
+                            key={card.id}
+                            word={card}
+                            lang={"spanish"}
+                            sx={{
+                                top: `${index * 5}px`,
+                                left: `${index * 5}px`,
+                            }}
+                            className={"stacked_card"}
+                            orderFunction={() => removeCard(card, "initialDeck", index)}
+                        />
+                    )
+                })}
             </Grid>
             <Grid item id="seen_deck_div" xs={4}>
                 {seenDeck.map((card, index) => {
-                    const cardRef = (el: HTMLElement | null) => {
-                        cardRefs.current[index] = el;
-                    };
-                    return(
-                    <Flashcard
-                        key={card.id}
-                        ref={cardRef}
-                        word={card}
-                        lang={"spanish"}
-                        sx={{
-                            top: `${index * 5}px`,
-                            left: `${index * 5}px`,
-                        }}
-                        className={"stacked_card"}
-                        orderFunction={() => removeCard(card, "seenDeck", index)}
-                    />
-                )})}
+                    return (
+                        <Flashcard
+                            key={card.id}
+                            word={card}
+                            lang={"spanish"}
+                            sx={{
+                                top: `${index * 5}px`,
+                                left: `${index * 5}px`,
+                            }}
+                            className={"stacked_card"}
+                            orderFunction={() => removeCard(card, "seenDeck", index)}
+                        />
+                    )
+                })}
             </Grid>
         </Grid>
     );
