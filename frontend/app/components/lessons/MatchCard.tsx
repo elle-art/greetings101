@@ -63,7 +63,7 @@ const MatchCard = (props: {
         (arr[0] === vocabWord.eng && arr[1] === vocabWord.span) ||
         (arr[0] === vocabWord.span && arr[1] === vocabWord.eng)
       ) {
-        setMatchedWords((prev) => [...prev, vocabWord.eng, vocabWord.span]);
+        setMatchedWords((prev) => [...prev, vocabWord.eng!, vocabWord.span!]);
         return true;
       }
     }

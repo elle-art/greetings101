@@ -17,7 +17,7 @@ export interface User {
       "missed_words": any[],
       "missed_cards": any[],
     }[];
-    "courses_completed": {
+    "completed_courses": {
       id: string;
       lessons_completed: number;
       "missed_words": any[],

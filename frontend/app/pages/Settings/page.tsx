@@ -1,6 +1,6 @@
 //Settings page - "Settings"
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -11,13 +11,12 @@ import {
 import Image from 'next/image';
 import PageContainer from "@/app/components/container/PageContainer";
 import DarkModeButton from "@/app/components/settings/DarkModeButton";
-import { API_BASE_URL, getCSRFToken, PROFILE_IMGS_ENDPOINT, UPDATE_USER_ENDPOINT } from "@/utils/constants";
+import { API_BASE_URL, getCSRFToken, UPDATE_USER_ENDPOINT } from "@/utils/constants";
 import { Picture } from "@/types/User";
 import { useUser } from "@/utils/user/UserContext";
 import Cookies from "js-cookie";
 import ColorPicker from "@/app/components/settings/ColorPicker";
 import useFetchPfp, { useFetchPfpOptions } from "@/utils/user/getPfp";
-import { debounce } from 'lodash';
 
 const Settings = () => {
   const { user, setUser } = useUser();

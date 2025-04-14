@@ -52,7 +52,8 @@ const UserDisplay = () => {
           fontSize="18px"
           fontWeight={400}
         >
-          Joined in {user.yearJoined}
+          Joined in {user.yearJoined} <br></br>
+          {user.courses.completed_courses.length} coursed completed
         </Typography>
       </Stack>
     </Box>

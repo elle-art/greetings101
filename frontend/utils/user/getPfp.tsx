@@ -9,7 +9,6 @@ const useFetchPfp = (): { pfp: Picture | null; error: string | null } => {
     const { user } = useUser();
     const [pfp, setPfp] = useState<Picture | null>(null);
     const [error, setError] = useState<string | null>(null);
-    console.log('user:', user)
 
     useEffect(() => {
         const fetchPfp = async () => {

@@ -64,20 +64,24 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
 
     let index = 0;
     const active: Course[] = [];
+    const completed: Course[] = [];
     const inactive: Course[] = [];
 
     for (const course of courses) {
       //add push loop for completed courses - add condition for inactive courses below [ if not in completed[] ]
       const active_courseId = user.courses.active_courses.find(
+        (c) => c.id === course.id);
+
+      const completed_courseId = user.courses.completed_courses.find(
         (c) => c.id === course.id
       );
 
       if (active_courseId) {
         active.push(course);
         index++;
-      } else if (
-        !active.find((active_course) => active_course.id === course.id)
-      ) {
+      } else if (completed_courseId) {
+        completed.push(course);
+      } else {
         inactive.push(course);
       }
     }
@@ -85,6 +89,13 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
     setMyCourses((prev) => {
       if (JSON.stringify(prev) !== JSON.stringify(active)) {
         return active;
+      }
+      return prev;
+    });
+
+    setCompleted_courses((prev) => {
+      if (JSON.stringify(prev) !== JSON.stringify(completed)) {
+        return completed;
       }
       return prev;
     });

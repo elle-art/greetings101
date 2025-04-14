@@ -31,7 +31,7 @@ const EndOfLesson = (props: {
     if (user) {
       const updateStats = async () => {
         const csrfToken = getCSRFToken();
-        const response = await fetch(`${API_BASE_URL}${UPDATE_USER_STATS_ENDPOINT}${user.id}/${props.courseId}/${props.lessonNo}/${(props.timeToComplete / 1000)}/${lessonAccuracy}/`, {
+        const response = await fetch(`${API_BASE_URL}${UPDATE_USER_STATS_ENDPOINT}${user.id}/${props.courseId}/${props.lessonNo + 1}/${(props.timeToComplete / 1000)}/${lessonAccuracy}/`, {
           method: 'POST',
           credentials: 'include',
           headers: {
