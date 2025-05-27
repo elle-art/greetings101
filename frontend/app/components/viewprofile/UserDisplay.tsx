@@ -6,12 +6,11 @@ import Image from 'next/image';
 
 const UserDisplay = () => {
   const { user } = useUser();
+  const { pfp } = useFetchPfp();
 
   if (!user) {
     return <Typography variant="h6">User not found</Typography>;
   }
-
-  const { pfp } = useFetchPfp();
 
   if (!pfp) {
     return <p>Loading profile picture...</p>;
@@ -53,7 +52,7 @@ const UserDisplay = () => {
           fontWeight={400}
         >
           Joined in {user.yearJoined} <br></br>
-          {user.courses.completed_courses.length} coursed completed
+          {user.courses.completed_courses.length} courses completed
         </Typography>
       </Stack>
     </Box>

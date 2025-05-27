@@ -1,5 +1,6 @@
 // Api function to fetch user profile picture 
 // and a getter function for the picture object
+"use client";
 import { API_BASE_URL, PROFILE_IMGS_ENDPOINT, USER_PFP_ENDPOINT } from "../constants";
 import { useUser } from "./UserContext";
 import { useEffect, useState } from "react";

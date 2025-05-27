@@ -40,7 +40,7 @@ const UserProfile = () => {
           <Grid xs={8}>
           <Typography  sx={{ mt: 6, marginLeft: 4 }} variant="h1">Certificates</Typography>
             <Card sx={{ mt: 2, marginLeft: 4, height: 200 }}>
-              <Typography sx={{ pl: 4, pt: 4 }}>You haven't completed any lessons yet.</Typography>
+              <Typography sx={{ pl: 4, pt: 4 }}>You haven&apos;t completed any lessons yet.</Typography>
             </Card>
           </Grid>
           <Grid xs={12}>

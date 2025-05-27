@@ -10,11 +10,11 @@ const InactiveCourseCard = () => {
   const { user } = useUser();
 
   const canUnlockCourse = (prerequisties: string[]) => {
-    if (!user?.courses.courses_completed)
+    if (!user?.courses.completed_courses)
       return false;
 
     for (let prerequisite of prerequisties) {
-      if (user?.courses.courses_completed.find(course => course.id === prerequisite))
+      if (user?.courses.completed_courses.find(course => course.id === prerequisite))
         continue;
       else return false;
     }
