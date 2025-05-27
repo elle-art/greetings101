@@ -12,7 +12,7 @@ export const calculateAverage = (array: number[]) => {
 
 // Function to count the total words in string
 // Used to calculate accuracy in TranslateCard
-export const countWordsInStr = (str :string) => {
+export const countWordsInStr = (str: string) => {
   const words = str.trim().split(/\s+/);
 
   return words.filter(word => word.length > 0).length;

@@ -1,15 +1,13 @@
 import { Card, CardActionArea, CardContent, SxProps, Theme, Typography } from "@mui/material";
 import "./flashcard.css";
 import { vocabWord } from "@/types/Courses";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-const Flashcard = (props: { word: vocabWord, lang: string, sx?: SxProps<Theme>, className?: string, orderFunction: () => void }) => {
+const Flashcard = (props: { word: vocabWord, lang: string, sx?: SxProps<Theme>, className?: string, onDragStart: (e: any) => any}) => {
   const [isFlipped, setIsFlipped] = useState(-1);
   const cardRef = useRef(null);
-  console.log("Flashcard rendered:", props.word, isFlipped);
 
   const cardClick = (id: number) => {
-    
     setIsFlipped(id !== isFlipped ? id : -1);
   };
 
@@ -17,18 +15,6 @@ const Flashcard = (props: { word: vocabWord, lang: string, sx?: SxProps<Theme>, 
     e.dataTransfer.setData("text/plain", e.currentTarget.id);
   }
 
-  useEffect(() => {
-    if (isFlipped != -1) {
-      // delay deck move just a bit after flip animation
-      const timeout = setTimeout(() => {
-        // move to seen deck or trigger logic here
-        props.orderFunction();
-        // you can emit an event, set a flag, or call a local handler
-      }, 1500); // match your CSS flip duration
-  
-      return () => clearTimeout(timeout);
-    }
-  }, [isFlipped]);
   // card design
   return (
     <Card
@@ -65,7 +51,7 @@ const Flashcard = (props: { word: vocabWord, lang: string, sx?: SxProps<Theme>, 
   );
 };
 
-// probably best to have base card and that accepts either front/back card components
+// ***probably best to have base card and that accepts either front/back card components
 // <cardMedia> for ASL
 
 export default Flashcard;

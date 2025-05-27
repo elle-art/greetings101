@@ -6,7 +6,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import TrackChangesIcon from "@mui/icons-material/TrackChanges";
 import TimerIcon from "@mui/icons-material/Timer";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
-import { updateUserLessonProgress } from "@/types/Courses";
+import { Language, updateUserLessonProgress } from "@/types/Courses";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/utils/user/UserContext";
 import { calculateAverage } from "@/utils/courses/lessons/endOfLessonFunctions";
@@ -20,7 +20,7 @@ const EndOfLesson = (props: {
   timeToComplete: number;
 }) => {
   const { user, setUser } = useUser();
-  const { courses } = useCourses();
+  const { courses, setVocabList, myVocabList } = useCourses();
   const course = courses.find((c) => c.id === props.courseId);
   const lesson = course?.lessons.find((lesson) => lesson.lesson_no === props.lessonNo);
   const router = useRouter();
@@ -53,9 +53,26 @@ const EndOfLesson = (props: {
       } catch {
         console.error("Did not update user progress correctly.");
       }
+
+      // function to update myVocabList with new words
+      if (lesson) {
+        const lessonObj = { ...lesson }; // create lesson clone
+        lessonObj.course_id = course?.id;
+        lessonObj.language = (course?.shortname.split(" ")[0].toLowerCase()) as Language;
+
+        setVocabList((prev) => {
+          const newVocabList = [...prev, lessonObj];
+          localStorage.setItem("myVocabList", JSON.stringify(newVocabList));
+
+          return newVocabList; // return the updated vocab list
+        });
+
+        console.log("setVocabList called", myVocabList); 
+        console.log("setVocabList called", myVocabList)
+      }
     }
 
-    router.push(`/pages/Dashboard`);
+    router.push("/pages/Dashboard");
   }
 
   return (

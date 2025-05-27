@@ -1,11 +1,13 @@
 // Initializes course-related objects for app functions
 // Sets courses [], myCourses [], inactive_courses [], completed_courses []
 "use client";
-import { Course } from "@/types/Courses";
+import { Course, Language, Lesson } from "@/types/Courses";
 import { User } from "@/types/User";
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -19,6 +21,8 @@ interface CourseContextProps {
   myCourses: Course[];
   inactive_courses: Course[];
   completed_courses: Course[];
+  myVocabList: Lesson[];
+  setVocabList: Dispatch<SetStateAction<Lesson[] | []>>;
 }
 
 const CourseContext = createContext<CourseContextProps>({
@@ -27,6 +31,8 @@ const CourseContext = createContext<CourseContextProps>({
   myCourses: [],
   inactive_courses: [],
   completed_courses: [],
+  myVocabList: [],
+  setVocabList: () => {},
 });
 
 interface CourseProviderProps {
@@ -39,6 +45,7 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
   const [inactive_courses, setInactive_courses] = useState<Course[] | []>([]);
   const [completed_courses, setCompleted_courses] = useState<Course[] | []>([]);
   const [courses, setCourses] = useState<Course[] | []>([]);
+  const [myVocabList, setVocabList] = useState<Lesson[] | []>([]);
 
   const fetchCourses = async () => {
     try {
@@ -62,13 +69,12 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
       return;
     }
 
-    let index = 0;
     const active: Course[] = [];
     const completed: Course[] = [];
     const inactive: Course[] = [];
+    const vocab: Lesson[] = []; // holds list of completed lessons (with their vocab words) - for VocabList, Flashcard
 
     for (const course of courses) {
-      //add push loop for completed courses - add condition for inactive courses below [ if not in completed[] ]
       const active_courseId = user.courses.active_courses.find(
         (c) => c.id === course.id);
 
@@ -77,12 +83,27 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
       );
 
       if (active_courseId) {
-        active.push(course);
-        index++;
+        active.push(course); // adds the course to the user's active courses list
+
+        for (let i = 0; i < (course.lessons_completed? course.lessons_completed : 0); i++) { // adds the lessons completed to the users' vocab list with the course id and the language
+          let lessonObj = course.lessons[i];
+          
+          lessonObj.course_id = course.id;
+          lessonObj.language = (course.shortname.split(" ")[0].toLowerCase()) as Language
+            
+          vocab.push(lessonObj); 
+        }
       } else if (completed_courseId) {
-        completed.push(course);
+        completed.push(course);// adds the course to the user's completed courses list
+
+        for (let lessonObj of course.lessons) { // adds the lessons to the users' vocab list with the course id and the language    
+          lessonObj.course_id = course.id;
+          lessonObj.language = (course.shortname.split(" ")[0].toLowerCase()) as Language
+            
+          vocab.push(lessonObj);
+        }
       } else {
-        inactive.push(course);
+        inactive.push(course); // adds the course to the user's active courses list
       }
     }
 
@@ -106,11 +127,18 @@ export const CourseProvider = ({ children }: CourseProviderProps) => {
       }
       return prev;
     });
+
+    setVocabList((prev) => {
+      if (JSON.stringify(prev) !== JSON.stringify(vocab)) {
+        return vocab;
+      }
+      return prev;
+    });
   }, [user, courses]);
 
   return (
     <CourseContext.Provider
-      value={{ user, myCourses, inactive_courses, completed_courses, courses }}
+      value={{ user, myCourses, inactive_courses, completed_courses, courses, myVocabList, setVocabList }}
     >
       {children}
     </CourseContext.Provider>

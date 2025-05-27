@@ -1,14 +1,11 @@
 //Profile page - "View Profile"
 'use client'
 import React from 'react';
-import { Grid, Box, Typography, SvgIconProps, Button, Card } from '@mui/material';
+import { Grid, Box, Typography, Button, Card } from '@mui/material';
 import PageContainer from '@/app/components/container/PageContainer';
 // components
 import UserDisplay from '@/app/components/viewprofile/UserDisplay';
-import { useUser } from '@/utils/user/UserContext';
-import VocabList from '@/app/components/viewprofile/VocabList';
 import VocabListContainer from '@/app/components/viewprofile/VocabListContainer';
-import { useCourses } from '@/utils/courses/CourseContext';
 import Popout from '@/app/components/shared/Popout';
 
 const UserProfile = () => {
@@ -41,8 +38,9 @@ const UserProfile = () => {
           </Grid>
           {/* ------------- Certificates -------------- */}
           <Grid xs={8}>
-            <Card sx={{ mt: 6, marginLeft: 4, height: 200 }}>
-              <Typography>Certificates</Typography>
+          <Typography  sx={{ mt: 6, marginLeft: 4 }} variant="h1">Certificates</Typography>
+            <Card sx={{ mt: 2, marginLeft: 4, height: 200 }}>
+              <Typography sx={{ pl: 4, pt: 4 }}>You haven't completed any lessons yet.</Typography>
             </Card>
           </Grid>
           <Grid xs={12}>

@@ -15,21 +15,23 @@ export interface Course {
   prerequisites: string[];
 }
 
+export type Language = 'eng' | 'span' | 'asl';
+
 export interface Lesson {
   name: string;
   words: vocabWord[];
   cards: lessonCard[];
   lesson_no: number;
+  language?: Language | null;
+  course_id?: string;
 }
-
-export type Language = 'eng' | 'span' | 'asl';
 
 export interface vocabWord {
   id: number;
-  [key: string]: string | number | null; 
   eng: string;
   span: string | null;
   asl: string | null;
+  lesson_no?: number;
 }
 
 export interface lessonCard {
@@ -121,13 +123,16 @@ export function updateUserLessonProgress(user: User, setUser: (user: User | null
       : course
   );
 
-  setUser({
+  const updatedUser = {
     ...user,
     courses: {
       ...user.courses,
       active_courses: updatedInfo,
     },
-  });
+  };
+
+  setUser(updatedUser);
+  localStorage.setItem("user", JSON.stringify(updatedUser));
 }
 
 export function getPercentValue(totalLessons: number, lessonsCompleted?: number) {

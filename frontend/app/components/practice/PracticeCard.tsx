@@ -6,45 +6,48 @@ import Image from 'next/image';
 import {
   IconCardsFilled, IconPuzzle2, IconNotes, IconDeviceGamepad2
 } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
-const exercises = [
-  {
-    id: "flashcards",
-    icon: IconCardsFilled,
-    name: "Flashcards",
-    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
-    imageLink: "/images/temp-game.jpg",
-    gameLink: "router.push(`/pages/Practice/Flashcards`);"
-  },
-  {
-    id: "matching",
-    icon: IconPuzzle2,
-    name: "Matching",
-    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
-    imageLink: "/images/temp-game.jpg",
-    gameLink: "router.push(`/pages/Practice/Flashcards`);"
-  },
-  {
-    id: "test",
-    icon: IconNotes,
-    name: "Test",
-    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
-    imageLink: "/images/temp-game.jpg",
-    gameLink: "router.push(`/pages/Practice/Flashcards`);"
-  },
-  {
-    id: "game",
-    icon: IconDeviceGamepad2,
-    name: "Game",
-    description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
-    imageLink: "/images/temp-game.jpg",
-    gameLink: "router.push(`/pages/Practice/Flashcards`);"
-  },
-];
-// check practice card if props are added (i.e. for game settings)
 
 const PracticeCard = () => {
   const smUp = useMediaQuery((theme: any) => theme.breakpoints.up("sm"));
+  const router = useRouter();
+
+  const exercises = [
+    {
+      id: "flashcards",
+      icon: IconCardsFilled,
+      name: "Flashcards",
+      description: "Test your knowledge with a classic flashcard practice game",
+      imageLink: "/images/temp-game.jpg",
+      gameLink: () => router.push("/pages/Practice/Flashcards"),
+    },
+    {
+      id: "matching",
+      icon: IconPuzzle2,
+      name: "Matching",
+      description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
+      imageLink: "/images/temp-game.jpg",
+      gameLink: () => router.push("/pages/Practice/Flashcards"),
+    },
+    {
+      id: "test",
+      icon: IconNotes,
+      name: "Test",
+      description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
+      imageLink: "/images/temp-game.jpg",
+      gameLink: () => router.push("/pages/Practice/Flashcards"),
+    },
+    {
+      id: "game",
+      icon: IconDeviceGamepad2,
+      name: "Game",
+      description: "This is the description of this game. Play it. It's cool I swear [COMING SOON]",
+      imageLink: "/images/temp-game.jpg",
+      gameLink: () => router.push("/pages/Practice/Flashcards"),
+    },
+  ];
+  // check practice card if props are added (i.e. for game settings)
 
   if (smUp) {
     return (
@@ -105,9 +108,7 @@ const PracticeCard = () => {
                             width: "150px",
                             "&:hover": {},
                           }}
-                          onClick={() => {
-                            {game.gameLink}
-                          }}
+                          onClick={game.gameLink}
                         >
                           Start
                         </Button>

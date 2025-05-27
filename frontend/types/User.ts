@@ -1,5 +1,4 @@
 // Interface for user type
-
 export interface User {
   id: number;
   name: string;
