@@ -1,10 +1,11 @@
 "use client";
+import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
 import { CssBaseline } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Header from './layout/header/Header';
-import Sidebar from './layout/sidebar/Sidebar';
-import Footer from './layout/footer/page';
+import Header from "./layout/header/Header";
+import Sidebar from "./layout/sidebar/Sidebar";
+import Footer from "./layout/footer/page";
 import { ToggleColorModeProvider } from "./components/settings/ToggleColorMode";
 import { styled, Container, Box } from "@mui/material";
 import { UserProvider } from "@/utils/user/UserContext";
@@ -31,8 +32,9 @@ interface ProfileBkgrdProps {
   isProfilePage: boolean;
 }
 
-const ProfileBkgrd = styled("div")<ProfileBkgrdProps>(({ isProfilePage }) => ({
-}));
+const ProfileBkgrd = styled("div")<ProfileBkgrdProps>(
+  ({ isProfilePage }) => ({})
+);
 
 interface Props {
   children: React.ReactNode;
@@ -40,7 +42,7 @@ interface Props {
 
 const RootLayout = ({ children }: Props) => {
   const pathname = usePathname();
-  const isProfilePage = pathname === '/pages/ViewProfile';
+  const isProfilePage = pathname === "/pages/ViewProfile";
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const user = getUserFromLocalStorage();
 
@@ -49,11 +51,14 @@ const RootLayout = ({ children }: Props) => {
       try {
         const response = await fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, {
           method: "GET",
-          credentials: "include", // Ensures cookies are sent with the request
+          credentials: "include", // Ensures cookies are sent
         });
 
         if (response.ok) {
           console.log("CSRF token set");
+          const data = await response.json();
+          console.log("CSRF token from API:", data.csrfToken);
+          console.log("CSRF token from cookie:", Cookies.get("csrftoken"));
         } else {
           console.error("Failed to fetch CSRF token");
         }
@@ -70,25 +75,25 @@ const RootLayout = ({ children }: Props) => {
       <html lang="en">
         <body>
           <UserProvider>
-          <ToggleColorModeProvider>
-                <CssBaseline />
-                <MainWrapper sx={{ backgroundColor: '#bed5ef' }}>
-                  <PageWrapper>
-                    <Container
-                      sx={{
-                        paddingTop: "20px",
-                        maxWidth: "1200px",
-                        margin: '0 auto',
-                      }}
-                    >
-                      <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
-                        {children}
-                      </Box>
-                      <Footer />
-                    </Container>
-                  </PageWrapper>
-                </MainWrapper>
-          </ToggleColorModeProvider>
+            <ToggleColorModeProvider>
+              <CssBaseline />
+              <MainWrapper sx={{ backgroundColor: "#bed5ef" }}>
+                <PageWrapper>
+                  <Container
+                    sx={{
+                      paddingTop: "20px",
+                      maxWidth: "1200px",
+                      margin: "0 auto",
+                    }}
+                  >
+                    <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+                      {children}
+                    </Box>
+                    <Footer />
+                  </Container>
+                </PageWrapper>
+              </MainWrapper>
+            </ToggleColorModeProvider>
           </UserProvider>
         </body>
       </html>
@@ -98,40 +103,49 @@ const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en">
       <body>
-      <UserProvider>
-        <ToggleColorModeProvider>
+        <UserProvider>
+          <ToggleColorModeProvider>
             <CourseProvider>
-            <CssBaseline />
+              <CssBaseline />
               <MainWrapper>
-              <Sidebar
-                isSidebarOpen={isSidebarOpen}
-                onSidebarClose={() => setSidebarOpen(false)}
-              />
+                <Sidebar
+                  isSidebarOpen={isSidebarOpen}
+                  onSidebarClose={() => setSidebarOpen(false)}
+                />
                 <PageWrapper>
-                  <ProfileBkgrd isProfilePage={isProfilePage} sx={{
+                  <ProfileBkgrd
+                    isProfilePage={isProfilePage}
+                    sx={{
                       width: "100%",
                       height: "350px",
                       paddingBottom: "350px",
-                      backgroundColor: isProfilePage ? `${user.preferences.pfColor}` : "transparent",
-                      boxShadow: isProfilePage ? '0 4px 6px rgba(0, 0, 0, 0.1)' : '0',
-                  }}>
+                      backgroundColor: isProfilePage
+                        ? `${user.preferences.pfColor}`
+                        : "transparent",
+                      boxShadow: isProfilePage
+                        ? "0 4px 6px rgba(0, 0, 0, 0.1)"
+                        : "0",
+                    }}
+                  >
                     <Header toggleSidebar={() => setSidebarOpen(true)} />
                     <Container
                       sx={{
                         paddingTop: "20px",
                         maxWidth: "1200px",
-                        margin: '0 auto',
+                        margin: "0 auto",
                       }}
                     >
-                      <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
+                      <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+                        {children}
+                      </Box>
                       <Footer />
                     </Container>
                   </ProfileBkgrd>
                 </PageWrapper>
               </MainWrapper>
             </CourseProvider>
-            </ToggleColorModeProvider>
-          </UserProvider>
+          </ToggleColorModeProvider>
+        </UserProvider>
       </body>
     </html>
   );

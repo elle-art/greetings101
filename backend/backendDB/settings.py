@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 from decouple import config
 from corsheaders.defaults import default_headers
@@ -56,7 +56,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backendDB.urls'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    "https://greetings101.vercel.app",
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -64,16 +68,18 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     "content-type",
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
+    "https://greetings101.vercel.app",
 ]
 
-import os
+# Cookie settings
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'None'
 
+# Media file directory settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
