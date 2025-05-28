@@ -1,8 +1,7 @@
-import pkg from 'next';
-const { defineConfig } = pkg;
+const nextConfig = {
+  images: {
+    domains: ['localhost'],
+  },
+};
 
-export default {
-    images: {
-      domains: ['localhost'], // image src prop
-    },
-  }
+export default nextConfig;
