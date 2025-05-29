@@ -12,9 +12,8 @@ import datetime
 
 @ensure_csrf_cookie
 def csrf_token_view(request):
-    from django.middleware.csrf import get_token
-    token = get_token(request)
-    return JsonResponse({'csrfToken': token})
+    return JsonResponse({"message": "CSRF cookie set"})
+
 
 # Create your views here.
 @csrf_exempt

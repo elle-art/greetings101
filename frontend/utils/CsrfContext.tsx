@@ -10,29 +10,21 @@ export const useCsrfToken = () => useContext(CsrfContext);
 export const CsrfProvider = ({ children }: { children: React.ReactNode }) => {
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
+  function getCookie(name: string): string | null {
+    return (
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(name + "="))
+        ?.split("=")[1] ?? null
+    );
+  }
+
   useEffect(() => {
-    const fetchCSRFToken = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, {
-          method: "GET",
-          credentials: "include",
-        });
-        const data = await response.json();
-        console.log("CSRF Token fetched:", data.csrfToken);
-                console.log("CSRF Token fetched:", data.csrfToken);
-
-        setCsrfToken(data.csrfToken);
-      } catch (error) {
-        console.error("Failed to fetch CSRF token:", error);
-      }
-    };
-
-    fetchCSRFToken();
+    const token = getCookie("csrftoken");
+    setCsrfToken(token);
   }, []);
 
   return (
-    <CsrfContext.Provider value={csrfToken}>
-      {children}
-    </CsrfContext.Provider>
+    <CsrfContext.Provider value={csrfToken}>{children}</CsrfContext.Provider>
   );
 };
