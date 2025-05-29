@@ -20,8 +20,12 @@ export const CsrfProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   useEffect(() => {
-    const token = getCookie("csrftoken");
-    setCsrfToken(token);
+    fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, { credentials: "include" }).then(
+      () => {
+        const token = getCookie("csrftoken");
+        setCsrfToken(token);
+      }
+    );
   }, []);
 
   return (
