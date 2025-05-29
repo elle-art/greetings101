@@ -20,12 +20,16 @@ export const CsrfProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, { credentials: "include" }).then(
-      () => {
+    fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Returned CSRF token:", data.csrfToken);
+        console.log("document.cookie:", document.cookie);
+      })
+      .then(() => {
         const token = getCookie("csrftoken");
         setCsrfToken(token);
-      }
-    );
+      });
   }, []);
 
   return (
