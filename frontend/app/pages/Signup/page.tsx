@@ -25,6 +25,8 @@ const Signup = () => {
     e.preventDefault();
     setErrorMessage(null);
 
+    console.log("Signup csrfToken:", csrfToken);
+
     const response = await fetch(`${API_BASE_URL}${SIGNUP_ENDPOINT}`, {
       method: "POST",
       credentials: "include",
