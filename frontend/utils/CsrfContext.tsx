@@ -22,14 +22,11 @@ export const CsrfProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, { credentials: "include" })
       .then((res) => res.json())
-      .then((data) => {
-        console.log("Returned CSRF token:", data.csrfToken);
+      .then((response) => {
+        setCsrfToken(response.headers.get("X-CSRFToken"));
+        console.log("Fetched CSRF token:", response.headers.get("X-CSRFToken"));
         console.log("document.cookie:", document.cookie);
       })
-      .then(() => {
-        const token = getCookie("csrftoken");
-        setCsrfToken(token);
-      });
   }, []);
 
   return (

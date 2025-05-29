@@ -14,7 +14,6 @@ import datetime
 def csrf_token_view(request):
     return JsonResponse({"message": "CSRF cookie set"})
 
-
 # Create your views here.
 @csrf_exempt
 def get_all_users(req):
