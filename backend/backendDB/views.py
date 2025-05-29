@@ -4,15 +4,18 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
-from django.views.decorators.http import require_http_methods
 from rest_framework.response import Response
+from django.middleware.csrf import get_token
 from .serializers import CourseSerializer
 import json
 import datetime
 
 @ensure_csrf_cookie
 def csrf_token_view(request):
-    return JsonResponse({"message": "CSRF cookie set"})
+    token = get_token(request)
+    response = JsonResponse({"detail": "CSRF cookie set"})
+    response["X-CSRFToken"] = token
+    return response
 
 # Create your views here.
 @csrf_exempt
