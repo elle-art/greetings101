@@ -10,7 +10,11 @@ import { Language, updateUserLessonProgress } from "@/types/Courses";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/utils/user/UserContext";
 import { calculateAverage } from "@/utils/courses/lessons/endOfLessonFunctions";
-import { API_BASE_URL, getCSRFToken, UPDATE_USER_STATS_ENDPOINT } from "@/utils/constants";
+import {
+  API_BASE_URL,
+  UPDATE_USER_STATS_ENDPOINT,
+} from "@/utils/constants/api";
+import { useCsrfToken } from "@/utils/CsrfContext";
 
 const EndOfLesson = (props: {
   courseId: string;
@@ -21,29 +25,43 @@ const EndOfLesson = (props: {
 }) => {
   const { user, setUser } = useUser();
   const { courses, setVocabList, myVocabList } = useCourses();
+  const csrfToken = useCsrfToken();
   const course = courses.find((c) => c.id === props.courseId);
-  const lesson = course?.lessons.find((lesson) => lesson.lesson_no === props.lessonNo);
+  const lesson = course?.lessons.find(
+    (lesson) => lesson.lesson_no === props.lessonNo
+  );
   const router = useRouter();
   const lessonAccuracy = calculateAverage(props.accuracyArray);
-  const formattedTime = `${Math.floor(props.timeToComplete / 1000 / 60)}:${String(Math.floor((props.timeToComplete / 1000) % 60)).padStart(2, '0')}`;
+  const formattedTime = `${Math.floor(
+    props.timeToComplete / 1000 / 60
+  )}:${String(Math.floor((props.timeToComplete / 1000) % 60)).padStart(
+    2,
+    "0"
+  )}`;
 
   async function completeLesson() {
     if (user) {
       const updateStats = async () => {
-        const csrfToken = getCSRFToken();
-        const response = await fetch(`${API_BASE_URL}${UPDATE_USER_STATS_ENDPOINT}${user.id}/${props.courseId}/${props.lessonNo + 1}/${(props.timeToComplete / 1000)}/${lessonAccuracy}/`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
-          },
-        });
+        const response = await fetch(
+          `${API_BASE_URL}${UPDATE_USER_STATS_ENDPOINT}${user.id}/${
+            props.courseId
+          }/${props.lessonNo + 1}/${
+            props.timeToComplete / 1000
+          }/${lessonAccuracy}/`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrfToken || "",
+            },
+          }
+        );
 
         if (response.ok) {
           const result = await response.json();
         } else {
-          console.error('Failed to update user stats');
+          console.error("Failed to update user stats");
         }
       };
       try {
@@ -58,7 +76,9 @@ const EndOfLesson = (props: {
       if (lesson) {
         const lessonObj = { ...lesson }; // create lesson clone
         lessonObj.course_id = course?.id;
-        lessonObj.language = (course?.shortname.split(" ")[0].toLowerCase()) as Language;
+        lessonObj.language = course?.shortname
+          .split(" ")[0]
+          .toLowerCase() as Language;
 
         setVocabList((prev) => {
           const newVocabList = [...prev, lessonObj];
@@ -67,8 +87,8 @@ const EndOfLesson = (props: {
           return newVocabList; // return the updated vocab list
         });
 
-        console.log("setVocabList called", myVocabList); 
-        console.log("setVocabList called", myVocabList)
+        console.log("setVocabList called", myVocabList);
+        console.log("setVocabList called", myVocabList);
       }
     }
 

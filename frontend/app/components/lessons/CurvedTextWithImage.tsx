@@ -1,12 +1,9 @@
 // Curved text with image component for EndOfLesson card
-import { API_BASE_URL } from "@/utils/constants";
+import { API_BASE_URL } from "@/utils/constants/api";
 import useFetchPfp from "@/utils/user/getPfp";
-import getPfp from "@/utils/user/getPfp";
-import { useUser } from "@/utils/user/UserContext";
 import { Box } from "@mui/material";
 
 const CurvedTextWithImage = () => {
-  const { user } = useUser();
   const { pfp } = useFetchPfp();
 
   const pfpUrl = `${API_BASE_URL}${pfp?.url}`

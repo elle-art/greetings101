@@ -1,8 +1,8 @@
 // Interfaces and functions for course-related objects
 import { useUser } from "@/utils/user/UserContext";
 import { User } from "./User";
-import { ADD_USER_COURSE_ENDPOINT, API_BASE_URL, getCSRFToken } from "@/utils/constants";
-import Cookies from "js-cookie";
+import { ADD_USER_COURSE_ENDPOINT, API_BASE_URL } from "@/utils/constants/api";
+import { useCsrfToken } from "@/utils/CsrfContext";
 
 export interface Course {
   id: string;
@@ -15,7 +15,7 @@ export interface Course {
   prerequisites: string[];
 }
 
-export type Language = 'eng' | 'span' | 'asl';
+export type Language = "eng" | "span" | "asl";
 
 export interface Lesson {
   name: string;
@@ -54,41 +54,55 @@ export function addCoursetoUser(course_id: string, user: User | null) {
     return;
   }
 
-  const found = user?.courses.active_courses.find(course => course.id === course_id);
+  const found = user?.courses.active_courses.find(
+    (course) => course.id === course_id
+  );
 
   if (!found) {
     const updateUserLessons = async () => {
       if (!user) {
-        console.error('No user found');
+        console.error("No user found");
         return;
       }
 
       const updatedUser = { ...user };
 
-      updatedUser.courses.active_courses.push({ id: course_id, lessons_completed: 0, missed_words: [], missed_cards: [] })
-      console.log("update", updatedUser)
-      const csrfToken = getCSRFToken();
-      console.log('CSRF Token:', Cookies.get('csrftoken'));
-      const response = await fetch(`${API_BASE_URL}${ADD_USER_COURSE_ENDPOINT}${updatedUser.id}/${course_id}/`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken,
-        },
-        body: JSON.stringify(updatedUser),
+      updatedUser.courses.active_courses.push({
+        id: course_id,
+        lessons_completed: 0,
+        missed_words: [],
+        missed_cards: [],
       });
+      console.log("update", updatedUser);
+
+      const csrfToken = useCsrfToken();
+
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (csrfToken) {
+        headers["X-CSRFToken"] = csrfToken;
+      }
+
+      const response = await fetch(
+        `${API_BASE_URL}${ADD_USER_COURSE_ENDPOINT}${updatedUser.id}/${course_id}/`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers,
+          body: JSON.stringify(updatedUser),
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem('user', JSON.stringify(result.user));
-        console.log('response ok')
-        console.log('response json:', JSON.stringify(result.user))
-
+        localStorage.setItem("user", JSON.stringify(result.user));
+        console.log("response ok");
+        console.log("response json:", JSON.stringify(result.user));
       } else {
-        console.log('response NOT ok')
+        console.log("response NOT ok");
 
-        console.error('Failed to update user courses');
+        console.error("Failed to update user courses");
       }
     };
 
@@ -102,19 +116,21 @@ export function setUserCourseProgress(arr: Course[]) {
   const { user } = useUser();
 
   arr.forEach((course) => {
-
     const userCourse = user?.courses.active_courses.find(
       (active) => active.id === course.id
     );
 
     if (userCourse) {
-      course.lessons_completed =
-        userCourse.lessons_completed;
+      course.lessons_completed = userCourse.lessons_completed;
     }
   });
 }
 
-export function updateUserLessonProgress(user: User, setUser: (user: User | null) => void, id: string) {
+export function updateUserLessonProgress(
+  user: User,
+  setUser: (user: User | null) => void,
+  id: string
+) {
   if (!user) return;
 
   const updatedInfo = user.courses.active_courses.map((course) =>
@@ -135,7 +151,10 @@ export function updateUserLessonProgress(user: User, setUser: (user: User | null
   localStorage.setItem("user", JSON.stringify(updatedUser));
 }
 
-export function getPercentValue(totalLessons: number, lessonsCompleted?: number) {
+export function getPercentValue(
+  totalLessons: number,
+  lessonsCompleted?: number
+) {
   if (lessonsCompleted == null || lessonsCompleted === 0) {
     return 0;
   }

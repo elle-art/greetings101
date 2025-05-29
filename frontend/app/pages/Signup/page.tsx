@@ -1,6 +1,6 @@
 // app/pages/Signup/page.tsx
 "use client";
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   TextField,
@@ -10,7 +10,8 @@ import {
   Box,
   Link,
 } from "@mui/material";
-import { API_BASE_URL, getCSRFToken, SIGNUP_ENDPOINT } from "@/utils/constants";
+import { API_BASE_URL, SIGNUP_ENDPOINT } from "@/utils/constants/api";
+import { useCsrfToken } from "@/utils/CsrfContext";
 
 const Signup = () => {
   const [name, setName] = useState<string>("");
@@ -18,19 +19,18 @@ const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const csrfToken = useCsrfToken();
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
-
-    const csrfToken = getCSRFToken();
 
     const response = await fetch(`${API_BASE_URL}${SIGNUP_ENDPOINT}`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
+        "X-CSRFToken": csrfToken || "",
       },
       body: JSON.stringify({ name, email, password }),
     });

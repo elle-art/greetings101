@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useCourses } from "@/utils/courses/CourseContext";
 import TranslatePhraseCard from "@/app/components/lessons/TranslatePhraseCard";
 import EndOfLesson from "@/app/components/lessons/EndOfLesson";
-import { API_BASE_URL, LESSONS_ENDPOINT } from "@/utils/constants";
+import { API_BASE_URL, LESSONS_ENDPOINT } from "@/utils/constants/api";
 import { useEffect, useRef, useState } from "react";
 
 interface lessonData {

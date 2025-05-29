@@ -1,10 +1,10 @@
-'use client'
+"use client";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
-import { API_BASE_URL, getCSRFToken, UPDATE_USER_ENDPOINT } from "@/utils/constants";
+import { API_BASE_URL, UPDATE_USER_ENDPOINT } from "@/utils/constants/api";
 import { getDesignTokens } from "@/utils/theme/DesignTokens";
 import { useUser } from "@/utils/user/UserContext";
-import Cookies from "js-cookie";
+import { useCsrfToken } from "@/utils/CsrfContext";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -12,61 +12,72 @@ interface ToggleColorModeProviderProps {
   children: ReactNode;
 }
 
-export const ToggleColorModeProvider = ({ children }: ToggleColorModeProviderProps) => {
-  const {user, setUser} = useUser();
-  const [mode, setMode] = useState<'light' | 'dark' | null>(null);
+export const ToggleColorModeProvider = ({
+  children,
+}: ToggleColorModeProviderProps) => {
+  const { user, setUser } = useUser();
+  const [mode, setMode] = useState<"light" | "dark" | null>(null);
+  const csrfToken = useCsrfToken();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedMode = localStorage.getItem('colorMode') as 'light' | 'dark' | null;
-      const initialMode = user?.preferences.darkModePref || storedMode || 'light';
+    if (typeof window !== "undefined") {
+      const storedMode = localStorage.getItem("colorMode") as
+        | "light"
+        | "dark"
+        | null;
+      const initialMode =
+        user?.preferences.darkModePref || storedMode || "light";
       setMode(initialMode);
     }
   }, [user]);
 
-  const updateUserPreference = async (mode: 'light' | 'dark') => {
+  const updateUserPreference = async (mode: "light" | "dark") => {
     if (!user) {
-      console.error('No user found');
+      console.error("No user found");
       return;
     }
 
-    const updatedUser = { ...user, preferences: { ...user.preferences, darkModePref: mode }};
+    const updatedUser = {
+      ...user,
+      preferences: { ...user.preferences, darkModePref: mode },
+    };
 
-    const csrfToken = getCSRFToken();
-    console.log('CSRF Token:', Cookies.get('csrftoken'));
-    const response = await fetch(`${API_BASE_URL}${UPDATE_USER_ENDPOINT}${user.id}/`, {
-      method: 'PUT',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken,
-      },
-      body: JSON.stringify(updatedUser),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}${UPDATE_USER_ENDPOINT}${user.id}/`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken || "",
+        },
+        body: JSON.stringify(updatedUser),
+      }
+    );
 
     if (response.ok) {
       const result = await response.json();
-      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem("user", JSON.stringify(result.user));
       setUser(result.user);
       setMode(result.user.preferences.darkModePref);
     } else {
-      console.error('Failed to update user preference');
+      console.error("Failed to update user preference");
     }
   };
 
   const colorMode = {
-      toggleColorMode: () => {
-        const newMode = mode === 'light' ? 'dark' : 'light';
-        setMode(newMode);
-        localStorage.setItem('colorMode', newMode);
-        if (user?.preferences.darkModePref !== newMode) {
-          updateUserPreference(newMode);
-        }
-      },
+    toggleColorMode: () => {
+      const newMode = mode === "light" ? "dark" : "light";
+      setMode(newMode);
+      localStorage.setItem("colorMode", newMode);
+      if (user?.preferences.darkModePref !== newMode) {
+        updateUserPreference(newMode);
+      }
+    },
   };
 
   const theme = useMemo(
-    () => createTheme(getDesignTokens(mode || 'light')),
+    () => createTheme(getDesignTokens(mode || "light")),
     [mode]
   );
 

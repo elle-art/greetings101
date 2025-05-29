@@ -13,7 +13,7 @@ import {
   useState,
 } from "react";
 import { useUser } from "../user/UserContext";
-import { API_BASE_URL, COURSES_ENDPOINT } from "../constants";
+import { API_BASE_URL, COURSES_ENDPOINT } from "@/utils/constants/api";
 
 interface CourseContextProps {
   user: User | null;

@@ -17,7 +17,7 @@ import {
 } from "@tabler/icons-react";
 import { useUser } from "@/utils/user/UserContext";
 import { getUserFromLocalStorage } from "@/utils/user/getUser";
-import { API_BASE_URL } from "@/utils/constants";
+import { API_BASE_URL } from "@/utils/constants/api";
 import useFetchPfp from "@/utils/user/getPfp";
 
 const Profile = () => {

@@ -1,8 +1,7 @@
 "use client";
-import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
 import { CssBaseline } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "./layout/header/Header";
 import Sidebar from "./layout/sidebar/Sidebar";
 import Footer from "./layout/footer/page";
@@ -11,7 +10,7 @@ import { styled, Container, Box } from "@mui/material";
 import { UserProvider } from "@/utils/user/UserContext";
 import { CourseProvider } from "@/utils/courses/CourseContext";
 import { getUserFromLocalStorage } from "@/utils/user/getUser";
-import { API_BASE_URL, CSRF_ENDPOINT } from "@/utils/constants";
+import { CsrfProvider } from "@/utils/CsrfContext";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -46,88 +45,16 @@ const RootLayout = ({ children }: Props) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const user = getUserFromLocalStorage();
 
-  useEffect(() => {
-    const fetchCSRFToken = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}${CSRF_ENDPOINT}`, {
-          method: "GET",
-          credentials: "include", // Ensures cookies are sent
-        });
-
-        if (response.ok) {
-          console.log("CSRF token set");
-          const data = await response.json();
-          console.log("CSRF token from API:", data.csrfToken);
-          console.log("CSRF token from cookie:", Cookies.get("csrftoken"));
-        } else {
-          console.error("Failed to fetch CSRF token");
-        }
-      } catch (error) {
-        console.error("Error fetching CSRF token:", error);
-      }
-    };
-
-    fetchCSRFToken();
-  }, []);
-
   if (!user) {
     return (
       <html lang="en">
         <body>
           <UserProvider>
-            <ToggleColorModeProvider>
-              <CssBaseline />
-              <MainWrapper sx={{ backgroundColor: "#bed5ef" }}>
-                <PageWrapper>
-                  <Container
-                    sx={{
-                      paddingTop: "20px",
-                      maxWidth: "1200px",
-                      margin: "0 auto",
-                    }}
-                  >
-                    <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
-                      {children}
-                    </Box>
-                    <Footer />
-                  </Container>
-                </PageWrapper>
-              </MainWrapper>
-            </ToggleColorModeProvider>
-          </UserProvider>
-        </body>
-      </html>
-    );
-  }
-
-  return (
-    <html lang="en">
-      <body>
-        <UserProvider>
-          <ToggleColorModeProvider>
-            <CourseProvider>
-              <CssBaseline />
-              <MainWrapper>
-                <Sidebar
-                  isSidebarOpen={isSidebarOpen}
-                  onSidebarClose={() => setSidebarOpen(false)}
-                />
-                <PageWrapper>
-                  <ProfileBkgrd
-                    isProfilePage={isProfilePage}
-                    sx={{
-                      width: "100%",
-                      height: "350px",
-                      paddingBottom: "350px",
-                      backgroundColor: isProfilePage
-                        ? `${user.preferences.pfColor}`
-                        : "transparent",
-                      boxShadow: isProfilePage
-                        ? "0 4px 6px rgba(0, 0, 0, 0.1)"
-                        : "0",
-                    }}
-                  >
-                    <Header toggleSidebar={() => setSidebarOpen(true)} />
+            <CsrfProvider>
+              <ToggleColorModeProvider>
+                <CssBaseline />
+                <MainWrapper sx={{ backgroundColor: "#bed5ef" }}>
+                  <PageWrapper>
                     <Container
                       sx={{
                         paddingTop: "20px",
@@ -140,11 +67,63 @@ const RootLayout = ({ children }: Props) => {
                       </Box>
                       <Footer />
                     </Container>
-                  </ProfileBkgrd>
-                </PageWrapper>
-              </MainWrapper>
-            </CourseProvider>
-          </ToggleColorModeProvider>
+                  </PageWrapper>
+                </MainWrapper>
+              </ToggleColorModeProvider>
+            </CsrfProvider>
+          </UserProvider>
+        </body>
+      </html>
+    );
+  }
+
+  return (
+    <html lang="en">
+      <body>
+        <UserProvider>
+          <CsrfProvider>
+            <ToggleColorModeProvider>
+              <CourseProvider>
+                <CssBaseline />
+                <MainWrapper>
+                  <Sidebar
+                    isSidebarOpen={isSidebarOpen}
+                    onSidebarClose={() => setSidebarOpen(false)}
+                  />
+                  <PageWrapper>
+                    <ProfileBkgrd
+                      isProfilePage={isProfilePage}
+                      sx={{
+                        width: "100%",
+                        height: "350px",
+                        paddingBottom: "350px",
+                        backgroundColor: isProfilePage
+                          ? `${user.preferences.pfColor}`
+                          : "transparent",
+                        boxShadow: isProfilePage
+                          ? "0 4px 6px rgba(0, 0, 0, 0.1)"
+                          : "0",
+                      }}
+                    >
+                      <Header toggleSidebar={() => setSidebarOpen(true)} />
+                      <Container
+                        sx={{
+                          paddingTop: "20px",
+                          maxWidth: "1200px",
+                          margin: "0 auto",
+                        }}
+                      >
+                        <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+                          {children}
+                        </Box>
+                        <Footer />
+                      </Container>
+                    </ProfileBkgrd>
+                  </PageWrapper>
+                </MainWrapper>
+              </CourseProvider>
+            </ToggleColorModeProvider>
+          </CsrfProvider>
         </UserProvider>
       </body>
     </html>

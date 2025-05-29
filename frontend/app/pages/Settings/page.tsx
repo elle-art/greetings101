@@ -5,19 +5,17 @@ import { Box, Grid, Link, TextField, Typography } from "@mui/material";
 import Image from "next/image";
 import PageContainer from "@/app/components/container/PageContainer";
 import DarkModeButton from "@/app/components/settings/DarkModeButton";
-import {
-  API_BASE_URL,
-  getCSRFToken,
-  UPDATE_USER_ENDPOINT,
-} from "@/utils/constants";
+import { API_BASE_URL, UPDATE_USER_ENDPOINT } from "@/utils/constants/api";
 import { Picture } from "@/types/User";
 import { useUser } from "@/utils/user/UserContext";
-import Cookies from "js-cookie";
 import ColorPicker from "@/app/components/settings/ColorPicker";
 import useFetchPfp, { useFetchPfpOptions } from "@/utils/user/getPfp";
+import { useCsrfToken } from "@/utils/CsrfContext";
 
 const Settings = () => {
   const { user, setUser } = useUser();
+  const csrfToken = useCsrfToken();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -59,9 +57,6 @@ const Settings = () => {
     if (pfp) updatedUser.pfp = pfp;
     if (pfColor) updatedUser.preferences.pfColor = pfColor;
 
-    const csrfToken = getCSRFToken();
-    console.log("CSRF Token:", Cookies.get("csrftoken"));
-
     const response = await fetch(
       `${API_BASE_URL}${UPDATE_USER_ENDPOINT}${user.id}/`,
       {
@@ -69,7 +64,7 @@ const Settings = () => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken,
+          "X-CSRFToken": csrfToken || "",
         },
         body: JSON.stringify(updatedUser),
       }
