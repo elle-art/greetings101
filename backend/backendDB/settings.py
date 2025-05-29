@@ -56,16 +56,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backendDB.urls'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    "https://greetings101.vercel.app",
-]
-
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-CSRFToken',
     "content-type",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    "https://greetings101.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
