@@ -33,7 +33,6 @@ def get_all_users(req):
                 "email": user.email,
                 "password": make_password(user.password),
                 "yearJoined": user.yearJoined,
-                "pfp": user.pfp,
                 "preferences": user.preferences,
                 "courses": {
                     "active_courses": [
