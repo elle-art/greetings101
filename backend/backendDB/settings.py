@@ -120,6 +120,9 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD'),  # Your MySQL password
         'HOST': config('DB_HOST'),  # If MySQL is running locally
         'PORT': config('DB_PORT', default='3306'),  # Default MySQL port
+        'OPTIONS': {
+            'ssl': {'ca': '/etc/secrets/ca-cert.pem'},
+        },
     }
 }
 
