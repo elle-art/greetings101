@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='your-default-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
@@ -115,11 +115,11 @@ AUTH_USER_MODEL = 'backendDB.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
-        'NAME': 'greetingsdb',               # Your MySQL database name
-        'USER': 'root',           # Your MySQL username
-        'PASSWORD': 'tSKd98nwR@K',       # Your MySQL password
-        'HOST': 'localhost',                  # If MySQL is running locally
-        'PORT': '3306',                       # Default MySQL port
+        'NAME': config('DB_NAME'),  # Your MySQL database name
+        'USER': config('DB_USER'),  # Your MySQL username
+        'PASSWORD': config('DB_PASSWORD'),  # Your MySQL password
+        'HOST': config('DB_HOST'),  # If MySQL is running locally
+        'PORT': config('DB_PORT', default='3306'),  # Default MySQL port
     }
 }
 
