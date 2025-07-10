@@ -12,8 +12,8 @@ import datetime
 
 @ensure_csrf_cookie
 def csrf_token_view(request):
-    get_token(request)
-    return JsonResponse({"detail": "CSRF cookie set"})
+    token = get_token(request)
+    return JsonResponse({"csrfToken": token})
 
 # Create your views here.
 @csrf_exempt
