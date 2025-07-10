@@ -12,10 +12,8 @@ import datetime
 
 @ensure_csrf_cookie
 def csrf_token_view(request):
-    token = get_token(request)
-    response = JsonResponse({"detail": "CSRF cookie set"})
-    response["X-CSRFToken"] = token
-    return response
+    get_token(request)
+    return JsonResponse({"detail": "CSRF cookie set"})
 
 # Create your views here.
 @csrf_exempt
@@ -31,7 +29,6 @@ def get_all_users(req):
                 "id": user.id,
                 "name": user.name,
                 "email": user.email,
-                "password": make_password(user.password),
                 "yearJoined": user.yearJoined,
                 "preferences": user.preferences,
                 "courses": {

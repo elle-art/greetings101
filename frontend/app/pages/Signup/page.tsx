@@ -25,23 +25,34 @@ const Signup = () => {
     e.preventDefault();
     setErrorMessage(null);
 
-    console.log("Signup csrfToken:", csrfToken);
+    if (!csrfToken) {
+      setErrorMessage(
+        "CSRF token not ready. Please wait a moment and try again."
+      );
+      return;
+    }
 
-    const response = await fetch(`${API_BASE_URL}${SIGNUP_ENDPOINT}`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken || "",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}${SIGNUP_ENDPOINT}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken || "",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    if (response.ok) {
-      const result = await response.json();
-      router.push("/pages/Login");
-    } else {
-      throw new Error(`API returned status ${response.status}`);
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        router.push("/pages/Login");
+      } else {
+        setErrorMessage(data.message || "Signup failed.");
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      setErrorMessage("Something went wrong. Please try again.");
     }
   };
 
