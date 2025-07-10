@@ -164,7 +164,7 @@ const Settings = () => {
             >
               <Grid container spacing={1} sx={{ display: "flex" }}>
                 {pfpOptions.map((picture: Picture) => {
-                  const url = `${API_BASE_URL}${picture.url}`;
+                  const url = `https://greetings101-django-api.onrender.com${picture.url}`;
 
                   return (
                     <Grid
