@@ -17,7 +17,7 @@ const Resources = () => {
           <HeaderWithIcon icon={IconNotebook  as React.ComponentType<SvgIconProps>} variant="h2" title="Resources" />
         </Grid>
         <Grid item xs={12}>
-          <CourseCard />
+          Not yet implemented
         </Grid>
       </Grid>
     </Box>

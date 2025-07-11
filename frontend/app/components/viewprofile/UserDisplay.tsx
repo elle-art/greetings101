@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "@/utils/constants/api";
 import useFetchPfp from "@/utils/user/getPfp";
 import { useUser } from "@/utils/user/UserContext";
 import { Box, Stack, Typography } from "@mui/material";
@@ -16,7 +15,7 @@ const UserDisplay = () => {
     return <p>Loading profile picture...</p>;
   }
 
-  const pfpUrl = `${API_BASE_URL}${pfp.url}`
+  const pfpUrl = `https://greetings101-django-api.onrender.com${pfp.url}`
 
   return (
     <Box

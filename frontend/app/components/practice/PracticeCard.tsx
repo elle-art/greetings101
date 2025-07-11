@@ -18,7 +18,7 @@ const PracticeCard = () => {
       id: "flashcards",
       icon: IconCardsFilled,
       name: "Flashcards",
-      description: "Test your knowledge with a classic flashcard practice game",
+      description: "Test your knowledge with a classic flashcard practice game!",
       imageLink: "/images/temp-game.jpg",
       gameLink: () => router.push("/pages/Practice/Flashcards"),
     },

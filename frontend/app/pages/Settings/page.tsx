@@ -87,6 +87,12 @@ const Settings = () => {
     }
   };
 
+  function handleChangePassword(event: React.MouseEvent<HTMLAnchorElement>): void {
+    // Implement password change logic here
+    event.preventDefault();
+    alert("Change password functionality is not implemented yet. If you need help with account information, please contact the administrator.");
+  }
+
   return (
     <PageContainer title="Settings" description=" ">
       <Grid container spacing={2}>
@@ -113,7 +119,7 @@ const Settings = () => {
               fullWidth
               sx={{ mt: 3, mb: 4 }}
             />
-            <Link href="#">Change Password</Link>
+            <Link href="#" onClick={handleChangePassword}>Change Password</Link>
           </Box>
         </Grid>
         <Grid item xs={8}>

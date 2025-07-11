@@ -33,7 +33,7 @@ const UserProfile = () => {
               <VocabListContainer />
             </Popout>
             <Popout label='View my mistakes'>
-              <VocabListContainer />
+              Not yet implemented
             </Popout>
           </Grid>
           {/* ------------- Certificates -------------- */}

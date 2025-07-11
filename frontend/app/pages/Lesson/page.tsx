@@ -127,7 +127,7 @@ const Lesson = () => {
         color="success"
         style={{ marginTop: "20px", width: "80%" }}
       >
-        Next
+        Next (for development and bugs)
       </Button>
     </div>
   );
